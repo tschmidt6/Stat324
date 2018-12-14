@@ -1,0 +1,69 @@
+Why is it a limitation in the original Marshmallow Test study (discussed in the Atlantic article) that the only students studied were those enrolled in a Stanford preschool?
+	* The students enrolled in the Stanford preschool may be systematically different from preschoolers in general. *
+
+	It is not a limitation - those students are a simple random sample of all preschool students.
+
+Which of the following statements are true for all sets of data with more than 2 data values? (Select all that apply).
+
+	The range will always be positive.
+	* The standard deviation will always be nonnegative. *
+	The mean is always larger than the standard deviation.
+
+Suppose a set of 10 values has a mean of 5, sample standard deviation of 3 and a minimum value of 1.5. If that minimum value of 1.5 is changed to 1, which of the following statements are true. Select all that apply.
+
+	* The standard deviation will increase *
+	The range will decrease
+	The IQR will increase
+	* The mean will decrease *
+	The median will decrease
+
+Which of the following statistics cannot be determined directly from a boxplot?
+	Median
+	* Mean *
+	Range
+	Interquartile Range
+	Third Quartile
+
+For what shaped distribution (histogram of data) does the mean often have a greater value than the median?
+
+	Symmetric
+	Left Skewed
+	* Right Skewed *
+	bimodal
+
+Why should you resist the urge to use an angled 3D pie chart? (Use linked article for info/example if you wish)
+	You shouldn't resist. They offer clear and concise summary of categorical data.
+	They are only useful for categorical data and scientists are only interested in numeric data.
+	* They can distort the relative sizes of the relative percent within each category. *
+	A box plot can present the same information in a more clear way.
+
+Specify the order of box plots that matches the order of histograms a, b, c. 
+
+If the image is not viewable here, the file Quiz1_MatchGraph.png is in the files folder on Canvas.
+	1, 2, 3
+	* 1,3,2 *
+	3, 1, 2
+	2,3,1
+
+If two non-empty events are mutually exclusive, then they are dependent __________. 
+	* Always *
+	Sometimes
+	Never
+
+Suppose that start-up companies in the area of biotechnology have probability 0.2 of becoming profitable and that those in the area of information technology have probability of 0.15 of becoming profitable. A venture capitalist invests in one firm of each type. Assume the companies function independently. What is the probability that at least one of the two companies become profitable?
+	a. 0.15*0.2
+	b. 1-0.15*0.20
+	c. 0.85*0.8
+	d. 1-0.85*0.8
+	e. 0.2+0.15-0.2*0.15
+	f. 0.8+0.85-0.80*0.85
+	* g. d and e *
+	h. both b and f
+
+Choose which of the pair of events below best matches the assumption of independent events. (Though arguments can be made that none of them are exactly independent)
+
+	Event A: dam at top of WI River fails; Event B: dam at bottom of WI River fails
+	Event A: Father's height is above average; Event B: Son's height is above average
+	Event A: GEs stock price yesterday increases; Event B: GE's stock price today increases
+	* Event A: Length of first Bluegill caught fishing this weekend in the WI River is over 6 inches; Event B: Length of second Bluegill caught this weekend in WI River is over 6 inches *
+

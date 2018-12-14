@@ -1,0 +1,393 @@
+---
+title: "HW2"
+author: "Teryl Schmidt | Discussion 312 | 9072604920"
+date: "9/23/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Problem 1
+A system contains two components, A and B, connected in series, as shown in the diagram. Assume
+that A and B function independently. For the system to function, both components must function.
+
+
+(a) If the probability that A fails is 0.05, and the probability that B fails is 0.03, find the probability
+that the system functions.
+```{r}
+# P(System functions) = P(A ∩ B)
+# = P(A) * P(B)
+
+(1 - 0.05) * (1 - 0.03)
+```
+
+<font color="red"> the probability of the system functioning is 0.9215 or 92% </font>
+
+(b) If both A and B have probability of p of failing, what must the maximum value of p be so that
+the probability that the system functions is at least 0.90?
+
+<font color="green"> 
+P(System funcions) = P(A ∩ B)
+
+= P(A) * P(B)
+
+= (1 - p) * (1 - p)
+
+= (1 - p)^2
+
+(1 - p)^2 = 0.90
+
+p = 1 - sqrt(0.90)
+</font>
+
+<font color="red">=  0.05 </font>
+
+
+##Problem 2
+A local taxi company owns 10 taxis. Three are randomly selected for compliance with emission standards
+(without replacement) and all are found to not be in compliance. The company claims all their other
+cars are in compliance.
+
+(a) Calculate the probability of choosing the three taxis not in compliance, if in fact 7 out of the 10
+are in compliance.
+```{r}
+# P(3 non-compliant) = (3 / 10) * (2 / 9) * (1 / 8)
+(3 / 10) * (2 / 9) * (1 / 8)
+```
+<font color="red">=  The probability of picking 3 non-compliant taxis is 0.00833 </font>
+
+(b) Comment on the believability of the company’s claim.
+<font color="red"> Could be true, but the probability of picking the only 3 that are not compliant is so low that it is very unlikely that the rest of the taxis are compliant. </font>
+
+
+##Problem 3
+From the service records over the past year, the manager of an auto detailing shop has estimated the
+following partial probability distribution for X= the number of customers asking for service per day at
+his shop.
+     X |  0   |  1  |  2   |  3   |  4   |  5   |
+P(X=x) | 0.04 |  ?  | 0.34 | 0.20 | 0.11 | 0.06 |
+
+
+(a) What does the probability of 1 customer asking for service P(X = 1) have to be to make this a
+probability distribution?
+```{r}
+# All probabilities must add up to 1
+
+1 - (0.04 + 0.34 + 0.20 + 0.11 + 0.06)
+```
+<font color="red"> The probability of P(X = 1) is 0.25 </font>
+
+(b) Suppose the shop currently has the capacity to serve up to 3 customers a day. What is the
+probability that one or more customer needs to be turned away?
+```{r}
+# P(X > 3)
+# P(X = 4) + P(X = 5)
+
+(0.11 + 0.06)
+```
+<font color="red"> The probability of P(X > 3 4) is  0.17 </font>
+
+(c) What is the probability that the shop’s capacity is not fully utilized on a day?
+```{r}
+# P(X < 3)
+# P(X = 0) + P(X = 1) + P(X = 2)
+
+(0.04 + 0.25 + 0.34)
+```
+<font color="red"> The probability of P(X < 3) is  0.63 </font>
+
+(d) By how much must the capacity be increased so the probability of turning a customer away is no
+more than 0.10?
+<font color="red"> The capacity must be set to 5 because the probability is 0.06 which is less than 0.10 </font>
+
+
+##Problem 4
+A box contains five slips of paper. These slips are marked $1, $1, $1, $10, and $25. The winner of a
+contest will select two slips of paper at random with replacement and will then get the larger of the
+dollar amounts on the two slips. Define a random variable W=the amount awarded.
+
+(a) Determine the probability distribution of W (write out the pmf).
+<font color="green">
+
+Slips =  1, 2, 3,  4,  5
+
+Amount = 1, 1, 1, 10, 25
+
+
+w =  1: (1,1) (1,2) (1,3) (2,1) (2,2) (2,3) (3,1) (3,2) (3,3)
+
+w = 10: (1,4) (2,4) (3,4) (4,1) (4,2) (4,3) (4,4)
+
+w = 25: (1,5) (2,5) (3,5) (4,5) (5,1) (5,2) (5,3) (5,4) (5,5)
+
+</font>
+
+<font color="red">
+W = 
+  w = 1: (1, 1) (1, 1) (1, 1) (1, 1) (1, 1) (1, 1) (1, 1) (1, 1) (1, 1)
+  
+  w = 10: (1, 10) (1, 10) (1, 10) (10, 1) (10, 1) (10, 1) (10, 10)
+      
+  w = 25: (1, 25) (1, 25) (1, 25) (25, 1) (25, 1) (25, 1) (10, 25) (25, 10) (25, 25)
+      
+</font>
+
+(b) What is the least probable outcome for the amount won?
+
+<font color="red"> The lowest probability is $10 </font>
+
+(c) What is the expected value for the amount won?
+<font color="green">
+
+P(X = 1):  9 / 25 = 0.36
+
+P(X = 10): 7 / 25 = 0.28
+
+P(X = 25): 9 / 25 = 0.36
+
+E(X) = (1 * 0.36) + (10 * 0.28) + (25 * 0.36) = 12.16
+</font>
+
+<font color="red"> The expected outcome is 12.16 </font>
+
+(d) What is the variance and standard deviation for the amount won?
+<font color="red">
+
+VAR = (0.36 * (1 - 12.16)^2) + (0.28 * (10 - 12.16)^2) + (0.36 * (25 - 12.16)^2) = 105.4944
+
+SD = 10.27105
+</font>
+
+(e) What is the probability that the amount won is more than one standard deviation away from the
+expected value?
+```{r}
+# Mean
+1 * (0.36) + 10 * (0.28) + 25 * (0.36)
+
+# SD
+(0.36 * (1 - 12.16)^2) + (0.28 * (10 - 12.16)^2) + (0.36 * (25 - 12.16)^2)
+sqrt(105.4944)
+
+# E(X) +/- SD
+12.16 - 10.27105
+12.16 + 10.27105
+
+# Range = 1.88895 to 22.43105
+# P(X = 1) + P(X = 25)
+0.36 + 0.36
+```
+<font color="red"> Probability is 0.72 or 72% </font>
+
+
+##Problem 5
+For each of the following questions, say whether the random process is reasonably a binomial process or
+not, and explain your answer. As part of your explanation, you will want to comment on the potential
+validity of each of things that must be true for a process to be a binomial process. If it is a binomial
+process, identify n : the number of Bernoulli trials and π the probability of success.
+
+
+(a) A fair die is rolled until a 1 appears, and X denotes the number of rolls.
+<font color="red"> 
+
+A fixed number of trials - No, not a fixed number of trials
+
+Each trial is independent of the others - Yes, current roll does not depend on previous
+
+There are only two outcomes - No, 6 outcomes
+
+The probability of each outcome remains constant from trial to trial - Yes, 1/6 every roll
+
+This is not a Bernoulli trial. </font>
+
+
+(b) Ten different basketball players each attempt 1 free throw and X is the total number of successful
+attempts.
+
+<font color="red"> 
+A fixed number of trials - Yes, 10 players
+
+Each trial is independent of the others - Yes, current trail does not rely on previous
+
+There are only two outcomes - Yes, make the basket or not
+
+The probability of each outcome remains constant from trial to trial - No, players ahve different skill level
+
+This is not a Bernoulli trial.
+</font>
+
+
+(c) It has been reported that nation-wide, one-third of all credit card users pay their bills in full each
+month. Let X be the number of people in a sample of 25 randomly chosen credit card users in
+Madison who pay their bill in full on a given month.
+
+<font color="red"> 
+A fixed number of trials - Yes, 25 people
+
+Each trial is independent of the others - Yes, people are random so they have no effect on whether eachothers credit card bill is paid
+
+There are only two outcomes - Yes, either paid or not
+
+The probability of each outcome remains constant from trial to trial - Yes, if people are truly random
+
+This is a Bernoulli trial.
+</font>
+
+
+(d) Let X be the number of months out of a randomly chosen year that one randomly chosen credit
+card user in Madison pays their bill in full.
+
+<font color="red"> 
+A fixed number of trials - Yes, 12 months
+
+Each trial is independent of the others - Yes, each month does not depend on previous
+
+There are only two outcomes - Yes, either paid for the month or not
+
+The probability of each outcome remains constant from trial to trial - Yes
+
+This is a Bernoulli trial.
+</font>
+
+
+##Problem 6
+Exit polling has been a controversial practice in recent elections, since early release of the resulting
+information appears to affect whether or not those who have not yet voted do so. Suppose that 90% of
+all registered Wisconsin voters favor banning the release of information from exit polls in presidential
+elections until after the polls in Wisconsin close. A random sample of 25 Wisconsin voters is selected
+(You can assume that the responses of those surveyed are independent).
+
+
+(a) What is the probability that more than 23 favor the ban?
+```{r}
+# P(X > 23) = P(X = 24) + P(X = 25)
+#                           25!
+# SUM from 24 to 25  ------------------ * (0.90)^x * (1 - 0.90)^25 - x
+#                      x! * (25 - x)!
+
+# x = 24, 25
+
+(factorial(25) / (factorial(24) * factorial(25 - 24))) * (0.90^24) * (1 - 0.90)^(25 - 24) + (factorial(25) / (factorial(25) * factorial(25 - 25))) * (0.90^25) * (1 - 0.90)^(25 - 25)
+
+dbinom(24, 25, 0.90) + dbinom(25, 25, 0.90)
+
+
+# Probability of success π = 0.90
+# 1 - π = 1 - 0.90 
+# = 0.10
+# P(X = x) = (0.10)^(x - 1) * 0.90
+
+# P(more than 23 favor ban)
+# P(X > 23)
+# P(24) + P(25)
+# (25 choose 24) * (0.90^(24)) * (0.10^(25 - 24)) + (25 choose 25) * (0.90^(25)) * (0.10^(25 - 25))
+# (25 * (0.90^24) * (0.10^1)) + (1 * (0.90^25) * (0.10^0))
+```
+<font color="red"> The probability is 0.2712059 </font>
+
+(b) What is the probability that at least 23 favor the ban?
+```{r}
+# P(X >= 23) = P(X = 23) + P(X = 24) + P(X = 25)
+#                           25!
+# SUM from 23 to 25  ------------------ * (0.90)^x * (1 - 0.90)^25 - x
+#                      x! * (25 - x)!
+
+# x = 23, 24, 25
+
+(factorial(25) / (factorial(23) * factorial(25 - 23))) * (0.90^23) * (1 - 0.90)^(25 - 23) + (factorial(25) / (factorial(24) * factorial(25 - 24))) * (0.90^24) * (1 - 0.90)^(25 - 24) + (factorial(25) / (factorial(25) * factorial(25 - 25))) * (0.90^25) * (1 - 0.90)^(25 - 25)
+
+dbinom(23, 25, 0.90) + dbinom(24, 25, 0.90) + dbinom(25, 25, 0.90)
+
+
+# P(X >= 23)
+# P(23) + P(24) + P(25)
+# (25 choose 23) * (0.90^(23)) * (0.10^(25 - 23)) + (25 choose 24) * (0.90^(24)) * (0.10^(25 - 24)) + (25 choose 25) * (0.90^(25)) * (0.10^(25 - 25))
+
+# (300 * (0.90^23) * (0.10^2)) + (25 * (0.90^24) * (0.10^1)) + (1 * (0.90^25) * (0.10^0))
+```
+<font color="red"> The probability is 0.5370941 </font>
+
+(c) What are the mean value and standard deviation of the number who favor the ban in a sample of
+size 25?
+```{r}
+# Mean
+25 * (0.90)
+
+# SD
+sqrt(25 * 0.90 * (1 - 0.90))
+```
+<font color="red"> Mean = 22.5 | SD = 1.5 </font>
+
+(d) Is it probable that fewer than 23 in the sample favor the ban with the assertion that 90% of the
+populace favors the ban? (Hint: Consider P(X < 23) when π = 0.90)
+```{r}
+# P(X < 23)
+# P(0) + P(1) + P(2) . . .  + P(22)
+
+pbinom(22, 25, 0.90, TRUE)
+```
+<font color="red"> The probability is 0.4629059 </font>
+
+
+##Problem 7
+On the question of whether Interstate 90 should become a tollway, suppose the probability that a
+randomly selected person in Wisconsin favors tolling is 0.4, opposes it is 0.5, and has no opinion is 0.1.
+If six people are interviewed and they respond independently, find the probability that:
+
+
+(a) Five favor tolling:
+```{r}
+# P(0) = N N N N N N = (0.50)^6
+# P(1) = Y N N N N N = (0.40 * (0.50^5)) * 6
+#        N Y N N N N
+#        N N Y N N N
+#        . . .
+
+# (0.4)^5 * (0.5+0.1) * 6 
+
+# (n choose b) *    π^b   * (1 - π)^(n - b)  |  n = # trials b = # successes 
+# (6 choose 5) * (0.40^5) * (1 - 0.40)^(6 - 5)
+6 * (0.40^5) * (1 - 0.40)^(6 - 5)
+
+dbinom(5, 6, 0.40)
+```
+<font color="red"> The probability is 0.036864 </font>
+
+(b) Two oppose tolling:
+```{r}
+# (n choose b) *    π^b   * (1 - π)^(n - b)  |  n = # trials b = # successes 
+
+# (6 choose 2) * (0.50^2) * (0.40 + 0.10)^(6 - 2)
+15 * (0.50^2) * (0.40 + 0.10)^(6 - 2)
+
+dbinom(2, 6, 0.50)
+```
+<font color="red"> The probability is 0.234375 </font>
+
+(c) More than 4 favor tolling:
+```{r}
+# (6 choose 5) * (0.40^5) * (0.50 + 0.10)^(6 - 5) + (6 choose 6) * (0.40^6) * (0.50 + 0.10)^(6 - 6)
+# OR
+# (n choose b) *    π^b   * (1 - π)^(n - b)  |  n = # trials b = # successes 
+# 6 * (0.40^5) * (1 - 0.40)^(6 - 5) + 1 * (0.40^ 6) * (1 - 0.40)^(6 - 6)
+
+(6 * (0.40^5) * (0.50 + 0.10)^(6 - 5)) + (1 * (0.40^6) * (0.50 + 0.10)^(6 - 6))
+
+dbinom(5, 6, 0.40) + dbinom(6, 6, 0.40)
+```
+<font color="red"> The probability is 0.04096 </font>
+
+(d) At least one has no opinion on tolling:
+```{r}
+# 1 - (6 choose 0) * (0.10^0) * (0.50 + 0.40)^(6 - 0)
+1 - (1 * (0.10^0) * (0.40 + 0.50)^(6 - 0))
+
+dbinom(1, 6, 0.10) + dbinom(2, 6, 0.10) + dbinom(3, 6, 0.10) + dbinom(4, 6, 0.10) + dbinom(5, 6, 0.10) + dbinom(6, 6, 0.10)
+
+pbinom(5, 6, 0.90)
+```
+<font color="red"> The probability is 0.468559 </font>
+

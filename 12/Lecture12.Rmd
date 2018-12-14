@@ -1,0 +1,175 @@
+---
+title: "Lecture 12 Notes"
+author: "Chelsey Green"
+date: "7/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Numerical and Graphical Summaries
+```{r}
+Dead<-c(17.65, 20.83, 24.59, 18.52, 21.40, 23.78, 20.36, 18.83, 21.83, 20.06)
+Alive<-c(23.76, 21.17, 26.13, 20.18, 23.01, 24.84, 19.34, 24.94, 27.14, 25.87, 18.95, 22.61)
+
+combo<-c(Dead, Alive)
+labels<-c(rep("Dead", times=10), rep("Alive", times=12))
+lizards<-data.frame(combo, labels)
+
+hist(Dead, breaks=seq(17, 28, by=1), xlim=c(16, 28)); rug(Dead)
+hist(Alive, breaks=seq(17, 28, by=1), xlim=c(16, 28)); rug(Alive)
+
+boxplot(combo~labels, lizards)
+require(ggplot2)
+ggplot(data=lizards, aes(x=labels, y=combo))+
+  geom_boxplot(outlier.size = NULL)+
+  geom_point()
+
+length(Dead); summary(Dead); sd(Dead)
+length(Alive); summary(Alive); sd(Alive)
+```
+
+Checking Normality Assumption for each population
+
+```{r}
+qqnorm(Dead, main="Dead QQ")
+qqnorm(Alive, main="Alive QQ")
+```
+
+Looking at Centered Graphs to evaluate equal variance
+
+```{r}
+lizards$centered=c(Dead-mean(Dead), Alive-mean(Alive))
+stripchart(lizards$centered~labels, xlab="Centered Data Comparison")
+```
+
+Performing 2 sample t test assuming equal variance
+
+```{r}
+s.pooled=sqrt(((length(Dead)-1)*(sd(Dead))^2+(length(Alive)-1)*(sd(Alive))^2)/(length(Dead)-1+length(Alive)-1))
+se.diff<-sqrt(s.pooled^2/10+s.pooled^2/12)
+t.obs<-((mean(Dead)-mean(Alive))-0)/se.diff
+
+t.test(y=Dead, x=Alive, alternative="two.sided", var.equal=TRUE, conf.level=.95)
+
+```
+
+Carbon Example:
+
+```{r}
+#Data
+fiber<-c(37.3, 29.6, 33.4, 33.6, 30.7, 32.7, 34.6, 32.3)
+carbon<-c(48.8, 38.0, 42.2, 45.1, 33.8, 47.2, 50.6, 44.0, 43.9, 40.4, 45.8)
+
+hist(fiber, breaks=seq(28, 51, 1))
+hist(carbon, breaks=seq(28, 51, 1))
+nf=length(fiber)
+nc=length(carbon)
+
+con.combo<-c(fiber, carbon)
+con.labels<-c(rep("fiber", times=nf), rep("carbon", times=nc))
+concrete<-data.frame(con.combo, con.labels)
+
+ggplot(data=concrete, aes(x=con.labels, y=con.combo))+
+  geom_boxplot(outlier.size = NULL)+
+  geom_point()
+
+nf; summary(fiber); sd(fiber)
+nc; summary(carbon); sd(carbon)
+
+qqnorm(fiber, main="Fiber")
+qqnorm(carbon, main="Carbon")
+
+#Add centered data to make centered graph:
+concrete$centered=c(fiber-mean(fiber), carbon-mean(carbon))
+stripchart(data=concrete, centered~con.labels)
+
+sqrt(2.36^2/8+4.86^2/11)
+(33.03-43.62)/1.686249
+2*pt(-6.28, df=15)
+
+(33.03-43.62)
+
+t.test(fiber, mu=30)
+t.test(fiber, carbon, var.equal=TRUE, mu=-10, alternative = "less")
+t.test(fiber, carbon, var.equl=FALSE, mu=-10, alternative = "less")
+```
+
+
+Cricket Data
+```{r}
+Starved<-c( 1.9, 2.1, 3.8, 9.0, 9.6, 13.0, 14.7, 17.9, 21.7, 29.0, 72.3)
+Fed<-c(1.5, 1.7, 2.4, 3.6, 5.7, 22.6, 22.8, 39.0, 54.4, 72.1, 73.6, 79.5, 88.9)
+
+cri.combo<-c(Starved, Fed)
+st.n=length(Starved)
+fed.n=length(Fed)
+cri.labels<-c(rep("Starved", times=st.n), rep("Fed", times=fed.n))
+crickets<-data.frame(cri.combo, cri.labels)
+
+hist(Starved, breaks=seq(0, 90, by=5), xlim=c(0, 100)); rug(Starved)
+hist(Fed, breaks=seq(0, 90, by=5), xlim=c(0, 100)); rug(Fed)
+
+boxplot(cri.combo~cri.labels, crickets)
+require(ggplot2)
+ggplot(data=crickets, aes(x=cri.labels, y=cri.combo))+
+  geom_boxplot(outlier.size = NULL)+
+  geom_point()
+
+length(Starved); summary(Starved); sd(Starved)
+length(Fed); summary(Fed); sd(Fed)
+
+qqnorm(Starved, main="Starved")
+qqnorm(Fed, main="Fed")
+```
+
+
+Bootstrap Code:
+```{r}
+# Here's one way to do the bootstrap for a difference of two means in R: 
+# dat1 and dat2 are data from the two groups. nboot is the number of resamples.
+#Notice obsdiff is computed as mean(dat1)-mean(dat2) - order matters!
+boottwo = function(dat1, dat2, nboot) {
+  bootstat = numeric(nboot)
+  obsdiff = mean(dat1) - mean(dat2)
+  n1 = length(dat1)
+  n2 = length(dat2)
+  for(i in 1:nboot) {
+    samp1 = sample(dat1, size = n1, replace = T)
+    samp2 = sample(dat2, size = n2, replace = T)
+    bootmean1 = mean(samp1)
+    bootmean2 = mean(samp2)
+    bootvar1 = var(samp1)
+    bootvar2 = var(samp2)
+    bootstat[i] = ((bootmean1 - bootmean2) - obsdiff)/sqrt((bootvar1/n1) + (bootvar2/n2))
+}
+  return(bootstat)
+}
+
+B = 5000
+set.seed(1)
+cricketboot = boottwo(Starved, Fed, B)  #Notice Starved put in first
+hist(cricketboot)
+
+(t.obs = (mean(Starved) - mean(Fed)) /
+         sqrt(var(Starved) / length(Starved)  + var(Fed) / length(Fed)))
+
+(m.low  = sum(cricketboot < t.obs))
+(m.high = sum(cricketboot > t.obs))
+summary(cricketboot>t.obs)
+(p.val = m.low/ B)
+
+t.test(Starved, Fed, var.equal=FALSE, alternative="less")
+```
+
+Wilcoxcon Test
+```{r}
+wilcox.test(Starved, Fed, alternative="less")
+fed.n=length(Fed)
+starv.n=length(Starved)
+sum(rank(crickets$cri.combo)[crickets$cri.labels=="Starved"])-(starv.n*(starv.n+1))/2
+
+wilcox.test(c(4.8, 2.2), c(3.0, 1.5, 3.5))
+```

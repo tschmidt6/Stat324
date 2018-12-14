@@ -1,0 +1,151 @@
+---
+title: "Discussion12"
+author: "Teryl Schmidt"
+date: "12/4/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Consider the experiment where we are interested in determining the dose-response rates between several antibiotics applied at the same concentration. Treatments are randomly applied to cultured bacteria, and the percent reductions in bacterial population are given:
+<pre>
+Trt 1: 13.3 13.7 11.6 11.9 12.0 12.9 12.3 12.1 12.3 12.3 
+Trt 2: 12.5 13.9 12.4 14.0 12.8
+Trt 3: 16.8 16.6 17.1 14.6 17.4 16.5
+Trt 4: 13.2 14.2 13.5 13.2 14.3 12.7 14.9 13.3 13.5
+</pre>
+
+
+(a) Analyze the data graphically. Does it look like ANOVA will be useful?
+
+```{r}
+Trt1 = c(13.3, 13.7, 11.6, 11.9, 12.0, 12.9, 12.3, 12.1, 12.3, 12.3)
+Trt2 = c(12.5, 13.9, 12.4, 14.0, 12.8)
+Trt3 = c(16.8, 16.6, 17.1, 14.6, 17.4, 16.5)
+Trt4 = c(13.2, 14.2, 13.5, 13.2, 14.3, 12.7, 14.9, 13.3, 13.5)
+```
+
+(b) Create an Anova table, and decide whether we have sufficient evidence to reject the null. (Work out calculations in R and/or on calculator so you get practice.)
+
+<pre>
+Source         |   SS     |         df          |           MS            |             F                 |  P  |
+Treat (between)|  | (t-1) = (4-1) = 3   |  / 3 =  |  /  =  ||
+Error (within) |  | (N-t) = (30-4) = 26 |  / 26 =  |                               |     |
+Total          |  | (N-1) = (30-1) =29  |                         |                               |     |
+</pre>
+
+(c) Conduct multiple comparisons for each treatment using 95% CI based on Tukey-Kramer by hand, then verify with R function. Make a table to summarize your findings.
+
+1 & 2
+Q = 3.87964
+y¯<sub>1</sub> = 12.44
+y¯<sub>2</sub> = 13.12
+n<sub>1</sub> = 10
+n<sub>2</sub> = 5
+
+y¯<sub>1</sub> - y¯<sub>2</sub> +- Q / sqrt(2) * sqrt(MSE * (1 / n<sub>1</sub> + 1 / n<sub>2</sub>))
+12.44 -13.12 +- 3.87964 / sqrt(2) * sqrt(0.574 * (1 / 10 + 1 / 5))
+(0.4583951, -1.818395)
+* Contain 0
+
+1 & 3
+* No 0
+
+1 & 4
+* No 0
+
+2 & 3
+* No 0
+
+2 & 4
+* Contains 0
+
+3 & 4
+* No 0
+
+Order from smallest to largest mean
+<pre>
+Trt | Mean  | Group
+1   | 12.44 |   A
+2   | 13.12 |   A B
+4   | 13.64 |     B
+3   | 16.5  |       C
+</pre>
+
+
+(d) Perform a Kruskal - Wallis test with possible Wilconon Rank Sum posthoc comparison (with Bonferoni correction). Summarize these findings in a table. Are the conclusions consistent between the two methods? Explain why.
+
+
+<pre>
+Trt | Mean  | Unadj Group | Adj Group |
+1   | 12.44 |     A       |     A     |
+2   | 13.12 |     A B     |     A B   |
+4   | 13.64 |       B     |       B   |
+3   | 16.5  |         C   |         C |
+</pre>
+
+
+
+2. We measure the heights and weights of 4 randomly chosen students. The value and some summary measures are given below. You can also use the fact that &sum;<sub>􏰀i=1</sub> (x − x ̄)(y − y ̄) = 680
+
+<pre>
+Student   |   x: wts (kg)  |   y: hts (cm)
+  1       |       50       |      151
+  2       |       60       |      165
+  3       |       70       |      178
+  4       |       80       |      192
+  
+
+Variable    |   Mean    |   Standard Deviation  
+Weight (x)  |   65      |           12.91
+Height(y)   |   171.5   |           17.56
+</pre>
+
+For all of the parts below (except for graphs), please perform the calculations by hand, and show your work. You may use R to check your answers.
+
+```{r}
+Studentweight = c(50, 60, 70, 80) # y
+Studentheight = c(151, 165, 178, 192) #x
+```
+
+(a) Based on the scatter plot, does a straight-line model seem reasonable? If so, compute compute the sample correlation and the least square estimates for the y intercept and slope of the regression line relating height (y) to weight (x).
+
+```{r}
+plot(Studentweight, Studentheight)
+```
+
+(b) Compute the 4 residuals and create a plot of the residuals vs fitted values (by hand and R) and a QQ plot of the residuals (just in R). Do the necessary regression assumptions seem met?
+
+
+
+fitted values obtained by plugging 4 x values into regression equation ex: 83.1+1.36*50=151.1 , residuals by subracting: observed-expected: 151-151.1=-0.1.
+all fitted values = 151.1,164.7,178.3,191.9 and all residuals = -0.1,0.3,-0.3,0.1 all are cm. Clearly Q-Q plot is showing a straight line and hence assumption of normality is fine. The fitted vs residual plot is also showing that the points are randomly scattered and the width around line y = 0 across the fitted values are more or less same. Hence assumption of constant variance is also plausible.
+
+(c) Compute the MSError from the residuals calculated above.
+
+
+ANSWER: SSError = 􏰀(y − yˆ)2 = 0.2 so MSError = SSError/(n − 2) = 0.2/2 = 0.1.
+We can see the square of this value in our summary table in a. Residual Standard
+error= MSError = .1 = 0.3162
+(d) Perform a test of
+H0 :β1 =1 vs H1 :β1 = ̸=1,
+using a t-test at α = 0.05. Make a conclusion in the context of the problem.
+
+
+
+(e) If a student weight is 75kg, what does the model predict to be the height? Compute the estimated
+SE of this estimate assuming it is for a single future value and 95% prediction interval.
+
+use equation SE(E(y¯|x*)) = &sigma; sqrt(1/n + (x* - x¯)^2 / &sum;<sup>n</sup><sub>i=1</sub>(x<sub>i</sub>x¯)^2)
+
+(f) What is the estimated height of a student with weight 75kg? Compute the estimated SE of this estimate and find 95% CI.
+
+use equation SE(E(y¯|x*)) = &sigma; sqrt(1 + 1/n + (x* - x¯)^2 / &sum;<sup>n</sup><sub>i=1</sub>(x<sub>i</sub>x¯)^2)
+
+
+
+
+

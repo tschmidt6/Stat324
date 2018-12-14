@@ -1,0 +1,264 @@
+---
+title: "HW4"
+author: "Teryl Schmidt | tschmidt6@wisc.edu | 9072604920"
+date: "10/26/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 1
+The data below record the number of hours a team of workers takes to assemble a custom-built
+motorcycle. The data are recorded for 10 different teams each assembling a motorcycle.
+89 78 48 85 67 45 60 62 62 56
+
+
+(a) Create a QQplot in R and comment on the assumption that the population of times to assemble a
+motorcycle is well-approximated by a normal distribution.
+```{r}
+hours = c(89, 78, 48, 85, 67, 45, 60, 62, 62, 56)
+qqnorm(hours,lwd=2,main="QQ plot for number of hours", ylab = "Hours")
+qqline(hours,col="blue",lwd=2)
+```
+
+<font color="red"> From the QQ-plot it is observed most of the observations are very close to a linear line and hence the data is well approximated by a normal distribution. </font>
+
+
+(b) Construct a 90% confidence interval by hand for the mean time it takes a team of workers to
+assemble a custom-built motorcycle.
+
+```{r}
+sd(hours)
+mean(hours)
+# Use qnorm() on &alpha; / 2 
+# So 0.10 / 2 = 0.05
+qnorm(0.05)
+```
+
+<font color="green"> 
+X&#772; &#177; z(&alpha; / 2) * &sigma; / &#8730;n <br/>
+n = 10 <br/>
+&mu; = 65.2 <br/>
+SD = 14.76332 <br/>
+Margin of Error = 1.644 * (14.76332 / &#8730;10) <br/>
+&mu; &#177; Margin of Error <br/>
+<font color="red"> = (57.52487, 72.87513) </font> <br/>
+</font>
+
+
+(c) Construct the same interval above using R’s t.test() command.
+```{r}
+t.test(hours, conf.level = 0.90)
+```
+
+(d) By how much does the confidence interval width of a 95% interval differ from that of a 90% interval
+for this data (can complete in R or by hand)?
+```{r}
+t.test(hours, conf.level = 0.95)
+```
+
+<font color="red"> The new interval is wider, but we are more confident that it contains the true mean. </font>
+
+(e) Suppose instead, the manager had performed a hypothesis test at the 10% level of the null that
+µ = 60 hours vs the alternative that µ < 60. Compute the pvalue for his hypothesis test and
+summarize the conclusion that he would have drawn from the sample that he observed.
+
+<font color="green">
+H<sub>0</sub>: &mu; = 60 <br/>
+H<sub>A</sub>: &mu; < 60 <br/>
+Z test statistic value < Z<sub>0.90</sub> = -1.644854, or obs X&#772; < 65.2 with sample size of 10 <br/>
+P(X&#772; > 65.2) = P(Z > 65.2 - 59 / (14.76332 / &#8730;10)) <br/>
+P(Z > 1.328029) = 1 - P(Z <= 1.328029) <br/>
+= 1 - 0.908 <br/>
+= 0.092 <br/>
+</font>
+
+<font color="red"> 9% chance to fail to reject H<sub>0</sub> when we should have rejected it. </font>
+
+
+# Problem 2
+An automobile club which pays for emergency road services (ERS) requested by its members wishes to
+estimate the proportions of the different types of ERS requests. Upon examining a sample of 2927 ERS
+calls, it finds that 1499 calls related to starting problems, 849 calls involved serious mechanical failures
+requiring towing, 498 calls involved flat tires or lockouts, and 81 calls were for other reasons.
+
+
+(a) Estimate the true proportion of ERS calls that involved serious mechanical problems requiring
+towing and construct a 95% confidence interval after checking that conditions have been met.
+Interpret your interval in context.
+
+<font color="green">
+(849 / 2927) = 0.29 <br/>
+True proportion = 0.29 <br/>
+95% CI = Z<sub>&alpha; / 2 </sub> * &#8730; (0.29 * (1 - 0.29)) / n <br/>
+= 1.96 * &#8730; (0.29 * 0.71) / 2927 <br/>
+= 1.96 * &#8730;0.00007 <br/>
+= 1.96 * 0.0084 <br/>
+= 0.0164 <br/>
+0.29 &#177; 0.0164 <br/>
+= (0.2736, 0.3064) <br/>
+<font color="red"> We are 95% confident that the proportion of calls related to serious mechanical problems requiring towing will fall between (0.2736, 0.3064). </font>
+</font>
+
+
+(b) Calculate a 98% confidence interval for the true proportion of ERS calls that related to starting
+problems after checking that conditions have been met. Interpret your interval in context.
+
+<font color="green">
+(1499 / 2927) = 0.51 <br/>
+0.51 &#177; Margin of Error <br/>
+Margin of Error = Z<sub> &alpha; / 2 </sub> * &#8730; 0.51 * (1 - 0.51) / n <br/>
+Z table at 0.98 is 2.33 <br/>
+= 2.33 * &#8730; (0.51 * 0.49) / 2927 <br/>
+= 2.33 * 0.00924 <br/>
+= 0.02153 <br/>
+0.51 &#177; 0.02153 <br/>
+= (0.4885, 0.5315) <br/>
+</font>
+<font color="red">
+We are 98% confident that the proportion of calls related to starting problems will fall between (0.4885, 0.5315).
+</font>
+
+# Problem 3
+At the Hawaii Pineapple Company, managers are interested in the size of the pineapples grown in the
+company’s fields. Last year, the mean weight of the pineapples harvested from one large field was 31
+ounces with a standard deviation of 4 ounces. A different irrigation system was installed in this field
+after the growing season. Managers wonder if the the mean weight of pineapples grown in the field this
+year will be different from last.
+
+
+(a) Write out the null Ho and alternative hypotheses Hain terms of the population mean µ.
+
+<font color="red">
+H<sub>0</sub>: &mu; = 31 <br/>
+H<sub>A</sub>: &mu; =/= 31 <br/>
+</font>
+
+(b) If the managers choose to use a significance level of 0.05 and assume σ = 4, identify their power to
+detect a increase of 2 ounces in the mean (µa = 33) if they look at a sample that is 30 pineapples
+this year and use the two-sided alternative. Also identify the probability of making a type 2 error
+with true µa = 33.
+
+<font color="green">
+&alpha; = 0.05 <br/>
+&sigma; = 4 <br/>
+n = 30 <br/>
+H<sub>0</sub>: &mu; = 31 <br/>
+H<sub>A</sub>: &mu; = 33 <br/>
+Power is given by P(Reject H<sub>0</sub> | H<sub>0</sub> is false) <br/>
+Z = &#177;1.96 <br/>
+X&#772; - &mu; / (&sigma; / &#8730;n) = 1.96 <br/>
+X&#772; - 31 / (4 / &#8730;30) = 1.96 <br/>
+31 &#177; 1.431382 <br/>
+X&#772; = 29.57, 32.43 <br/>
+Reject H<sub>0</sub> if X&#772; < 29.57 AND X&#772; > 32.43 <br/>
+Power = P(Reject H<sub>0</sub> | &mu;<sub>a</sub> = 33) <br/>
+= P(X&#772; < 29.57 OR X&#772; > 32.43 | &mu;<sub>a</sub> = 33) <br/>
+= P(Z < 29.57 - 33 / (4 / &#8730;30) OR Z > 32.43 - 33 / (4 / &#8730;30)) <br/>
+= P(Z < -6.70 OR Z > -0.7805) <br/>
+&beta; = Probability of type 2 error <br/>
+= 1 - Power = <font color="red"> 0.2177 </font> <br/>
+</font>
+
+(c) Draw pictures of the null and alternative distributions of the means and shade the areas that
+correspond to (i) Type 1 error, (ii) Type 2 error, and (iii) Power from part (b). (The online applet
+from the notes may help.)
+
+<font color="red"> Last Page </font>
+
+(d) Explain Type 1 and Type 2 errors of the test in context.
+
+<font color="red">
+Type 1 error: We conclude that the mean weight of pineapples grown in the field this year different from last year, when actually it is not different. <br/>
+Type 2 error: We conclude that the mean weight is not different from last year when actually it is different.
+</font>
+
+(e) What sample size should the managers use to ensure their test has power of at least 0.9 to detect
+µ<sub>a</sub> = 33 (assuming σ = 4)?
+
+<font color="green">
+&beta; = 0.10 <br/>
+&alpha; = 0.05 <br/>
+Check 1 - 0.10 = 0.90 in Z table <br/>
+Z<sub>0.10</sub> = 1.285 <br/>
+Z<sub>0.05</sub> = 1.645 <br/>
+n = (4 * (1.645 + 1.285) / 31 - 33)<sup>2</sup>  <br/>
+= 34.3396 <br/>
+<font color="red"> ~ 34 <br/> </font>
+</font>
+
+
+(f) Explain why the managers may prefer to compute a 95% confidence interval instead of a two-sided
+5% hypothesis test.
+
+<font color = "red">
+The two-sided test at α =0.05 rejects H<sub>0</sub> in favor of H<sub>a</sub>. The corresponding 95% confidence interval does not include 31 as a plausible value of the parameter µ. In other words, the test and interval lead to the same conclusion about H<sub>0</sub>. But the confidence interval provides much more information: a set of plausible values for the population mean. 
+</font>
+
+# Prblem 4
+A scientist is doing a preliminary study to try to determine the sample size necessary for her larger
+study. She would like to show that the mean in her population of interest is larger than 12 and is
+starting with the assumption that Ho : µ = 12 which is will be testing at the α = 0.1 level. She takes a
+random sample of n=10 from her population and checks the QQplot and sample histogram. From the
+graphs, the normality of the population assumption is pretty well met. Her sample mean is X¯ = 14.2
+and sample standard deviation is s = 4.88.
+
+
+(a) Compute the critical values and rejection region for the appropriate test statistic and X¯ and p
+value of the appropriate test. Draw a conclusion in the context of the study.
+
+<font color="green">
+Test statistic t = &#8730;10(X&#772; - 12) / s <br/>
+X&#772; = 14.2 <br/>
+s = 4.88 <br/>
+&#8730;10(14.2 - 12) / 4.88 <br/>
+= 1.4256 <br/>
+Critical value of t<sub>(9 , 0.10)</sub> = 1.383 <br/>
+p-value = P(t > 1.4256 | t ~ t<sub>9</sub>) = 0.0939 < 0.10 <br/>
+<font color="red"> Hence we reject H<sub>0</sub> at 0.10 level of significance and conclude that the true mean is larger than 12. <br/>
+</font>
+</font>
+
+(b) Suppose she is interested in the specific alternative that µA = 15 and will still be conducting a
+one-sided test. Compute the power of a follow up hypothesis test to correctly reject the null if in
+fact µA = 15 is true with a sample size of 40. Use the sample standard deviation above to estimate
+σ, use z critical values, and α = 0.1.
+
+<font color="green">
+We reject H<sub>0</sub> at 0.10 level of significance if: <br/>
+&#8730;10(X&#772; - 12) / s  > 1.383 => X&#772; > 12 + 1.383(s) / &#8730;10 <br/>
+Power of test &mu;<sub>A</sub> = 15 = P(X&#772; > 12 + 1.383(s) / &#8730;10 | &mu;<sub>A</sub> = 15) <br/>
+= P(&#8730;10(X&#772; - 12) / s > (&#8730;10(12 + 1.383(s) / &#8730;10) - 15) / s | &mu;<sub>A</sub> = 15) <br/>
+= P(&#8730;10(X&#772; - 12) / s > (-0.5610 | (&#8730;(X&#772; - 15)) / s) ~ t<sub>9</sub>) <br/>
+= <font color="red"> 0.7058 <br/>
+</font>
+</font>
+
+(c) She will use s = 4.88 as her best guess of σ so she can use a Z test simplification. Approximately
+what sample size would be required to achieve a power of 0.85 if the true population mean is
+µA = 15? Give your answer as the smallest whole number that meets the criterion.
+
+<font color="green">
+Assume &#8730;n(X&#772; - &mu;<sub>A</sub>) / s ~N(0,1) <br/>
+Power of test at &mu;<sub>A</sub> = 15 <br/>
+= P(&#8730;n(X&#772; - 15) / s > &#8730;n(12 + ((1.383 * 4.88) / &#8730;n) - 15) / 4.88 | &mu;<sub>A</sub> = 15) <br/>
+= 1 - &#934;(&#8730;n(12 + ((1.383 * 4.88) / &#8730;n) - 15) / 4.88) <br/>
+= 0.85 = &#934;(1.0364) <br/>
+&#8730;n(12 + ((1.383 * 4.88) / &#8730;n) - 15) / 4.88 = -1.0364 <br/>
+Or, 11.80667 / &#8730;n <br/>
+= 11.80667 / 3 <br/>
+= 15.48861 <br/>
+<font color="red"> ~ 16 <br/>
+</font>
+</font>
+
+(d) If she decided to perform the test at a significance level of α = 0.05 instead of α = 0.10, how would
+that effect her power of detecting µA = 15? (no calculations needed)
+
+<font color="red">
+If she plans to perform the test using t-statistic instead of z statistic we need a larger sample size to reach the power 0.85. Since t distribution is leptokurtic and symmetric about zero whereas standard normal distribution is symmetric about zero but mesokurtic i.e. t distribution is more picked than standard normal distribution. Therefore the tailed probability is small for t distribution than standard normal distribution.
+</font>

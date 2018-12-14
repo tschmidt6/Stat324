@@ -1,0 +1,845 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Lecture14ANOVA},
+            pdfauthor={Chelsey Green},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Lecture14ANOVA}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Chelsey Green}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{7/24/2018}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Plant1<-}\KeywordTok{c}\NormalTok{(}\DecValTok{438}\NormalTok{, }\DecValTok{619}\NormalTok{, }\DecValTok{732}\NormalTok{, }\DecValTok{638}\NormalTok{)}
+\NormalTok{Plant2<-}\KeywordTok{c}\NormalTok{(}\DecValTok{857}\NormalTok{, }\DecValTok{1014}\NormalTok{, }\DecValTok{1153}\NormalTok{, }\DecValTok{883}\NormalTok{, }\DecValTok{1053}\NormalTok{)}
+\NormalTok{Plant3<-}\KeywordTok{c}\NormalTok{(}\DecValTok{925}\NormalTok{, }\DecValTok{786}\NormalTok{, }\DecValTok{1179}\NormalTok{, }\DecValTok{786}\NormalTok{)}
+\NormalTok{Plant4<-}\KeywordTok{c}\NormalTok{(}\DecValTok{893}\NormalTok{, }\DecValTok{891}\NormalTok{, }\DecValTok{917}\NormalTok{, }\DecValTok{695}\NormalTok{, }\DecValTok{675}\NormalTok{, }\DecValTok{595}\NormalTok{)}
+
+\NormalTok{Plantdata<-}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Plant=}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"Plant1"}\NormalTok{,}\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Plant2"}\NormalTok{, }\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Plant3"}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Plant4"}\NormalTok{,}\DecValTok{6}\NormalTok{)), }\DataTypeTok{Data=}\KeywordTok{c}\NormalTok{(Plant1, Plant2, Plant3, Plant4), }\DataTypeTok{gpmeans=}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\FloatTok{606.8}\NormalTok{, }\DecValTok{4}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\FloatTok{992.0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\FloatTok{919.0}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\FloatTok{777.7}\NormalTok{, }\DecValTok{6}\NormalTok{)))}
+
+\KeywordTok{require}\NormalTok{(plyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: plyr
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{group.mu <-}\StringTok{ }\KeywordTok{ddply}\NormalTok{(Plantdata, }\StringTok{"Plant"}\NormalTok{, summarise, }\DataTypeTok{grp.mean=}\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Data), }\DecValTok{1}\NormalTok{))}
+\NormalTok{group.mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Plant grp.mean
+## 1 Plant1    606.8
+## 2 Plant2    992.0
+## 3 Plant3    919.0
+## 4 Plant4    777.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(Plant1); }\KeywordTok{length}\NormalTok{(Plant1); }\KeywordTok{sd}\NormalTok{(Plant1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 606.75
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 122.8695
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(Plant2); }\KeywordTok{length}\NormalTok{(Plant2); }\KeywordTok{sd}\NormalTok{(Plant2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 992
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 122.711
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(Plant3); }\KeywordTok{length}\NormalTok{(Plant3); }\KeywordTok{sd}\NormalTok{(Plant3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 919
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 185.3052
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(Plant4); }\KeywordTok{length}\NormalTok{(Plant4); }\KeywordTok{sd}\NormalTok{(Plant4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 777.6667
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 6
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 138.7814
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(Plantdata}\OperatorTok{$}\NormalTok{Data); }\KeywordTok{length}\NormalTok{(Plantdata}\OperatorTok{$}\NormalTok{Data); }\KeywordTok{sd}\NormalTok{(Plantdata}\OperatorTok{$}\NormalTok{Data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 827.8421
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 19
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 194.8573
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{require}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{Plantdata, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant, }\DataTypeTok{y=}\NormalTok{Data, }\DataTypeTok{color=}\NormalTok{Plant))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width=}\FloatTok{0.1}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#geom_errorbar(aes(ymax=gpmeans, ymin=gpmeans))+}
+  \CommentTok{#geom_hline(yintercept=827.8421)}
+
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{Plantdata, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant, }\DataTypeTok{y=}\NormalTok{Data, }\DataTypeTok{color=}\NormalTok{Plant))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width=}\FloatTok{0.1}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_errorbar}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{ymax=}\NormalTok{gpmeans, }\DataTypeTok{ymin=}\NormalTok{gpmeans))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept=}\FloatTok{827.8421}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data.tight<-}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Group=}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat1"}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat2"}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat3"}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\DataTypeTok{ObservedVals=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\FloatTok{2.5}\NormalTok{, }\FloatTok{3.5}\NormalTok{,}\DecValTok{4}\NormalTok{, }\DecValTok{6}\NormalTok{, }\FloatTok{6.5}\NormalTok{, }\FloatTok{7.5}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{3}\NormalTok{, }\FloatTok{3.5}\NormalTok{, }\FloatTok{4.5}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+
+\NormalTok{data.wide<-}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Group=}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat1"}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat2"}\NormalTok{, }\DecValTok{4}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{"Treat3"}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\DataTypeTok{ObservedVals=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{7}\NormalTok{))}
+
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{data.tight, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Group, }\DataTypeTok{y=}\NormalTok{ObservedVals, }\DataTypeTok{color=}\NormalTok{Group))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width=}\FloatTok{0.1}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylim}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{data.wide, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Group, }\DataTypeTok{y=}\NormalTok{ObservedVals, }\DataTypeTok{color=}\NormalTok{Group))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width=}\FloatTok{0.1}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylim}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\DecValTok{11}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{tabular}{rrrrrr|lll}
+  \multicolumn{6}{l}{Plant 1} & $n_i$ & $\bar{y}_{i.}$ & $s_i$\\
+  438 & 619 & 732 & 638 &    &    &    4 & 606.8  & 122.9 \\
+ \hline
+  \multicolumn{6}{l}{Plant 2}\\
+  857 & 1014 & 1153 & 883 & 1053   &   & 5 & 992.0 & 122.7\\
+\hline
+  \multicolumn{6}{l}{Plant 3}\\
+  925 & 786 & 1179 & 786     & &   & 4 & 919.0 & 185.3\\
+\hline
+ \multicolumn{6}{l}{Plant 4}\\
+  893 & 891 & 917 & 695 & 675 & 595      & 6 & 777.7 & 138.8\\
+\hline
+  \multicolumn{9}{r}{Overall: $N = 19, \bar{y}_{..} = 827.8$}\\
+\end{tabular}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{OverallMean<-}\FloatTok{827.8}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{Treateff<-(Plantdata}\OperatorTok{$}\NormalTok{gpmeans}\OperatorTok{-}\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{OverallMean)}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{Resid<-(Plantdata}\OperatorTok{$}\NormalTok{Data}\OperatorTok{-}\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{gpmeans)}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{Obs_Overall<-Plantdata}\OperatorTok{$}\NormalTok{Data}\OperatorTok{-}\FloatTok{827.8}
+
+\NormalTok{A.SSTot<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{Obs_Overall)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{A.SSTreat<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{Treateff}\OperatorTok{^}\DecValTok{2}\NormalTok{))}
+\NormalTok{A.SSError<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{Resid}\OperatorTok{^}\DecValTok{2}\NormalTok{))}
+
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{OverallMeanT<-}\KeywordTok{mean}\NormalTok{(Plantdata}\OperatorTok{$}\NormalTok{Data)}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{gpmeansT<-}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Plant1), }\KeywordTok{length}\NormalTok{(Plant1)),}\KeywordTok{rep}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Plant2), }\KeywordTok{length}\NormalTok{(Plant2)), }\KeywordTok{rep}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Plant3), }\KeywordTok{length}\NormalTok{(Plant3)), }\KeywordTok{rep}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Plant4), }\KeywordTok{length}\NormalTok{(Plant4))) }
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{TreateffT<-(Plantdata}\OperatorTok{$}\NormalTok{gpmeansT}\OperatorTok{-}\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{OverallMeanT)}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{ResidT<-(Plantdata}\OperatorTok{$}\NormalTok{Data}\OperatorTok{-}\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{gpmeansT)}
+\NormalTok{Plantdata}\OperatorTok{$}\NormalTok{Obs_OverallT<-Plantdata}\OperatorTok{$}\NormalTok{Data}\OperatorTok{-}\KeywordTok{mean}\NormalTok{(Plantdata}\OperatorTok{$}\NormalTok{Data)}
+
+\NormalTok{SSTot<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{Obs_OverallT)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSTreat<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{TreateffT}\OperatorTok{^}\DecValTok{2}\NormalTok{))}
+\NormalTok{SSError<-}\KeywordTok{sum}\NormalTok{((Plantdata}\OperatorTok{$}\NormalTok{ResidT}\OperatorTok{^}\DecValTok{2}\NormalTok{))}
+
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{Plantdata, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant, }\DataTypeTok{y=}\NormalTok{Data, }\DataTypeTok{color=}\NormalTok{Plant))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width=}\FloatTok{0.1}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{()}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_errorbar}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{ymax=}\NormalTok{gpmeans, }\DataTypeTok{ymin=}\NormalTok{gpmeans))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept=}\FloatTok{827.8421}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\CommentTok{#geom_segment(aes(x=Plant,y=827.8421, yend=gpmeans, xend=Plant))}
+\StringTok{  }\CommentTok{#geom_segment(aes(ymin=gpmeans, ymax=Data))+}
+\StringTok{  }\KeywordTok{geom_errorbar}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{ymin=}\NormalTok{Data, }\DataTypeTok{ymax=}\FloatTok{827.8421}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-2-1.pdf}
+Observations: \(y_{ij}\)
+
+\[\left[\begin{array}
+{rrrrrr}
+438 & 619 & 732 & 638 \\
+857 & 1014 & 1153 & 883 & 1053 \\
+925 & 786 & 1179 & 786 \\
+893 & 891 & 917 & 695 & 675 & 595
+\end{array}\right]
+\]
+
+\[\left[\begin{array}
+{rrrrrr}
+827.8 & 827.8 & 827.8 & 827.8 \\
+827.8 & 827.8 & 827.8 & 827.8 & 827.8 \\
+827.8 & 827.8 & 827.8 & 827.8 \\
+827.8 & 827.8 & 827.8& 827.8 & 827.8 & 827.8
+\end{array}\right]
+\]
+
+\[\left[\begin{array}
+{rrrrrr}
+-221 & -221  & -221  & -221  \\
+164.2 & 164.2 & 164.2 & 164.2 & 164.2 \\
+91.2 & 91.2 & 91.2 & 91.2 \\
+-50.1 & -50.1 & -50.1& -50.1 & -50.1 & -50.1
+\end{array}\right]
+\]
+
+\[\left[\begin{array}
+{rrrrrr}
+-168.8 & 12.2  & 125.2  & 31.2  \\
+-135 & 22 & 161 & -109 & 61 \\
+6 & -133 & 260 & -133 \\
+115.3 & 113.3 & 139.3& -82.7 & -102.7 & -182.7
+\end{array}\right]
+\]
+
+\[\left[\begin{array}
+{rrrrrr}
+-389.8 & -208.8  & -95.8  & -189.8  \\
+29.2 & 186.2 & 325.2 & 55.2 & 225.2 \\
+97.2 & -41.8 & 351.2 & -41.8 \\
+65.2 & 63.2 & 89.2 & -132.8 & -152.8 & -232.8
+\end{array}\right]
+\]
+
+Doing the ANOVA in R
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Plantanova<-}\KeywordTok{aov}\NormalTok{(Data}\OperatorTok{~}\NormalTok{Plant, }\DataTypeTok{data=}\NormalTok{Plantdata)}
+\KeywordTok{summary}\NormalTok{(Plantanova)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value  Pr(>F)   
+## Plant        3 378610  126203    6.21 0.00592 **
+## Residuals   15 304838   20323                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(Plantanova}\OperatorTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(Plantanova}\OperatorTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Plantlm<-}\KeywordTok{lm}\NormalTok{(Data}\OperatorTok{~}\NormalTok{Plant, }\DataTypeTok{data=}\NormalTok{Plantdata)}
+\KeywordTok{anova}\NormalTok{(Plantlm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: Data
+##           Df Sum Sq Mean Sq F value   Pr(>F)   
+## Plant      3 378610  126203    6.21 0.005917 **
+## Residuals 15 304838   20323                    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Plantlm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-3.pdf}
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-4.pdf}
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-5.pdf}
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{Plantdata, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant, }\DataTypeTok{y=}\NormalTok{(Data}\OperatorTok{-}\NormalTok{gpmeans), }\DataTypeTok{col=}\NormalTok{Plant))}\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(Plantanova}\OperatorTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lecture15_Anova_files/figure-latex/unnamed-chunk-3-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Fisher LSD CIs:}
+\NormalTok{ft<-}\KeywordTok{qt}\NormalTok{(}\DataTypeTok{p=}\FloatTok{0.05}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df=}\DecValTok{15}\NormalTok{, }\DataTypeTok{lower.tail=}\OtherTok{FALSE}\NormalTok{)}
+\CommentTok{#Sample sizes of 4 and 5}
+\NormalTok{(}\DataTypeTok{F4_5ME=}\NormalTok{ft}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\FloatTok{20322.54}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\OperatorTok{+}\DecValTok{1}\OperatorTok{/}\DecValTok{5}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 203.831
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff1_}\DecValTok{2}\NormalTok{<-}\FloatTok{606.8}\OperatorTok{-}\FloatTok{992.0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -385.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff1_}\DecValTok{2}\OperatorTok{+}\NormalTok{F4_5ME; diff1_}\DecValTok{2}\OperatorTok{-}\NormalTok{F4_5ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -181.369
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -589.031
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff2_}\DecValTok{3}\NormalTok{<-}\DecValTok{992}\OperatorTok{-}\DecValTok{919}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 73
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff2_}\DecValTok{3}\OperatorTok{+}\NormalTok{F4_5ME; diff2_}\DecValTok{3}\OperatorTok{-}\NormalTok{F4_5ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 276.831
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -130.831
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sample sizes of 4 and 4}
+\NormalTok{(}\DataTypeTok{F4_4ME=}\NormalTok{ft}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\FloatTok{20322.54}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\OperatorTok{+}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 214.8568
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff1_}\DecValTok{3}\NormalTok{<-}\FloatTok{606.8}\OperatorTok{-}\FloatTok{919.0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -312.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff1_}\DecValTok{3}\OperatorTok{+}\NormalTok{F4_4ME; diff1_}\DecValTok{3}\OperatorTok{-}\NormalTok{F4_4ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -97.34323
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -527.0568
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sample sizes of 4 and 6}
+\NormalTok{(}\DataTypeTok{F4_6ME=}\NormalTok{ft}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\FloatTok{20322.54}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\OperatorTok{+}\DecValTok{1}\OperatorTok{/}\DecValTok{6}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 196.1365
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff1_}\DecValTok{4}\NormalTok{<-}\FloatTok{606.8}\OperatorTok{-}\FloatTok{777.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -170.9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff1_}\DecValTok{4}\OperatorTok{+}\NormalTok{F4_6ME; diff1_}\DecValTok{4}\OperatorTok{-}\NormalTok{F4_6ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 25.2365
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -367.0365
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff3_}\DecValTok{4}\NormalTok{<-}\DecValTok{919}\OperatorTok{-}\FloatTok{777.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 141.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff3_}\DecValTok{4}\OperatorTok{+}\NormalTok{F4_6ME; diff3_}\DecValTok{4}\OperatorTok{-}\NormalTok{F4_6ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 337.4365
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -54.8365
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sample sizes of 5 and 6}
+\NormalTok{(}\DataTypeTok{F5_6ME=}\NormalTok{ft}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\FloatTok{20322.54}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{5}\OperatorTok{+}\DecValTok{1}\OperatorTok{/}\DecValTok{6}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 183.9923
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(diff2_}\DecValTok{4}\NormalTok{<-}\FloatTok{992.0}\OperatorTok{-}\FloatTok{777.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 214.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff2_}\DecValTok{4}\OperatorTok{+}\NormalTok{F5_6ME; diff2_}\DecValTok{4}\OperatorTok{-}\NormalTok{F5_6ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 398.2923
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 30.30765
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Bonferroni Multiple Comparison Adjustment}
+\KeywordTok{qt}\NormalTok{(}\DataTypeTok{p=}\NormalTok{.}\DecValTok{0042}\NormalTok{, }\DataTypeTok{df=}\DecValTok{15}\NormalTok{, }\DataTypeTok{lower.tail=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.032375
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Tukey Multiple Comparison Adjustment}
+\KeywordTok{TukeyHSD}\NormalTok{(Plantanova)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Data ~ Plant, data = Plantdata)
+## 
+## $Plant
+##                    diff        lwr       upr     p adj
+## Plant2-Plant1  385.2500  109.62944 660.87056 0.0053783
+## Plant3-Plant1  312.2500   21.72042 602.77958 0.0332173
+## Plant4-Plant1  170.9167  -94.29934 436.13268 0.2866336
+## Plant3-Plant2  -73.0000 -348.62056 202.62056 0.8695632
+## Plant4-Plant2 -214.3333 -463.12800  34.46134 0.1036269
+## Plant4-Plant3 -141.3333 -406.54934 123.88268 0.4420141
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qtukey}\NormalTok{(}\DataTypeTok{p=}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\FloatTok{0.05}\NormalTok{), }\DataTypeTok{nmeans=}\DecValTok{4}\NormalTok{, }\DataTypeTok{df=}\NormalTok{(}\DecValTok{19}\OperatorTok{-}\DecValTok{4}\NormalTok{)) }\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.882149
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Kruskal-Wallis Test}
+\KeywordTok{kruskal.test}\NormalTok{(Data}\OperatorTok{~}\NormalTok{Plant, }\DataTypeTok{data=}\NormalTok{Plantdata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  Data by Plant
+## Kruskal-Wallis chi-squared = 9.2913, df = 3, p-value = 0.02566
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#post-hoc Wilcoxon Rank Sum}
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant1, }\DataTypeTok{y=}\NormalTok{Plant2, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test
+## 
+## data:  Plant1 and Plant2
+## W = 0, p-value = 0.01587
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant1, }\DataTypeTok{y=}\NormalTok{Plant3, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = Plant1, y = Plant3, paired = FALSE):
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  Plant1 and Plant3
+## W = 0, p-value = 0.0294
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant1, }\DataTypeTok{y=}\NormalTok{Plant4, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test
+## 
+## data:  Plant1 and Plant4
+## W = 5, p-value = 0.1714
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant2, }\DataTypeTok{y=}\NormalTok{Plant3, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = Plant2, y = Plant3, paired = FALSE):
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  Plant2 and Plant3
+## W = 13, p-value = 0.5386
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant2, }\DataTypeTok{y=}\NormalTok{Plant4, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test
+## 
+## data:  Plant2 and Plant4
+## W = 24, p-value = 0.1255
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Plant3, }\DataTypeTok{y=}\NormalTok{Plant4, }\DataTypeTok{paired=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = Plant3, y = Plant4, paired = FALSE):
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  Plant3 and Plant4
+## W = 18, p-value = 0.2395
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+
+\end{document}

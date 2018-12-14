@@ -1,0 +1,105 @@
+---
+title: "Lecture10_Code"
+author: "Chelsey Green"
+date: "7/9/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Smoke Data:
+
+```{r}
+smoke<-c(29, 30, 53, 75, 34, 21, 12, 58, 117, 119, 115, 134, 253, 289, 287)
+qqnorm(smoke)
+hist(smoke)
+hist(smoke, freq=FALSE); plot(density(smoke))
+x.bar=mean(smoke); s=sd(smoke)
+```
+
+Bootstrapping Function:
+```{r}
+# Create a new function, bootstrap(x, n.boot), having two inputs:
+#   - x is a data vector
+#   - n.boot is the desired number of resamples from x
+# It returns a vector of n.boot t-hat values.
+bootstrap = function(x, n.boot) {
+  n = length(x)
+  x.bar <- mean(x)
+  t.hat <- numeric(n.boot) # create vector of length n.boot zeros
+  for(i in 1:n.boot) {
+    x.star <- sample(x, size=n, replace=TRUE)
+    x.bar.star <- mean(x.star)
+    s.star <- sd(x.star)
+    t.hat[i] <- (x.bar.star - x.bar) / (s.star / sqrt(n))
+}
+  return(t.hat)
+}
+```
+
+
+Use the bootstrap() function to get an approximate sampling
+distribution of T for the Cotanine data.
+```{r}
+set.seed(1)
+smoke.boot <- bootstrap(smoke, 5000)
+# Plot the approximate sampling distribution.
+hist(smoke.boot, freq=FALSE, xlab = "Bootstrap t-hat values",
+     main = "Approximate Sampling Distribution of T")
+```
+
+Find quantiles for a 95% confidence interval.
+```{r}
+t.lower <- quantile(smoke.boot, probs=.025) # This is our t_{1 - alpha.2}.
+t.upper <- quantile(smoke.boot, probs=.975) # This is our t_{alpha/2}.
+t.lower
+t.upper
+
+
+# Make the bootstrap interval.
+n = length(smoke)
+x.bar = mean(smoke)
+s = sd(smoke)
+ci.low  = x.bar - t.upper * s / sqrt(n) # This is our lower interval endpoint.
+ci.high = x.bar - t.lower * s / sqrt(n) # This is our upper interval endpoint.
+interval = c(ci.low, ci.high)
+names(interval)=NULL
+print(interval)
+
+#Make a T interval (long  way)
+t.ci.low=x.bar-qt(.975, df=n-1)*s/sqrt(n)
+t.ci.high=x.bar-qt(.025, df=n-1)*s/sqrt(n)
+t.interval=c(t.ci.low, t.ci.high)
+names(t.interval)=NULL
+print(t.interval)
+
+#Make a T interval (quick way way)
+t.test(smoke, mu = 108.6)
+```
+
+
+Bootstrap Hypothesis Testing
+```{r}
+#Find T_obs
+n=length(smoke)
+mu.0=75
+(t.obs=(x.bar-mu.0)/(s/sqrt(n)))
+
+summary(smoke.boot==abs(t.obs))
+summary(smoke.boot > abs(t.obs))
+summary(smoke.boot==abs(t.obs))
+summary(smoke.boot<(-abs(t.obs)))
+B<-(688+365)
+# sum() counts the TRUE values by first converting TRUE / FALSE values to 1 / 0.
+m.above = sum(smoke.boot > t.obs) # This ">" depends on H_A.
+p.value = m.above / B
+print(p.value)
+
+quantile(smoke.boot,probs=c(0.025,0.05,0.10,0.90,.95,0.975))
+
+pt(1.3531, df=15, lower.tail=FALSE)
+```
+
+

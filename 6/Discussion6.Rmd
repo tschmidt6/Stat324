@@ -1,0 +1,35 @@
+---
+title: "Discussion 7"
+author: "Teryl Schmidt"
+date: "10/24/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Hypothesis Tests, Errors, and Power
+Specifications for a water pipe call for a mean breaking strength µ of more than 2000 lb per linear foot.
+Engineers will perform a test to decide whether or not to use a certain kind of pipe. A random sample
+of 1 ft sections of pipe is selected and their breaking strengths are measured. The pipe will not be used
+unless the engineers can conclude (statistically, not with certainty) that the mean breaking strength is
+greater than 2000. Prior literature suggests the breaking strengths of these pipes are roughly symmetric
+and unimodal and have a population standard deviation of 10.
+(a) Specify appropriate null and alternative hypotheses for this situation.
+(b) What kind of evidence from the sample do you need to reject the null hypothesis?
+(c) Explain in non-statistical language what a Type I Error would be in this context.
+(d) Explain in non-statistical language what a Type II Error would be in this context.
+(e) Which type of Error, Type I or Type II, is worse in this situation? How does this knowledge affect
+the engineer’s process?
+(f) If engineers plan to sample 40 sections of pipe, what power will they have to detect a true
+mean strength of 2004 lb per linear foot (assuming σ = 10 and α = 0.01)? Draw a picture to
+help you calculate this. Comment on your findings. You can check your work by looking at:
+http://digitalfirst.bfwpub.com/stats_applet/stats_applet_9_power.html.
+(g) Suppose engineers are interested in increasing their power to detect a true mean strength of 2004
+lb per linear foot (assuming σ = 10). What minimum sample size should they choose so their
+estimate of the mean is precise enough to have power of 0.85?
+1

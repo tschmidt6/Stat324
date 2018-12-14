@@ -1,0 +1,112 @@
+---
+title: "Lect1-Intro"
+author: "Chelsey Green"
+date: "6/13/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+```
+
+A certain reaction was run several times using each of two catalysts, A and B. The catalysts were supposed to control the yield of an undesirable side product. Results, in units of ounces yield, for 4 runs of catalyst A and 6 runs of catalyst B are as follows:
+
+CATALYST A: 
+
+4.4 3.4 2.6 3.8 
+
+CATALYST B: 
+
+3.4 1.1 2.9 5.5 6.4 5.0 
+
+
+ANSWER THE FOLLOWING QUESTIONS:
+
+
+1. What type of data is this? 
+
+2. Does there appear to be a (meaningful) difference between the two catalysts? Why? 
+
+3. What would help you answer question 2 more confidently?  
+
+4. What is the range of values for each catalyst?
+
+5. What is the median value for each catalyst? 
+
+6. What is the mean value for each catalyst? 
+
+7. What is the standard deviation for each catalyst?
+
+
+Entering the data
+```{r}
+Yield_A<-c(4.4, 3.4, 2.6, 3.8)
+Yield_A
+Yield_B<-c(3.4, 1.1, 2.9, 5.5, 6.4, 5.0)
+Yield_B
+
+#You do not need to combine your data into a dataframe, but this can be a useful form for seeing the relationship between variables
+all_Yields<-c(Yield_A, Yield_B)
+all_Yields
+Catalyst<-c(rep("A", times=4), rep("B", times=6))
+Catalyst
+
+Yield_data<-data.frame(Catalyst, all_Yields)
+View(Yield_data)
+str(Yield_data)
+```
+
+Graphing the data using dotplots (since small numeric data sets)
+```{r}
+?stripchart   #Gives me info on the stripchart function
+
+stripchart(all_Yields)  #dot plot of all yields
+
+stripchart(Yield_A)  #dot plot of Catalyst A yields
+stripchart(Yield_B)  #dot plot of Catalyst B yields
+
+stripchart(all_Yields~Catalyst) #dot plot of all yields broken out by catalyst
+
+stripchart(all_Yields~Catalyst, data=Yield_data, xlab="Yield by Catalyst", method="stack")   
+#Update label on x axis to be more descriptive than variable name
+```
+Estimate some Descriptive Statistics (range, mean, median, sd) for each of the Catalyst yields before calculating them below.
+
+
+
+
+
+
+
+
+
+Calculating some Descriptive Statistics Using R
+```{r}
+range(Yield_A)
+range_A<-range(Yield_A)
+range_A
+range_A[2]-range_A[1]
+median(Yield_A)
+mean(Yield_A)
+sd(Yield_A)  #sample SD
+
+#Calculate SD by hand?
+
+range_B<-range(Yield_B)
+range_B[2]-range_B[1]
+median(Yield_B)
+mean(Yield_B)
+sd(Yield_B)
+
+```
+
+Suped-up graphing
+```{r}
+#install.packages("ggplot2")
+require(ggplot2)
+
+ggplot(data=Yield_data, aes(x=Catalyst, y=all_Yields, color=Catalyst))+
+  geom_point()+
+  theme_bw()+
+  ylab("Yields")
+```

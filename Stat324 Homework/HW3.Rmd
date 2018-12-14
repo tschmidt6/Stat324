@@ -1,0 +1,348 @@
+---
+title: "HW3"
+author: "Teryl Schmidt | tschmidt6@wisc.edu | 9072604920"
+date: "9/27/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Problem 1
+A chemical supply company ships a certain solvent in 10-gallon drums. Let X represent the number of
+drums ordered by a randomly chosen customer. Assume X has the following probability mass function
+(pmf). The mean and variance of X is : µX = 2.3 and σ<sup>2</sup><sub>x</sub> = 1.81:
+
+       X   |  1  |  2  |  3  |  4  |  5  |
+    p(X=x) | 0.4 | 0.2 | 0.2 | 0.1 | 0.1 |
+
+(a) Find P(X ≤ 2) and describe what it means in the context of the problem.
+
+<font color="green"> P(X <= 2) = P(X = 1) + P(X = 2) = 0.4 + 0.2 </font>
+
+<font color="red"> P(X <= 2) = 0.6 </font>
+
+
+(b) Let Y be the number of gallons ordered, so Y = 10X. Find the probability mass function (pmf) of Y.
+
+<font color="red"> define new table (second table) </font>
+
+           X    |   1  |   2  |   3  |   4  |   5  |
+        Y = 10x | 10*1 | 10*2 | 10*3 | 10*4 | 10*5 |
+        p(X=x)  |  0.4 |  0.2 |  0.2 |  0.1 |  0.1 |
+    
+
+        Y = 10x |  10 |  20 |  30 |  40 |  50 |
+        p(X=x)  | 0.4 | 0.2 | 0.2 | 0.1 | 0.1 |
+
+
+(c) Find the mean number of gallons ordered µ<sub>Y</sub> using the pmf from part (b) and a second time using
+the expectectation of linear combination formula shown in class.
+
+<font color="green"> 
+µ<sub>Y</sub> = E(Y) <br/>
+= E(10X) <br/>
+= 10E(X) <br/>
+= 10 * µ<sub>X</sub> <br/>
+= 10 * 2.3 <br/>
+= <font color="red"> 23 </font> <br/>
+</font>
+
+
+(d) Find the standard deviation of the number of gallons ordered σ<sub>Y</sub> using the pmf from part (b) and
+a second time using the standard deviation of linear combinationformulas shown in class.
+
+<font color="green"> σ<sub>Y</sub> = &#8730;<span style="text-decoration:overline"> σ</span><sup>2</sup><sub>Y</sub> <br/>
+= &#8730;<span style="text-decoration:overline"> 181 </span> <br/>
+= <font color="red"> 13.454 </font>
+</font>
+
+
+(e) What possible values of Y are within two standard deviations of the mean value (that is, in the
+interval from (µ − 2σ, µ + 2σ))? What is the probability that the observed value of Y is within
+two standard deviations of the mean value?
+
+<font color="green"> 
+(23 - 13.454 , 23 + 13.454) <br/>
+(9.546 , 36.454) <br/>
+P(X = 1) + P(X = 2) + P(X = 3) <br/>
+= <font color="red"> 0.8 </font>
+</font>
+
+
+#Problem 2
+Consider a large population which has true mean µ and true standard deviation σ. We take a sample of
+size 3 from this population, thinking of the sample as the RVs X<sub>1</sub>, X<sub>2</sub>, X<sub>3</sub> where X<sub>i</sub> can be considered iid. We are interested in estimating µ.
+
+
+(a) Consider the estimator µ&#770;<sub>1</sub> = X<sub>1</sub> + X<sub>2</sub> − X<sub>3</sub>. Is this estimator unbiased? Calculate the bias.
+
+<font color="green"> 
+E(µ&#770;) = E(X<sub>1</sub> + X<sub>2</sub> − X<sub>3</sub>) <br/>
+= E(X<sub>1</sub>) + E(X<sub>2</sub>) − E(X<sub>3</sub>) <br/>
+= µ + µ - µ <br/>
+= µ <br/>
+<font color="red"> Therefore µ&#770;<sub>1</sub> = X<sub>1</sub> + X<sub>2</sub> − X<sub>3</sub> is an unbiased estimator for µ </font>
+</font>
+
+(b) Find the variance of µ&#770;<sub>1</sub>.
+
+<font color="green"> 
+V(µ&#770;) = V(X<sub>1</sub> + X<sub>2</sub> − X<sub>3</sub>) <br/>
+= V(X<sub>1</sub>) + V(X<sub>2</sub>) − V(X<sub>3</sub>) <br/>
+= σ<sup>2</sup> + σ<sup>2</sup> + σ<sup>2</sup> <br/>
+= 3σ<sup>2</sup> <br/>
+= <font color="red"> The variance of µ&#770;<sub>1</sub> is 3σ<sup>2</sup> </font>
+</font>
+
+(c) When estimating µ, explain why someone would prefer the estimator 
+X&#772; = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 3) over µ&#770;<sub>1</sub>
+
+<font color="green"> 
+µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 3) <br/>
+E(X&#772;) = µ <br/>
+E(µ&#770;) = E(X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 3) <br/>
+= \(\frac{1}{3}\) [E(X<sub>1</sub>) + E(X<sub>2</sub>) + E(X<sub>3</sub>)] <br/>
+= \(\frac{1}{3}\) [µ + µ + µ] <br/>
+= \(\frac{3µ}{3}\) <br/>
+= µ <br/> <font color="red">unbiased</font>
+
+V(X&#772;) = V(X<sub>1</sub> + X<sub>2</sub> − X<sub>3</sub> / 3) <br/>
+= V(X<sub>1</sub>) + V(X<sub>2</sub>) − V(X<sub>3</sub>) <br/>
+= σ<sup>2</sup> + σ<sup>2</sup> + σ<sup>2</sup> / 3<br/>
+= 3σ<sup>2</sup> / 3<br/>
+= σ<sup>2</sup> <font color="red">smaller variance</font>
+
+<font color="red"> Therefore µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 3) is an unbiased estimator for µ. And we choose X&#772; over µ&#770;<sub>1</sub> because X&#772; has a smaller variance (3σ<sup>2</sup> / 3) = σ<sup>2</sup>, as oppose to 3σ<sup>2</sup> </font>
+</font>
+
+
+(d) Now consider the estimator µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2). Is this estimator unbiased? Calculate the bias.
+
+<font color="green"> 
+µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2) <br/>
+E(X&#772;) = µ <br/>
+E(µ&#770;) = E(X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2) <br/>
+= \(\frac{1}{2}\) [E(X<sub>1</sub>) + E(X<sub>2</sub>) + E(X<sub>3</sub>)] <br/>
+= \(\frac{1}{2}\) [µ + µ + µ] <br/>
+= \(\frac{3µ}{2}\)  =/= µ <br/>
+<font color="red"> Therefore µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2) is a biased estimator for µ </font>
+</font>
+
+
+(e) Compute the MSE for µ&#770;<sub>2</sub>.
+
+<font color="green"> 
+µ&#770;<sub>2</sub> = (X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2) <br/>
+Var(µ&#770;) = Var(X<sub>1</sub>+X<sub>2</sub>+X<sub>3</sub> / 2) <br/>
+= \(\frac{1}{4}\) [Var(X<sub>1</sub>) + Var(X<sub>2</sub>) + Var(X<sub>3</sub>)] <br/>
+= \(\frac{1}{4}\) [σ<sup>2</sup> + σ<sup>2</sup> + σ<sup>2</sup>] <br/>
+= \(\frac{3σ^2}{4}\) <br/>
+MSE(µ&#770;) = Var(µ&#770;) + [Biar(µ&#770;)]<sup>2</sup> <br/>
+= MSE(µ&#770;) = \(\frac{3σ^2}{4}\) + (\(\frac{µ}{4}\))<sup>2</sup> <br/>
+= MSE(µ&#770;) = \(\frac{3σ^2}{4}\) + (\(\frac{µ^2}{4}\)) <br/>
+= MSE(µ&#770;) = <font color="red"> \(\frac{3σ^2 + µ^2}{4}\) </font> <br/>
+</font>
+
+
+#Problem 3
+Let F be an RV that represents the operating temperature in Fahrenheit of one instance of a manufacturing process, and assume F ∼ N(100, Var(F) = 5<sup>2</sup>). Let C be an RV that represents the same process, but measured in Celsius. 
+
+Fahrenheit can be converted to Celsius using C = \(\frac{5}{9}\) (F − 32). Using normal table in Canvas, solve for the following (You can also check your answers using R):
+
+
+(a) Find the probability that one randomly selected instance of the process will have operating
+temperature greater than 98.6 Fahrenheit.
+
+<font color="green"> 
+P(X > 98.6) <br/>
+P(X - 100 / 5 > 98.6 - 100 / 5) <br/>
+1 - P(Z <= -0.28) <br/>
+1 - 0.3897 <br/>
+= <font color="red"> 0.6103 </font>
+</font>
+
+
+(b) Find the distribution of C. (Hint: C ∼?(?, ?))
+
+<font color="green"> 
+distribution of will be normal with the mean <br/>
+µ<sub>c</sub> = E(\(\frac{5}{9}\)(X - 32)) <br/>
+= \(\frac{5}{9}\)E(E(X) - 32) <br/>
+= \(\frac{5}{9}\)E(100 - 32)  <br/>
+= <font color="red"> 340 / 9 = 37.77778 </font>
+
+
+and variance <br/>
+σ<sup>2</sup><sub>c</sub> = (5/9)<sup>2</sup>[Var(X) + 0] <br/>
+= (5/9)<sup>2</sup>[5<sup>2</sup> + 0] <br/>
+= <font color="red"> 7.716 </font>
+</font>
+
+<font color="red"> C ~N(37.77, 7.716) </font>
+
+(c) Find the probability that one randomly selected instance of the process will have operating
+temperature below 32 Celsius.
+
+<font color="green"> 
+P(X < 32) <br/>
+= P(32 - 37.77778 / &#8730;7.716) <br/>
+= P(Z < -2.0799) <br/>
+= <font color="red"> 0.0188 </font><br/>
+</font>
+
+(d) Above what temperature (in Celsius) is the top 10% of operating temperatures?
+
+<font color="green"> 
+P(X > a) = 0.90 <br/>
+P(x - 37.77 / &#8730;7.716 > a - 37.77 / &#8730;7.716) = 0.1 <br/>
+(a - 37.77 / &#8730;7.716) = 0.90 <br/>
+= 1.28 (table) <br/>
+a = 37.77 + 1.28 + &#8730;7.716 <br/>
+a = <font color="red"> 41.34 </font>
+</font>
+
+
+(e) Find the probability in a sample of 6 instances, more than 4 instances have operating temperature above 32 Celsius.(Assuming observations in the sample are independent)
+
+<font color="green"> 
+P(X > 32) <br/>
+= 1 - P(32 - 37.77778 / &#8730;7.716) <br/>
+= 1 - P(Z > -2.0799) <br/>
+= 1 - 0.0188 <br/>
+= <font color="red"> 0.9812 </font><br/>
+
+
+P(X > 32) = 0.9812 <br/>
+B = # of instances samples > 32 <br/>
+X ~Bin(6, 0.9812) <br/>
+P(X > 4) = P(X = 5) + P(X = 6) <br/>
+= ((<sup>6</sup><sub>5</sub>) * (0.98)<sup>5</sup> * (1 - 0.98) + (<sup>6</sup><sub>6</sub>) * (0.98)<sup>6</sup> <br/>
+= <font color="red"> 0.9943 </font> <br/>
+</font>
+
+(f) Find the distribution of X&#772; for n=6, then find the probability that the average operating temperature
+in a sample of 6 instances is above 32 Celsius.
+
+<font color="green"> 
+σ<sup>2</sup> / n <br/>
+= 7.716 / 6 = 1.29 <br/>
+X&#772; ~N(37.77, 1.29) <br/>
+P(X&#772; > 32) <br/>
+= P(X&#772; - 37.77 / &#8730;1.29 > 32 - 37.77 / &#8730;1.29) <br/>
+= 1 - (Z > -5.09) <br/>
+= <font color="red"> 0.99999 or 1 </font>
+</font>
+
+#Problem 4
+Retail stores experience their heaviest returns on December 26<sup>th</sup> and December 27<sup>th</sup> each year. The
+distribution for the Number of Items Returned (X) for Hilldale Macy’s on those days last year is given
+in the table below. It has mean: µ = 2.61 and variance σ<sup>2</sup> = 1.80 Assume the probability distribution
+also holds for this year.
+Number of Items Probability
+
+    1 | 0.25
+    2 | 0.28
+    3 | 0.20
+    4 | 0.17
+    5 | 0.08
+    6 | 0.02
+(a) In this year, a random sample of size 45 returns is selected for review. Describe the sampling
+distribution of the sample mean (shape, center, and spread).
+
+<font color="green"> 
+µ<sub>X&#772;</sub> = µ = 2.61 <br/>
+σ<sub>X&#772;</sub> = σ / &#8730;n = &#8730;(1.80 / 45) = 0.20 <br/>
+<font color="red"> The sample follows a normal distribution <br/> 
+X&#772; ~N(2.61, 0.20) <br/>
+</font> </font>
+
+(b) What is the probability that the sample mean will be greater than 2.9 items?
+
+<font color="green">
+P(X&#772; > 2.9) = P(Z > 2.9 - 2.61 / 0.20) <br/>
+P(Z > 1.45) = 0.5 - 0.4265 = <font color="red"> 0.0735 </font>
+</font>
+
+(c) Find an upper bound b such that the total number of items returned by 45 customers will be less
+than b with probability 0.95.
+
+<font color="green">
+For 95% the Z value is 1.645 <br/>
+Therefore the upperbound b is: <br/>
+b = µ + Zσ = 2.61 + 1.645 * 0.20 = 2.939 <br/>
+(Z <= x - 2.61 / 0.20) = 0.95 <br/>
+x = 2.939 <br/>
+b = 45 * 2.939 = <font color="red"> 132 </font>
+</font>
+
+#Problem 5
+We will be exploring the difference between using the standard deviation formula: s1 = &#8730;<span style="text-decoration:overline">(X−X&#772;)</span><sup>2</sup> / &#8730;<span style="text-decoration:overline">(n - 1)</span>
+
+s2 = &#8730;<span style="text-decoration:overline">(X−X&#772;)</span><sup>2</sup> / &#8730;<span style="text-decoration:overline">n</span> through a simulation.
+
+In the code below, I have defined a population of values, named pop1. I have also written a function
+sample.sd to compute the sample standard deviation on a set of numbers passed in.
+
+
+(a) Copy and paste the entire chuck of code from set.seed(1) (so that we’re ll using the same data)
+through par(mfrow=c(1,1)) (so we reset the graphics pane). Then copy and paste the three lines
+of code within the samp.sd function into the pop.sd function. Update the three lines as necessary
+so the pop.sd function will calculate the population standard deviation formula for a set of values.
+
+
+
+(b) Run the entire chunk of code (from set.seed(1) through par(mfrow=c(1,1))). (i) What do you
+notice about the average of the standard deviations produced using the samp.sd function compared
+to the pop.sd function compared to the true population standard deviation? (ii) Why might we
+prefer to use the sample.sd formulation when we have a sample of data and are interested in
+estimating the population standard deviation? (You can compare the resulting histograms to help
+you answer the question.)
+<font color="red"> 
+(i) The curve of the sample.sd is more like a bell curve. <br/>
+(ii) There is less variance in the sample.sd function. 
+</font>
+
+
+```{r}
+set.seed(1)
+pop1<-rnorm(10000, 4, 2)
+#Writing functions to calculate sample sd and population sd
+samp.sd<-function(data){
+n<-length(data)
+sum.sq.devs<-sum((data-mean(data))^2)
+av.dev<-sqrt(sum.sq.devs/(n-1))
+return(av.dev)
+}
+pop.sd<-function(data){
+n<-length(data)
+sum.sq.devs<-sum((data-mean(data))^2)
+av.dev<-sqrt(sum.sq.devs/(n))
+return(av.dev)
+}
+#Simulation Section
+#Building sampling distribution of pop standard deviation estimators
+#estimator 1 is sd.sample and estimator 2 is sd.pop formulation
+nsamples<-100000
+sd.sample<-rep(0, nsamples)
+sd.pop<-rep(0, nsamples)
+for (i in 1:nsamples){
+samp<-sample(pop1, 10, replace=TRUE) #taking a new sample of size 10 from population
+sd.sample[i]<-samp.sd(samp) #calculating and storing sd using sample formula on new sample
+sd.pop[i]<-pop.sd(samp) #calculating and storing sd using pop formula on new sample
+}
+#Displaying histograms of the 100000 standard deviations we calculated used
+#the population and sample equations;
+#adding true population standard deviation in red and
+#mean of the simulated standard deviations in blue.
+par(mfrow=c(1,2))
+hist(sd.sample, freq=FALSE, xlim=c(0.3, 3.75)); #histogram of generated sample sds
+abline(v=pop.sd(pop1), col="red"); abline(v=mean(sd.sample), col="blue")
+hist(sd.pop, freq=FALSE, xlim=c(0.3, 3.75)); #histogram of generated pop sds
+abline(v=pop.sd(pop1), col="red"); abline(v=mean(sd.pop), col="blue")
+par(mfrow=c(1,1))
+```

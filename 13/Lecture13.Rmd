@@ -1,0 +1,45 @@
+---
+title: "Lecture 13 Code"
+author: "Chelsey Green""
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Example 1:
+
+```{r}
+caffeine<-c(5,5,4,3,8,5,0,0,2,11,1)
+placebo<-c(16, 23, 5, 7, 14, 24, 6, 3, 15, 12, 0)
+mean(caffeine); sd(caffeine)
+mean(placebo); sd(placebo)
+(PminCaf<-placebo-caffeine)
+mean(PminCaf); sd(PminCaf); median(PminCaf)
+combo_data<-c(caffeine, placebo, PminCaf)
+caf_labels<-c(rep("Caf", times=11), rep("Plac", times=11), rep("Diff", times=11))
+
+caff_study<-data.frame(combo_data, caf_labels)
+require(ggplot2)
+
+ggplot(data=caff_study, aes(x=caf_labels, y=combo_data))+
+  geom_boxplot()+
+  geom_point()+
+  theme_bw()
+
+qqnorm(PminCaf)
+
+summary(caffeine); sd(caffeine)
+summary(placebo); sd(placebo)
+summary(PminCaf); sd(PminCaf)
+
+t.test(PminCaf,  alternative="greater")
+t.test(placebo,caffeine,alternative="greater", paired=TRUE)
+
+round(dbinom(0:11,size=11, .5),4)
+sum(round(dbinom(0:11,size=11, .5),3))
+choose(11,11)*.5^11
+choose(11,10)*.5^11
+wilcox.test(x=caffeine, y=placebo, alternative="less", paired=TRUE)
+```

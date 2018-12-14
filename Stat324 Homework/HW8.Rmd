@@ -1,0 +1,465 @@
+---
+title: "HW8"
+author: "Teryl Schmidt | tschmidt6@wisc.edu | 9072604920 | Discussion 312 | Grader: Chi-Shain Dai"
+date: "12/1/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Problem 1
+A study was conducted to explore the effects of ethanol on sleep time. Fifteen rats were randomized to
+one of three treatments. Treatment 1 got only water (control). Treatment 2 got 1g of ethanol per kg of
+body weight, and treatment 3 got 2g/kg. The amount of REM sleep in a 24hr period was recorded, in
+minutes. Data are below: </br>
+<pre>
+Treatment 1: 63, 54, 69, 50, 72
+Treatment 2: 45, 60, 40, 56
+Treatment 3: 31, 40, 45, 25, 23, 28
+</pre>
+
+(a) Make a preliminary graph of the data (ok to do by hand if you prefer). Why did you choose the
+graph that you did and what does it tell you?
+
+```{r}
+Treatment1 = c(63, 54, 69, 50, 72)
+Treatment2 = c(45, 60, 40, 56)
+Treatment3 = c(31, 40, 45, 25, 23, 28)
+boxplot(Treatment1, Treatment2, Treatment3)
+
+Treatmentdata = data.frame(Treatment = c(rep("Treatment1",5), rep("Treatment2", 4), rep("Treatment3", 6)), Data = c(Treatment1, Treatment2, Treatment3), gpmeans = c(rep(61.6, 5), rep(50.25, 4), rep(32, 6)))
+
+require(ggplot2)
+
+ggplot(data=Treatmentdata, aes(x=Treatment, y=Data, color=Treatment))+
+  geom_jitter(width=0.1)+
+  theme_bw()+
+  geom_errorbar(aes(ymax=gpmeans, ymin=gpmeans))+
+  geom_hline(yintercept=47.95)
+```
+
+<font color="red">
+The box plots would show if there was any extreme values in the data, there were no extreme values. Also boxplots show the average differences as all the box are at different level. Treatment 3 is slightly skewed data.
+</font>
+
+(b) Calculate relevant summary statistics that will be useful in an ANOVA analysis. </br>
+<font color="red">
+Null Hypothesis: The mean sleep times for the three treatments are equal: </br>
+treatment 1 = treatment2 = treatment3 </br>
+
+Atternative Hypothesis: The mean sleep times for the three treatments are not equal: </br>
+treatment 1 =/= treatment2 =/= treatment3 </br>
+</font>
+<pre>
+              Count   |   Sum   |   Mean    |   Variance    |
+Treatment 1:    5     |   308   |   61.6    |   9.449868    |
+Treatment 2:    4     |   201   |   50.25   |   9.322911    |
+Treatment 3:    6     |   192   |   32      |   8.717798    |
+</pre>
+
+
+
+(c) Create an ANOVA table for the data using the original or summary values above. Show your
+work. You may use R to check your answers.
+
+<pre>
+Source         |   SS     |         df          |           MS            |             F                 |  P  |
+Treat (between)| 2456.983 | (t-1) = (3-1) = 2   | 2456.983 / 2 = 1228.492 | 1228.492 / 83.1625 = 14.77219 |0.001|
+Error (within) | 997.95   | (N-t) = (15-3) = 12 | 997.95 / 12 = 83.1625   |                               |     |
+Total          | 3454.933 | (N-1) = (15-1) = 14 |                         |                               |     |
+</pre>
+<font color="green">
+(y1 * n1) + (y2 * n2) + (y3 * n3) / (n1 + n2 + n3) </br>
+((61.6 * 5) + (50.25 * 4) + (32 * 6)) / (5 + 4 + 6) = 46.7333 </br>
+(5 * (61.6 - 46.7333)^2) + (4 * (50.25 - 46.7333)^2) + (6 * (32 - 46.7333)^2) = 2456.983 </br>
+4 * 9.449868^2 + 3 * 9.322911^2 + 5 * 8.717798^2 = 997.95 </br>
+SSTrt + SSE = 2456.983 + 997.95 = 3454.933 </br>
+P(F<sub>(14.77, 2, 12)</sub> > 12.97) = 0.001 </br>
+</font>
+
+(d) Evaluate the ANOVA assumptions numerically and graphically. Was ANOVA appropriate for this
+data?
+
+<font color="red">
+The data are independent within and between treatments: </br>
+Here groups are independent (ind. Between treatments) <br/>
+The dose of ethanol (ind. Within treatments) <br/>
+
+The variances are the same for all treatments: </br>
+if SD is between 0.5 - 2 <br/>
+9.449868 / 8.717798 = 1.083974 </br>
+So we can assume equal variance </br>
+
+Each treatment has a normal distribution: </br>
+There is some right skewed from the QQ plots. </br>
+
+```{r}
+qqnorm(Treatment1)
+qqnorm(Treatment2)
+qqnorm(Treatment3)
+```
+
+the cases are independent, the variances are equal, and the distributions are relativley normal, thus the ANOVA test will work here.
+</font>
+
+
+(e) Based on the ANOVA table, make a conclusion in the context of the problem.
+
+<font color="red">
+Since the p-value < 0.001 which is less the alpha = 0.01, hence we reject the null hypothesis and conclude that their is significant difference and The mean sleep times for the three treatments are not equal: </br>
+treatment 1 =/= treatment2 =/= treatment3 </br>
+</font>
+
+
+(f) Use R to obtain the relevant multiplier and then create 95% CIs for all pairwise comparisons of means using the Tukey method. Do this by hand and show your work. You may use R to check your answers. Summarize your results using letter codes. What do you conclude? </br>
+
+<font color="green">
+df<sub>Err</sub> = 12 </br>
+MSE = 83.1625 </br>
+&alpha; = 0.05 </br>
+t multiplier = t<sub>(0.025, 12)</sub> = 2.179 </br>
+&mu;<sub>1</sub> - &mu;<sub>2</sub>: 61.6 - 50.25 +- 2.179 * sqrt(83.1625 * (1/5 + 1/4)) = <font color="red">(-1.979911, 24.67991)</font> * 0 included </br>
+&mu;<sub>1</sub> - &mu;<sub>3</sub>: 61.6 - 32 +- 2.179 * sqrt(83.1625 * (1/5 + 1/6)) = <font color="red">(17.56748, 41.63252)</font> * 0 not included</br>
+&mu;<sub>2</sub> - &mu;<sub>3</sub>: 50.25 - 32 +- 2.179 * sqrt(83.1625 * (1/4 + 1/6)) = <font color="red">(5.423287, 31.07671)</font> * 0 not included</br>
+</font>
+Doing the ANOVA in R
+```{r}
+Treatmentanova<-aov(Data~Treatment, data=Treatmentdata)
+qqnorm(Treatmentanova$residuals)
+Treatmentlm<-lm(Data~Treatment, data=Treatmentdata)
+anova(Treatmentlm)
+
+
+#Fisher LSD CIs:
+ft<-qt(p=0.05/2, df=12, lower.tail=FALSE)
+#Sample sizes of 5 and 4
+invisible((F5_4ME=ft*sqrt(83.1625*(1/5+1/4))))
+invisible((diff1_2<-61.6-50.25))
+diff1_2+F5_4ME; diff1_2-F5_4ME
+
+#Sample sizes of 5 and 6
+invisible((F5_6ME=ft*sqrt(83.1625*(1/5+1/6))))
+invisible((diff1_3<-61.6-32))
+diff1_3+F5_6ME; diff1_3-F5_6ME
+
+#Sample sizes of 4 and 6
+invisible((F4_6ME=ft*sqrt(83.1625*(1/4+1/6))))
+invisible((diff2_3<-50.25-32))
+diff2_3+F4_6ME; diff2_3-F4_6ME
+```
+
+
+(g) Calculate the difference between the Tukey CI t multiplier and that used with a Bonferroni adjustment.
+```{r}
+#Bonferroni Multiple Comparison Adjustment
+qt(p=0.0005808, df=12, lower.tail=FALSE)
+
+#Tukey Multiple Comparison Adjustment
+TukeyHSD(Treatmentanova)
+qtukey(p=(1-0.05), nmeans=3, df=(15-3)) / sqrt(2)
+
+wilcox.test(Treatment1,Treatment2) #Unadjusted = 0.1905; Adjusted = 3 * 0.1905 = 0.5715 diff
+wilcox.test(Treatment1,Treatment3) #Unadjusted = 0.004329; Adjusted = 3 * 0.004329 = 0.012987 diff
+wilcox.test(Treatment2,Treatment3) #Unadjusted = 0.04157; Adjusted = 3 * 0.04157 = 0.12471 diff
+```
+
+
+(h) How does your conclusion change, if at all, if instead you chose to use the Kruskal- Wallis followed by pairwise comparisons with bonferroni adjustment?
+```{r}
+#Kruskal-Wallis Test
+kruskal.test(Data~Treatment, data=Treatmentdata)
+```
+
+<font color="red">
+Slightly more conservative overall test. KW has an overall p value of 0.00725 which is higher than that found by the F test. The pairwise comparisons were similar in the grouping - which groups were significantly different or not.
+<pre>
+    Trt    |    Mean  | Unadjusted Group | Boneferonni Group |
+Treatment 3:    32    |       A          |        A          |
+Treatment 2:    50.25 |         B        |          B        |
+Treatment 1:    61.6  |         B        |          B        |
+</pre>
+</font>
+
+
+#Problem 2
+A study was conducted to compare the effect of three diet types on the milk yield of cows (in lbs). The sample size, sample mean, and sample variance for each method are given below.
+<pre>
+       | n<sub>i</sub>      | x¯<sub>i</sub>         | s<sup>2</sup><sub>i</sub>         |  n<sub>i</sub> * (X<sub>i</sub> - X<sub>grand</sub>)^2  | (n<sub>i</sub> - 1) * s<sup>2</sup><sub>i</sub> |
+Diet A | n<sub>1</sub> = 9  | x¯<sub>1</sub> = 39.1  | s<sup>2</sup><sub>1</sub> = 24.6  |  0.387                | 196.8         |
+Diet B | n<sub>2</sub> = 8  | x¯<sub>2</sub> = 29.9  | s<sup>2</sup><sub>2</sub> = 16.4  |  646.934              | 114.8         
+Diet C | n<sub>3</sub> = 10 | x¯<sub>3</sub> = 45.9  | s<sup>2</sup><sub>2</sub> = 10.3  |  491.038              | 92.7         
+        Grand Mean = 38.8926                | 1138.359              | 404.30
+</pre>
+
+<font color="green">
+(39.1 * 9) + (29.9 * 8) + (45.9 * 10) / 27 = 38.8926
+</font>
+
+
+(a) Construct an ANOVA table including all relevant sums of squares, mean squares, and degrees of freedom.
+
+<pre>
+Source         |   SS     |         df          |           MS            |             F                 |  P  |
+Treat (between)| 1138.359 | (t-1) = (3-1) = 2   | 1138.359 / 2 = 569.1795 | 569.1795 / 16.8458 = 33.78756 |0.001|
+Error (within) | 404.3    | (N-t) = (27-3) = 24 | 404.3 / 24 = 16.84583   |                               |     |
+Total          | 1542.66  | (N-1) = (27-1) = 26 |                         |                               |     |
+</pre>
+<font color="green">
+(y1 * n1) + (y2 * n2) + (y3 * n3) / (n1 + n2 + n3) </br>
+((39.1 * 9) + (29.9 * 8) + (45.9 * 10)) / (9 + 8 + 10) = 38.8926 </br>
+(9 * (39.1 - 38.8926)^2) + (8 * (29.9 - 38.8926)^2) + (10 * (45.9 - 38.8926)^2) = 1138.359 </br>
+SSTrt + SSE = 1138.359 + 404.3 = 1542.66 </br>
+</font>
+
+
+
+(b) Perform an overall F test to determine whether the population means of milk yield are the same or not among the three diet types.
+
+
+<font color="green">
+P(F<sub>(33.78756, 2, 24)</sub> > 9.34) = 0.001 </br>
+<font color="red">
+cause test statistic F = 33.78756 falls in rejection region; therefore we reject null hypothesis. We have suffiicient evidence to conclude that population means of milk yield are not same among three diet types.
+</font>
+</font>
+
+#Problem 3
+Suppose we are interested in exploring the relationship between city air particulate and rates of childhood asthma (data not from actual tests). We sample 15 cities for particulate measured in parts-per-million (ppm) of large particulate matter and for the rate of childhood asthma measured in percents. The data are as follows: (Do some of this by hand from sample summary statistics, check calculations in R - I won’t ask you to do anything too crazy, but you will have to do some computations
+by hand.). You can also use the fact that: </br>
+&sum;<sup>15</sup><sub>i=1</sub>(y<sub>i</sub> − y¯)(x<sub>i</sub> − x¯) = 79.134
+
+<pre>
+particulate (x):  11.6 15.9 15.7 7.9 6.3 13.7 13.1 10.8 6.0 7.6 14.8 7.4 16.2 13.1 11.2
+   asthma % (y):  14.5 16.6 16.5 12.6 12.0 15.8 15.1 14.2 12.2 13.1 16.0 13.5 16.4 15.4 14.4
+
+variable:     size  mean    variance
+particulate:  15    11.42   13.05
+asthma:       15    14.55   2.52
+</pre>
+
+(a) Plot the data as you see fit and summarize the pattern’s shape, direction, and strength in the context of the problem.
+
+```{r}
+particulate = c(11.6, 15.9, 15.7, 7.9, 6.3, 13.7, 13.1, 10.8, 6.0, 7.6, 14.8, 7.4, 16.2, 13.1, 11.2)
+asthma = c(14.5, 16.6, 16.5, 12.6, 12.0, 15.8, 15.1, 14.2, 12.2, 13.1, 16.0, 13.5, 16.4, 15.4, 14.4)
+cor(particulate, asthma)
+plot(particulate, asthma)
+```
+
+(b) Calculate the correlation coefficient by hand and confirm your findings in R.
+
+<pre>
+X Values
+∑ = 171.3
+Mean = 11.42
+∑(X - Mx)<sup>2</sup> = SSx = 182.704
+
+Y Values
+∑ = 218.3
+Mean = 14.553
+∑(Y - My)<sup>2</sup> = SSy = 35.297
+
+X and Y Combined
+N = 15
+∑(X - Mx)(Y - My) = 79.134
+
+&sum;X * Y = 2572.12
+
+&sum;X<sup>2</sup> = 2138.95
+
+&sum;Y<sup>2</sup> = 3212.29
+</pre>
+
+R Calculation
+r = ∑((X - My)(Y - Mx)) / √((SSx)(SSy))
+
+r = 79.134 / √((182.704)(35.297)) = <font color="red">0.9854</font>
+
+```{r}
+mod<-lm(asthma~particulate)
+summary(mod)
+
+residuals = mod$residuals
+fitted = mod$fitted.values
+plot(fitted, residuals)
+qqnorm(residuals)
+sum(residuals^2) / 13 # (n - 2) = (15 - 2) = 13
+#MSErr = 35.297 / 13 = 2.715154
+# 14 * 182.704^2 = 467330.5
+#SE = sqrt(2.715154) / sqrt(467330.5) = 0.002410378
+# 79.134 / 182.704 = 0.4331268
+# Tobs = (0.4331268 - 1) / 0.002410378 = -235.1802
+pt(-235.1802, df=13, lower.tail=FALSE)*2
+```
+
+<font color="red">
+Multiple R-squared:  0.971,	Adjusted R-squared:  0.9688
+</font>
+
+(c) Build a linear regression model for the data (in R or by hand using the summary statistics) with the estimated values for the slope and intercept. Interpret the intercept and slope in the context of the question.
+
+<font color="green">
+a = n * &sum;X * Y - &sum;X * &sum;Y  /  n * &sum;X<sup>2</sup> - (&sum;X)<sup>2</sup> </br>
+a = 15 * 2572.12 - 171.3 * 218.3  /  15 * 2138.95 - (171.3)<sup>2</sup> = 0.433 </br>
+b = &sum;Y * &sum;X<sup>2</sup> - &sum;X * &sum;X * Y  /  n * &sum;X<sup>2</sup> - (&sum;X)<sup>2</sup> </br>
+b = 218.3 * 2138.95 - 171.3 * 2572.12  /  15 * 2138.95 * (171.3)<sup>2</sup> = 9.607
+<font color="red">
+y = ax + b </br>
+y = (0.433 * x) + 9.607 </br>
+</font>
+</font>
+
+```{r}
+mod<-lm(asthma~particulate)
+summary(mod)
+```
+
+(d) Graphically assess whether the assumptions for linear regression are met.
+
+```{r}
+require(ggplot2)
+ggplot(data=data.frame(particulate, asthma), aes(x=particulate, y=asthma))+
+  geom_point()+
+  geom_smooth(method="lm", se=TRUE )
+
+```
+
+(e) Conduct a formal test to determine whether or not the slope is significantly different from 0 (In R or by hand). If the slope is significant, can we, using only this statistical information, conclude that increased particulate concentration causes an increase in childhood asthma?
+
+<pre>
+Coefficients:
+              Estimate    Std. Error    t value   Pr(>|t|)
+(Intercept)   9.60703     0.24774       38.78     8.00e-15 ***
+particulate   0.43313     0.02075       20.88     2.21e-11 ***
+</pre>
+
+H<sub>0</sub>: The slope is zero </br>
+H<sub>1</sub>: The slope is significantly different from zero </br>
+The p value of the particulate variable is less than 0.05: </br>
+particulate 0.43313 0.02075 20.88 <font color="green">2.21e-11 ***</font></br>
+<font color="red">
+The slope of the particulate is not zero and we can reject the null hypothesis in favor of alternate hypothesis. </br>
+</font>
+
+
+(f) Calculate and interpret the R2 value in the context of the problem.
+
+<font color="red">
+The r square value is Multiple R-squared: 0.971,  which means that model is able to explain 97.1% variation in the data The value is high and can range from 0 to 1 . Higher the value better the model.
+</font>
+
+(g) Suppose we sample a new city whose particulate is 13 ppm. If reasonable, create a 95% confidence interval for the predicted rate of childhood asthma in this city. If not reasonable, explain why.
+
+<pre>
+SSx = &sum;x<sup>2</sup> - nx¯ = (2138.95 - 15 * 11.42<sup>2</sup>) = 182.704
+
+SSy = &sum;y<sup>2</sup> - ny¯ = (3212.29 - 15 * 14.553<sup>2</sup>) = 35.44286
+
+SSxy = ∑(X - Mx)(Y - My) = 79.134
+</pre>
+<font color="green">
+y = 9.607 + (0.433 * 13) = 15.2376 </br>
+&sigma;<sup>2</sup> = 1 / n - 2 * (Syy - Sxy<sup>2</sup> / Sxx) </br>
+&sigma;<sup>2</sup> = (1 / 15) * (35.44286 - (79.134<sup>2</sup> / 182.704)) = 0.07785355 </br>
+
+SE(yˆ) = sqrt(((1 + (1 / n) + (x<sub>0</sub> - x¯)<sup>2</sup> / Sxx) * &sigma;<sup>2</sup>)) </br>
+SE(yˆ) = sqrt(((1 + (1 / 15) + ((13 - 11.42)<sup>2</sup> / 182.704)) * 0.07785355)) = 0.290013 </br>
+t<sub>((&alpha; / 2), (n - 2))</sub> = 2.160 </br>
+yˆ +- t * SE(yˆ) </br>
+15.238 +- 2.16 * 0.290013 </br>
+<font color="red">
+(14.608, 15.867)
+</font>
+</font>
+
+
+(h) If reasonable, create a different 95% confidence interval for the average rate of childhood asthma among cities with 10 ppm of large particulate. If not reasonable, explain why.
+
+<font color="green">
+y = 9.607 + (0.433 * 10) = 13.937 </br>
+&sigma;<sup>2</sup> = 1 / n - 2 * (Syy - Sxy<sup>2</sup> / Sxx) </br>
+&sigma;<sup>2</sup> = (1 / 15) * (35.44286 - (79.134<sup>2</sup> / 182.704)) = 0.07785355 </br>
+
+SE(yˆ) = sqrt((((1 / n) + (x<sub>0</sub> - x¯)<sup>2</sup> / Sxx) * &sigma;<sup>2</sup>)) </br>
+SE(yˆ) = sqrt((((1 / 15) + ((10 - 11.42)<sup>2</sup> / 182.704)) * 0.07785355)) = 0.07777829 </br>
+t<sub>((&alpha; / 2), (n - 2))</sub> = 2.160 </br>
+yˆ +- t * SE(yˆ) </br>
+13.937 +- 2.16 * 0.07777829 </br>
+<font color="red">
+(13.769, 14.105)
+</font>
+</font>
+
+(i) If reasonable, create a different 95% confidence interval for the predicted rate of childhood asthma in a city with 3 ppm of large particulate. If not reasonable, explain why.
+
+<font color="green">
+y = 9.607 + (0.433 * 3) = 10.906 </br>
+&sigma;<sup>2</sup> = 1 / n - 2 * (Syy - Sxy<sup>2</sup> / Sxx) </br>
+&sigma;<sup>2</sup> = (1 / 15) * (35.44286 - (79.134<sup>2</sup> / 182.704)) = 0.07785355 </br>
+
+SE(yˆ) = sqrt((((1 / n) + (x<sub>0</sub> - x¯)<sup>2</sup> / Sxx) * &sigma;<sup>2</sup>)) </br>
+SE(yˆ) = sqrt((((1 / 15) + ((3 - 11.42)<sup>2</sup> / 182.704)) * 0.07785355)) = 0.1881502 </br>
+t<sub>((&alpha; / 2), (n - 2))</sub> = 2.160 </br>
+yˆ +- t * SE(yˆ) </br>
+10.906 +- 2.16 * 0.1881502 </br>
+<font color="red">
+(10.4996, 11.3124)
+</font>
+</font>
+
+
+(j) Will a 95% confidence interval for the average rate of childhood asthma constructed at x=12 be wider/narrower/same width as one constructed at x=7? Explain your answer.
+
+<font color="red">
+The 95% confidence interval at x = 12 will have a narrower width because it is closer to the mean and we are more confident.
+</font>
+
+#Problem 4
+A chemist is calibrating a spectrophotometer that will be used to measure the concentration of carbon monoxide (CO) in atmospheric samples. To check the calibration, 11 samples of known concentration are measured. The summary measures for the true concentrations (x) and the measured concentrations (y), in parts per million, are given in the following table.
+<pre>
+      x¯                    |   50
+      y¯                    |   47.91
+      sdx                   |   33.17
+      sdy                   |   31.25
+&sum;<sup>11</sup><sub>i=1</sub>(x<sub>i</sub> − x¯)<sup>2</sup>              |   11000
+&sum;<sup>11</sup><sub>i=1</sub>(y<sub>i</sub> − y¯)<sup>2</sup>              |   9768.91
+&sum;<sup>11</sup><sub>i=1</sub>(y<sub>i</sub> − y¯)(x<sub>i</sub> − x¯)      |   10360
+&sum;<sup>11</sup><sub>i=1</sub>(y<sub>i</sub> − yˆ<sub>i</sub>)<sup>2</sup>             |   11.67
+</pre>
+To check the calibration, the linear model y = β<sub>0</sub> + β<sub>1</sub>x + &epsilon; is fit. Ideally, if the machine is properly calibrated, β<sub>0</sub> should be 0 and β<sub>1</sub> should be 1.
+
+
+(a) Compute the least square estimates of β<sub>0</sub> and β<sub>1</sub> by hand.
+
+<font color="green">
+β<sub>1</sub> = &sum;<sup>11</sup><sub>i=1</sub>(y<sub>i</sub> − y¯)(x<sub>i</sub> − x¯)  /  &sum;<sup>11</sup><sub>i=1</sub>(x<sub>i</sub> − x¯)<sup>2</sup> </br>
+β<sub>0</sub> = y¯ - (x¯ * β<sub>1</sub>) </br>
+
+<font color="red">
+β<sub>1</sub> = 10360 / 11000 = 0.9418182 </br>
+β<sub>0</sub> = 47.91 - (50 * 0.9418182) = 0.81909 </br>
+</font>
+</font>
+
+(b) Perform the following hypothesis test at significance level α = .01:
+
+H<sub>0</sub> : β<sub>1</sub> = 1 </br>
+H<sub>1</sub> : β<sub>1</sub> =/= 1 </br>
+
+<font color="green">
+The quantity (βˆ<sub>1</sub> - β<sub>1</sub>) / S<sub>βˆ<sub>1</sub></sub> has the t distribution with n - 2 = 9 degrees of freedom. </br>
+r^2 = (9768.91 - 11.67) / 9768.91 = 0.9988054 </br>
+s = sqrt((1 - r^2) * 9768.91 / 11 - 2) = 1.13871 </br>
+S<sub>βˆ<sub>1</sub></sub> =  s / sqrt(11000) = 0.01085717 </br>
+(βˆ<sub>1</sub> - β<sub>1</sub>) / S<sub>βˆ<sub>1</sub></sub> = (0.9418182 - 1) / 0.01085717 = -5.358837 </br>
+<font color="red">
+Checking the t table with 9 degrees of freedom, we find that the pvalue is less than 0.001. Therefore we reject the null hypothesis H<sub>0</sub>: β<sub>1</sub> = 1
+</font>
+</font>
+
+

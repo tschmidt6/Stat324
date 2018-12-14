@@ -1,0 +1,139 @@
+In an ANOVA analysis, the ______ sum of squares measures the variability of the observations around their respective treatment means.
+
+	Treatment
+	* Error *
+	Interaction
+	Total
+
+
+If the true means of the t populations are equal, then MStrt/MSerr should be
+
+	more than 1
+	close to 1
+	* close to 0 *
+	close to -1
+	a value between 0 and -1
+	not enough info to make decision
+
+
+What information can you use to compute the SSE? (Choose all that apply assuming that you are only given the options within each answer choice)
+
+	* SSTreat and SSTot *
+	SSTreat
+	* standard deviation and size of each group *
+	MSE and total sample size
+	MSE and number of treatments
+
+
+
+When conducting a one-way ANOVA, the _______ the between-treatment variability is when compared to the within-treatment variability, the __________the value of the F statistic will be which gives us ________ evidence against the null. (Choose all that apply)
+
+	smaller, larger, more
+	smaller, smaller, less
+	larger, smaller, less *
+	larger, larger, more
+	smaller, smaller, more
+	larger, larger, less *
+
+
+
+The p-value based on an observed F statistic of 9.27 is statistically significant at the 5% alpha level.
+
+	* Sometimes *
+	Always
+	Never
+
+
+
+In a linear regression model with least squares estimates of β0 and β1 , which of the following is not a required assumption about the error term ϵ ? 
+
+	* The expected value of the error term is 1 *
+	The variance of the error term is the same for all values of x
+	The values of the error term are independent
+	The error term is normally distributed.
+
+
+
+
+In a linear regression model with least squares estimates of β0  and β1 , if r^2 = 1, then 
+
+	SSE must also be equal to 1
+	* SSE must be equal to 0 *
+	SSE can be any positive value
+	SSE must be negative
+	not enough information to determine
+
+
+
+
+A linear regression model with least squares estimates of β0  and β1  was applied between $ sales (y) and $ advertising (x) across all the branches of a major international corporation. The following regression function was obtained:  
+y^ = 5000 + 7.25x
+
+If the advertising budgets of two branches of the corporation differ by $30,000, then what is the predicted difference in their sales?
+
+	* $217,500 *
+	$222,500
+	$5000
+	$7.25
+	not enough info to answer
+
+
+
+
+
+The residual plot for a linear regression model with least squares estimates of β0  and β1 is given below. Which of the following statements about the residual plot is true? (the graph is also in the files>quiz resources folder if for some reason it is not showing up here)
+
+	The plot shows that the least-squares model is the most appropriate model choice.
+	The plot shows that the residual errors are independent.
+	The plot shows that the residual errors follow a normal distribution.
+	The plot shows an equal variance in the residuals.
+	* An appropriate model is something other than a linear model. *
+
+
+
+
+
+A psychologist determines that a strong, positive, linear relationship exists between an individual's IQ score and their sense of humor. She randomly selects 45 adults and found the following:
+		 IQ: mean = 105, sd = 12
+Durante Humor Score: mean = 140, sd = 24
+
+r^2 = 0.81
+
+Which is the predicted Durante humor score, if the IQ score of the individual is 110?
+
+	51
+	142
+	148
+	* 149 *
+	cannot be determined from given information 
+
+
+
+
+Consider the following scatterplot of Midterm and Final exam scores from 15 students. 
+
+Which of the following are true statements? (Select all that apply)
+
+	* The same number of students scored 100 on the midterm exam as scored 100 on the final exam. *
+	Students who scored higher on the midterm exam tended to score higher on the final exam.
+	* The scatterplot shows a moderate negative correlation between midterm and final exam scores. *
+	Had the student who scored 60 on the midterm and 100 on their final, instead scored a 60 on their final, correlation of the 15 points would have been closer to 1.
+	* Had the student who scored 60 on the midterm and 100 on their final, instead scored a 60 on their final, correlation of the 15 points would have been closer to -1. *
+	Had the student who scored 60 on the midterm and 100 on their final, instead scored a 60 on their final, correlation of the 15 points would have been closer to 0.
+
+
+
+
+
+
+Suppose each y value in a set of (x,y) points is 3 units lower than the x it is paired with.  Which of the following is true about the sample correlation (r) between x and y?
+
+	it is between -.99 and 0
+	it is between 0 and 0.99 
+	it is 0
+	* it is 1 *
+	it is -1
+
+
+
+

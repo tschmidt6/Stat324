@@ -1,0 +1,181 @@
+---
+title: "Lecture2_Teacher"
+author: "Chelsey Green"
+date: "6/13/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+```
+
+Entering our data
+```{r}
+lifetimes<-c(612, 623, 666, 744, 883, 898, 964, 970, 983, 1003, 1016, 1022, 1029, 1058, 1085, 1088, 1122, 1135, 1197, 1201)
+```
+
+
+
+Graphing our data
+```{r}
+#Dot plot
+stripchart(lifetimes, xlab="Lifetimes of 20 Incandescent Lamps")
+
+
+stripchart(lifetimes, xlab="Lifetimes of 20 Incandenscent Lamps", method="stack")
+#Stack Repeated observations
+
+
+stripchart(lifetimes, xlab="Lifetimes of 20 Incandescent Lamps", method="jitter") 
+#Add in Jitter so it is easier to see all values.
+
+
+#stem and leaf
+stem(lifetimes, scale=1)
+
+stem(lifetimes, scale=2)  #increases the number of stems
+
+stem(lifetimes, scale=4)  #increases the number of stems
+
+#histograms
+
+#frequency histogram
+hist(x=lifetimes, main="Frequency Histogram of lifetimes")  #start with default bins and play around from there
+
+hist(x=lifetimes, breaks=seq(from=600, to=1250, by=25))  #too many?
+hist(x=lifetimes, breaks=seq(from=600, to=1400, by=200))  #too few?
+
+#relative frequency histogram
+h<-hist(lifetimes, plot=F)
+h$counts<-h$counts/sum(h$counts)  #we need to actually calculate the proportion in each bin
+plot(h, freq=TRUE, ylab="Relative Frequency", main="Relative Frequency Histogram of lifetimes")
+
+
+#density histogram
+hist(x=lifetimes, freq=FALSE, main="Density Histogram of lifetimes")
+
+plot(density(lifetimes), main="Density Plot of lifetimes"); rug(lifetimes)
+
+#boxplot
+boxplot(x=lifetimes, horizontal=TRUE, xlab="Lamp bulb lifetimes (hr)")
+```
+
+
+Shapes of data
+```{r}
+#Symmetric Data
+sym_data<-rnorm(1000, 200, 4)
+hist(sym_data, xlab="values", main="Symmetric Data")
+
+#Uniform Data
+unif_data<-runif(1000, 0, 200)
+hist(unif_data, xlab="values", main="Uniform Data")
+
+#Right Skewed Data
+right_skew_data<-rchisq(1000, 3)
+hist(right_skew_data, xlab="values",main="Right Skewed Data")
+
+#Left Skewed Data
+left_skew_data<--rchisq(1000,3)+200
+hist(left_skew_data, xlab="values", main="Left Skewed Data")
+
+#bimodal data
+bimodal<-c(rnorm(500, 300, 15), rnorm(500, 200, 20))
+hist(bimodal, xlab="values", main="Bimodal Data")
+
+category<-rep(c("A", "B"), each=500)
+
+bimodal_df<-data.frame(bimodal, category)
+#View(bimodal_df)
+
+require(ggplot2)
+ggplot(data=bimodal_df, aes(x=bimodal, fill=category))+
+  geom_histogram()+
+  theme_bw()
+```
+
+
+Numeric Summaries of our data: If intrested in the actual number of hours each bulb lasted
+
+Measures of Center and Position
+```{r}
+#Meaures of Center
+mean(lifetimes)
+
+median(c(6,4,7,5,3))
+median(c(6,4,7,5,3,8))
+median(lifetimes)
+
+#Measures of Position (Quartile, Quantiles, Percentiles)
+summary(lifetimes)
+
+lifetimes_new<-lifetimes[-20]  #20th datum from "lifetimes""
+summary(lifetimes_new)
+
+#Quantiles Function
+quantiles<-quantile(lifetimes, probs=c(.10, .25, .50, .75, .90, .95))
+quantiles
+hist(x=lifetimes, main="Frequency Histogram of lifetimes"); abline(v=quantiles, col=c("blue", "green", "yellow", "orange", "red", "purple"))
+```
+
+Measures of Spread
+```{r}
+#Range
+LT_Range<-range(lifetimes)
+LT_Range
+LT_Range[2]-LT_Range[1]
+
+#IQR
+IQR=quantile(lifetimes, prob=0.75)-quantile(lifetimes, prob=0.25)
+IQR
+
+summary=summary(lifetimes)
+IQR2=summary[5]-summary[2]
+IQR2
+
+#Sample Standard Deviation & Variance
+sd_ex<-c(3,5,8,10)
+(avg_sd_ex<-mean(sd_ex))     #put parentheses around argument to print to screen
+(deviations<-sd_ex-avg_sd_ex)
+(sq_dev=deviations^2)
+sum(sq_dev)
+sum(sq_dev)/3
+sqrt(sum(sq_dev)/3)
+
+sd(sd_ex)
+
+sd(lifetimes)
+```
+
+Combining Numerical with Graphical Summaries
+```{r}
+hist(sym_data, xlab="values", main="Symmetric Data"); abline(v=mean(sym_data, col="red")); abline(v=median(sym_data), col="green")
+boxplot(sym_data, horizontal=TRUE); abline(v=mean(sym_data), col="red")
+sum<-c(range(sym_data)[2]-range(sym_data)[1],sd(sym_data), IQR(sym_data))
+cbind(c("range", "sample sd", "IQR"), sum )
+
+hist(unif_data, xlab="values", main="Uniform Data"); abline(v=mean(unif_data), col="red"); abline(v=median(unif_data), col="green")
+boxplot(unif_data, horizontal=TRUE); abline(v=mean(unif_data), col="red")
+sum<-c(range(unif_data)[2]-range(unif_data)[1],sd(unif_data), IQR(unif_data))
+cbind(c("range", "sample sd", "IQR"), sum )
+
+hist(right_skew_data, xlab="values", main="Right Skew Data"); abline(v=mean(right_skew_data), col="red"); abline(v=median(right_skew_data), col="green")
+boxplot(right_skew_data, horizontal=TRUE); abline(v=mean(right_skew_data), col="red"); abline(v=median(right_skew_data), col="green")
+sum<-c(range(right_skew_data)[2]-range(right_skew_data)[1],sd(right_skew_data), IQR(right_skew_data))
+cbind(c("range", "sample sd", "IQR"), sum )
+
+hist(left_skew_data, xlab="values", main="Left Skew Data"); abline(v=mean(left_skew_data), col="red"); abline(v=median(left_skew_data), col="green")
+boxplot(left_skew_data, horizontal=TRUE); abline(v=mean(left_skew_data), col="red")
+sum<-c(range(left_skew_data)[2]-range(left_skew_data)[1],sd(left_skew_data), IQR(left_skew_data))
+cbind(c("range", "sample sd", "IQR"), sum )
+
+```
+
+Categorical Analysis
+```{r}
+#If interested in categorizing lifetimes into short and long life times
+
+low_lifetimes<-sum(lifetimes<1000)  #number of lifetimes that are less than 1000 hours
+perc_low_lifetimes<-sum(lifetimes<1000)/length(lifetimes)
+
+```

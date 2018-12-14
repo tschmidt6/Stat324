@@ -1,0 +1,87 @@
+---
+title: "Lecture 11 Code"
+author: "Chelsey Green"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Sign Test
+```{r}
+recycle<-c(14.2, 5.3, 2.9, 4.2, 1.8, 6.3, 1.1, 2.6, 6.7, 7.8, 25.9)
+mean(recycle); median(recycle)
+sd(recycle); IQR(recycle)
+
+hist(recycle, main="Histogram Recyclable Material", xlab="Recyclable Material (lbs)")
+
+qqnorm(recycle)
+sum(dbinom(x=5:11, size=11, prob=.5)) 
+binom.test(x=5, n=11, p=.5, alternative="greater") 
+pbinom(q=4, size=11, prob=.5)
+```
+
+
+```{r}
+sqrt((.15*.85)/100)
+```
+
+Binomial and proportion sampling distribution.
+```{r}
+#Binomial
+count_data<-rbinom(1000000, size=100,prob=.15)
+hist(count_data, freq=FALSE)
+mean(count_data)    #close to 15
+sd(count_data)   
+sqrt(100*.15*.85)   #sqrt(npq)=
+
+#Proportions
+proportions<-count_data/100
+hist(proportions, freq=FALSE); curve(dnorm(x, mean=.15, sd=sqrt(.15*.85/100)), add=TRUE)
+mean(proportions)
+sd(proportions)
+sqrt(.15*.85/100)
+```
+
+```{r}
+1.645*0.0357+0.15
+(.20-.15)/.0357
+1-pnorm(1.40056)
+
+#Binomial
+count_data150<-rbinom(1000000, size=150,prob=.15)
+hist(count_data150, freq=FALSE)
+mean(count_data150)    #close to 15
+sd(count_data150)   
+sqrt(150*.15*.85)   #sqrt(npq)=
+
+#Proportions
+proportions150<-count_data150/150
+hist(proportions150, freq=FALSE); curve(dnorm(x, mean=.15, sd=sqrt(.15*.85/150)), add=TRUE)
+mean(proportions150)
+sd(proportions150)
+sqrt(.15*.85/150)
+(.20-.15)/.0292
+1-pnorm(1.712329)
+```
+
+Example
+
+```{r}
+data.ex<-c(1.7, 3.3, 5.1, 6.9, 12.6, 14.4, 16.4, 24.6, 26.0, 26.5, 32.1, 37.4, 40.1, 40.5, 41.5, 72.4, 80.1, 86.4, 87.5, 100.2)
+qqnorm(data.ex)
+hist(data.ex)
+
+#Sign Test
+binom.test(6, 20, .5, "less")
+binom.test(14, 20, .5, "greater")
+sum(dbinom(x=0:6,size=20, prob=.5))
+round(dbinom(x=0:6,size=20, prob=.5),3)
+round(dbinom(x=0:20, size=20, prob=.5), 3)
+pbinom(q=6, size=20, prob=.5)
+
+#1 sample proportion:
+sqrt(.5*.5/20)
+1-pnorm(1.788854)
+```

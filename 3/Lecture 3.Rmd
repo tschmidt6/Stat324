@@ -1,0 +1,29 @@
+---
+title: "Lecture3_Code"
+author: "Chelsey Green"
+date: "9/11/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+ants<-c(rep(2.3, 3), rep(2.6, 17), rep(2.9, 34), rep(3.1, 25), rep(3.4, 18), rep(3.6, 3))
+
+hist(ants, breaks=seq(2, 4, by=0.25))
+
+times=100000
+sampled.ants<-rep(0,times )
+for (rep in 1:times) {
+  sampled.ants[rep]=sample(ants, 1)
+}
+
+sum(sampled.ants<2.75)/times
+sum(sampled.ants >= 2.75)/times
+sum((sampled.ants>2.5)&(sampled.ants<3.5))/times
+sum((sampled.ants<2.5)|(sampled.ants>3.5))/times
+```

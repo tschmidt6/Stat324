@@ -1,0 +1,127 @@
+A representative of a car manufacturer in the United States made the following claim in a news report. "Ten years ago, only 53 percent of Americans owned American-made cars, but that figure is significantly higher today." A research group conducted a study to investigate whether the claim was true.
+
+The group found that 56 percent of a randomly selected sample of car owners in the United States owned American-made cars. A test of the appropriate hypotheses resulted in a p-value of 0.283. Assuming the conditions for inference were met, is there sufficient evidence to conclude, at the significance level of LaTeX: \alpha α =0.05, that the proportion of all car owners in the United States who own American-made cars has increased from what it was ten years ago?
+
+	A. Yes, because 0.56 > 0.53.
+	B. Yes, because a reasonable interval for the proportion is 0.56 ± 0.283.
+	C. Yes, because 0.56 - 0.53 = 0.03 and 0.03 < 0.05.
+	D. No, because 0.283 < 0.53
+	* E. No, because 0.283 > 0.05. *
+
+
+A matched-pairs t-test is NOT an appropriate way to analyze data consisting of which of the following?
+
+	A. Measurements of annual income taken both before and after a two-year training course for a random sample of 100 people who took the course
+	B. Measurements of annual income for each twin for 100 randomly selected pairs of twins 
+	C. Measurements of annual income for both individuals in pairs formed by matching 100 people from State A and 100 people from State B based on level of education
+	* D. Measurements of annual income for both individuals in pairs formed by assigning 100 people to pairs at random *
+	E. Measurements of annual income recorded for both spouses of 100 randomly selected married couples 
+
+
+
+An environmental scientist wants to test the null hypothesis that an antipollution device for cars is not effective. Under which of the following conditions would a Type I error be committed?
+
+	* A. The scientist concludes that the antipollution device is effective when it actually is not. *
+	B. The scientist concludes that the antipollution device is not effective when it actually is. 
+	C. The scientist concludes that the antipollution device is effective when it actually is.
+	D. The scientist concludes that the antipollution device is not effective when it actually is not
+	E. A Type I error cannot be committed in this situation.
+
+
+
+Makers of a new pain-relieving medication claim that it relieves chronic pain faster than the current top-selling pain reliever on the market. A double-blind experiment was conducted in which 10 people who experience chronic pain were randomly selected to take either the new or the current medication. Each of the 10 people recorded the time, in minutes, from taking the medication until pain relief. After an appropriate time period, each of the 10 people took the other medication and recorded the time from taking the medication until pain relief. Which of the following values is closest to the standard error to use in the denominator of the appropriate test statistic(assuming population normality assumptions are met)?
+
+Minutes until Pain Relief	New Medication 	Current Medication	Difference (new minus current)
+Mean				15.600				16.025				-0.425
+SD				4.811				4.833				1.395
+
+	2.156
+	4.650
+	* 0.441 *
+	0.195
+	0.373
+
+
+
+To determine whether employees at Site X have higher salaries, on average, than employees at Site Y of the same company do, independent random samples of salaries were obtained for the two groups. The data are summarized below.
+
+Summary Statistics 	Site X		Site Y
+Mean			$61,234		$60,529
+Standard Deviation	$4,352		$3,456
+n			235		183
+
+Which of the following statements is true?
+
+	A. At the 5% significance level, employees at Site Y have a significantly higher mean salary than employees at Site X.
+	B. At the 1% significance level, employees at Site Y have a significantly higher mean salary than employees at Site X.
+	C.At the 10% significance level, there is no significant difference in salaries between the employees at the two sites
+	D. At the 1% significance level, employees at Site X have a significantly higher mean salary than employees at Site Y.
+	* E. At the 5% significance level, employees at Site X have a significantly higher mean salary than employees at Site Y. *
+
+
+
+The margin of error in a confidence interval estimate accounts for which of the following: (Select all that apply) 
+
+	* Sample to Sample Variability *
+	Errors due to under coverage and nonresponse in obtaining sample surveys
+	Errors due to ambiguity in the question wording.
+	Type 1 Errors
+	Type 2 Errors
+
+
+
+Independent random samples of ash trees from two neighboring areas - one urban and one rural - are examined to see if there is a difference in the proportion of trees showing signs of emerald ash borer infestation. Of the 280 urban trees examined, 28 show signs of infestation and 38 of the 152 rural show signs of infestation. Which of the following is a 90 percent confidence interval for the difference in the proportion of urban and rural trees from these areas that show signs of emerald ash borer infestation?
+
+
+	A  
+	* B *
+	C 
+	D
+	E.
+
+
+
+After summer break a teacher gives a random sample of students in the grade the end of year proficiency exam from the end of the following year. She hypothesizes that students lose proficiency skills over the summer break.  Of the 17 students in her sample, 4 students improved, 12 scored lower, and 1 student got the same score. What p value would this teacher calculate if she chooses to use an exact test, instead of one that relies on a Normal approximation?
+
+ 
+
+	0.015
+	0.0245
+	0.0768
+	* 0.0384 *
+	0.049
+
+
+A scientist is performing a 1 sample bootstrap test for a mean on a sample of size 18.
+
+When the scientist looks at that the 2.5th 97.5th quantile values from the generated t-boot distribution, which values would lead him to believe a standard t test would give him similar levels of evidence against his null?
+
+ 
+
+   
+
+	2.5th: -3.219 and 97.5th: 3.221
+	2.5th: -2.412 and 97.5th: 2.014
+	* 2.5th: -2.108 and 97.5th: 2.113 *
+	2.5th: -0.692 and 97.5th: 0.689
+
+
+
+
+
+As part of a project for their Intro Stat course, two students compared two brands of chips, Frito Lays and Golden Flakes, to see which company gives you more for your money. Five bags of each brand (which, according to the label, each contained 35.4 grams) were measured with a very accurate scale. If the appropriate Wilcoxon test is used to see if there are any significant differences between the two brands in the amount of product they put in their bags, what is the calculated test statistic (Taking Frito Lays as your "Sample A")?
+
+Frito Lays: 35.3 35.4 35.8 35.9 35.9
+
+Golden Flake: 35.3 37.8 38.8 38.1 42.5
+
+	3
+	* 4.5 *
+	17
+	19.5
+	4
+
+
+
+
+

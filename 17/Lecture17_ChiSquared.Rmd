@@ -1,0 +1,56 @@
+---
+title: "Lecture 17 Chi Squared"
+author: "Chelsey Green"
+date: "11/30/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Example 1:
+```{r}
+chisq.test(x=c(18,55,27), p=c(1/4, 2/4, 1/4), correct=FALSE)
+1-pchisq(2.62, df=2)
+pchisq(2.62, df=2, lower.tail=FALSE)
+```
+
+Generating Some Chi-Squared curves
+
+```{r}
+Rdf3=rchisq(10000, df=3, ncp=0)
+plot(density(Rdf3), main="10000 Chisquared df 3 values")
+
+Rdf10=rchisq(10000, df=10, ncp=0)
+plot(density(Rdf10), main="10000 Chisquared df 10 values")
+
+Rdf50=rchisq(10000, df=50, ncp=0)
+plot(density(Rdf50), main="10000 Chisquared df 50 values")
+
+Rdf100=rchisq(10000, df=100, ncp=0)
+plot(density(Rdf100), main="10000 Chisquared df 100 values")
+```
+
+Example 2:
+
+```{r}
+ex2data<-matrix(c(59, 108, 17, 70, 63, 6), nrow=2, byrow=TRUE)
+View(ex2data)
+(Ex2.test<-chisq.test(ex2data, correct=FALSE))
+Ex2.test$expected
+```
+
+Example 3:
+```{r}
+ex3data<-matrix(c(56, 1995, 84, 1946), nrow=2, byrow=TRUE)
+chisq.test(ex3data, correct=FALSE)
+```
+
+Example 4:
+```{r}
+ex4data<-matrix(c(50,59,161,88,20,40,56,52,188,4,3,5,2,66,6), nrow=5, byrow=TRUE)
+ex4.test<-chisq.test(ex4data, correct=FALSE)
+ex4.test$expected
+```
+

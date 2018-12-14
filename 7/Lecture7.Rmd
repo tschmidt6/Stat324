@@ -1,0 +1,87 @@
+---
+title: "Lecture7_Code"
+author: "Chelsey Green"
+date: "6/27/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Proportion CI
+
+```{r}
+succ_samp<-rbinom(n=1000, size=100, prob=0.25)
+succ_prop<-succ_samp/100
+hist(succ_prop); abline(v=.25, col="red")
+
+pop_succ<-c(rep(1, 25), rep(0, 75))
+prop<-rep(0, n<-1000)
+for (i in 1:n){
+  samp<-sample(pop_succ, size=100, replace=TRUE)
+  prop[i]<-mean(samp)
+}
+hist(prop, freq=FALSE, main="Sample Proportions, n=100, pi=0.25"); abline(v=.25, col="red")
+```
+
+Bootstrap CI
+```{r}
+Cotanine<-c(29, 30, 53, 75, 34, 21, 12, 58, 117, 119, 115, 134, 253, 289, 287)
+qqnorm(Cotanine)
+hist(Cotanine)
+```
+
+Bootstrap Code:
+Here is one way to do this bootstrap using R:
+
+Create a new function, bootstrap(x, n.boot), having two inputs:
+   - x is a data vector
+   - n.boot is the desired number of resamples from x
+ It returns a vector of n.boot t-hat values.
+
+```{r}
+bootstrap = function(x, n.boot) {
+  n = length(x)
+  x.bar <- mean(x)
+  t.hat <- numeric(n.boot) # create vector of length n.boot zeros
+  for(i in 1:n.boot) {
+    x.star <- sample(x, size=n, replace=TRUE)
+    x.bar.star <- mean(x.star)
+    s.star <- sd(x.star)
+    t.hat[i] <- (x.bar.star - x.bar) / (s.star / sqrt(n))
+}
+  return(t.hat)
+}
+```
+Use the bootstrap() function to get an approximate sampling
+distribution of T for the Cotanine data.
+```{r}
+Cotanine.boot <- bootstrap(Cotanine, 1000)
+# Plot the approximate sampling distribution.
+hist(Cotanine.boot, freq=FALSE, xlab = "Bootstrap t-hat values",
+     main = "Approximate Sampling Distribution of T")
+```
+
+Find quantiles for a 95% confidence interval.
+```{r}
+t.lower <- quantile(Cotanine.boot, probs=.025) # This is our t_{1 - alpha.2}.
+t.upper <- quantile(Cotanine.boot, probs=.975) # This is our t_{alpha/2}.
+t.lower
+t.upper
+# Make the interval.
+n = length(Cotanine)
+x.bar = mean(Cotanine)
+s = sd(Cotanine)
+ci.low  = x.bar - t.upper * s / sqrt(n) # This is our lower interval endpoint.
+ci.high = x.bar - t.lower * s / sqrt(n) # This is our upper interval endpoint.
+interval = c(ci.low, ci.high)
+names(interval)=NULL
+print(interval)
+
+#Assuming T distribution
+x.bar+qt(.975, df=14)*s/sqrt(n)
+x.bar-qt(.975, df=14)*s/sqrt(n)
+
+```
+

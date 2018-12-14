@@ -1,0 +1,93 @@
+
+Scores on the ACT college entrance exam follow a Normal distribution with mean 18 and standard deviation 6. Wayne and Clayton are both taking the exam this year. What is closest to the probability that their average score is above 20? You can assume their scores are iid random variables from the population.
+	* 0.3187 *
+	0.222
+	0.6813
+	0.471 
+	0.354
+
+
+
+Suppose the amount of sun block lotion in plastic bottles leaving a filling machine has a normal distribution. The bottles are labeled 300 milliliters (ml) but the actual mean is 302 ml and the standard deviation is 2 ml. If you purchase a package of 6 bottles of lotion, what is closest to the probability that at least one bottle has a content of less than 300 ml? (You can assume that the amount of lotion in each bottle is like an iid random variable from the population of sun block lotions amounts.)
+
+	0.3547 
+	0.1587 
+	* 0.6454 *
+	0.999 
+	0.8413
+
+
+
+Approximately 40% of the Wisconsin population have type 0 blood. If 4 persons are selected at random to be donors, what is the probability that exactly 2 of them have type 0 blood?
+	0.16
+	0.0576
+	0.1152
+	* 0.3456  *
+	0.2304
+
+
+
+
+Suppose Company A measures and reports the length of their product in terms of inches and has a mean product length of 3.2 inches with standard deviation of 0.3 inches.
+
+Company B measures and reports the length of their product in terms of centimeters and has a mean product length of 8.6 cm with standard deviation of  0.6 cm.
+
+What is true about the mean and variance of the products produced by the two companies?
+
+	They have similar mean and variability of lengths produced. 
+	Company A has longer and more variable products.
+	* Company B has longer and less variable products *
+	Company A has longer and less variable products.
+	Company B has longer and more variable products.
+
+
+
+
+
+Researchers will conduct a study of the television-viewing habits of children. They will select a simple random sample of children and record the number of hours of television the children watch per week. The researchers will report the sample mean as a point estimate for the population mean. Which of the following statements is correct for the sample mean as a point estimator?
+	* (A) A sample of size 25 will produce more variability of the estimator than a sample of size 50. *
+	(B) A sample of size 25 will produce less variability of the estimator than a sample of size 50.
+	(C) A sample of size 25 will produce a biased estimator, but a sample size of 50 will produce an unbiased estimator.
+	(D) A sample of size 25 will produce a more biased estimator than a sample of size 50.
+	(E) A sample of size 25 will produce a less biased estimator than a sample of size 50.
+
+
+The strength of an aluminum alloy is normally distributed with mean 10 gigpscals (GPa) and standard deviation 1.4 GPa. What is the first [lower] quartile of the strengths of this alloy?
+
+	10.95
+	* 9.06 * 
+	-0.67
+	0.67
+	8.32
+
+
+An industrial process is brought down for recalibration whenever the quality of the items produced falls below specifications. Let X represent the number of times the process is recalibrate during a week, and assume that X has the following probability mass function:
+X	0	1	2	3	4
+P(X=x)	0.35	0.25	0.20	0.15	0.05
+
+What is the *1.30* of X; E(X) ? 1.54, 2.75, 1.30, 1
+
+What is the *1.51* of X; Var(X)? 1.51, 1.23, 2.32, 1.94, N/A
+
+
+
+
+
+
+What is the best interpretation for the expected value calculated in the previous question?
+
+	The expected value of X is the number of times the process will need to be recalibrate on most weeks.
+	The expected value of X is the minimum number of times the process will need to be recalibrated each week.
+	The expected value of X is the maximum number of times the process will need to be recalibrated each week.
+	* The expected value of X is the average number of times the process will need to be recalibrated over an infinite number of weeks.*
+
+
+
+There are 25 pens in a container on your desk. Among them, 20 will write well but 5 have defective ink cartridges. You will select 2 pens (without replacement) to take to a business appointment. Calculate the probability that one pen is defective the other will write well.
+
+	1/6
+	1/30
+	* 1/3 *
+	1/15
+
+

@@ -1,0 +1,381 @@
+---
+title: "Midterm"
+author: "Teryl Schmidt"
+date: "10/6/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Additional Pre Midterm 1 Practice Questions: Stat 324
+
+#1
+Jane’s dog will have a litter of 3 puppies equally likely to be a boy or girl, independent of the other.
+Define the events:
+
+2 * 2 * 2 = 8 total
+
+MMM
+MMF
+MFF
+MFM
+FMF
+FMM
+FFM
+FFF
+
+A All the puppies are the same gender
+
+```{r}
+# P(# of favorable outcomes / Total # of outcomes)
+# P(2 / 8)
+# P(A) = P(MM) + P(FF) 
+# = 2(1/2)^3 (each outcome is 1/2 (but double because can be all male or all female), doing 3 pulls)
+# = 1/4
+```
+
+2/8 = 1/4
+
+B There is at most one male puppy
+
+```{r}
+# P(# of favorable outcomes / Total # of outcomes)
+# P(B) = P(FF) + P(FFF)
+# = (1/2)^3 + 1/8
+# = 3/8 + 1/8 = 4/8 = 1/2
+```
+
+4/8 = 1/2
+
+C The litter includes a male and a female.
+
+```{r}
+# P(# of favorable outcomes / Total # of outcomes)
+# P(C) = 1 - (P(MMM) + P(FFF))
+# = 1 - (1/8 + 1/8)
+# = 1 - 2/8 = 6/8
+```
+
+6/8 = 3/4
+
+Which pairs of events, if any, are independent? Which pairs of events, if any, are mutually exclusive?
+
+```{r}
+# P(A|B) = P(A and B) / P(B)
+# P(A|B) = (P(A) * P(B)) / P(B)
+# if P(A) == P(A|B) then A and B are independent
+# if don't equal then mutually exclusive
+```
+
+A and B are independent
+P(A|B) = (1/8) / (1/2) = 1/4
+P(A) = 1/4
+since P(A|B) = P(A) = 1/4 or P(A) ∗ P(B) = (1/4) ∗ (1/2) = P(A and B) = 1/8 
+
+B and C are independent
+P(B|C) = (3/8) / (3/4) = 1/2
+P(B) = 1/2
+since P(B|C) = P(B) = 1/2 or P(B) * P(C) = (1/2) * (3/4) = P(B and C) = 3/8
+
+A and C are not independent
+P(A|C) = (0/8) / (3/4) = 0
+P(C) = 3/4
+since P(A|C) = P(C) = 3/4 or P(A) * P(C) = (1/4) * (3/4) = P(A and C) = 3/16
+
+A and C are mutually exclusive since they do not contain any of the same outcomes. P(A and C) = 0.
+Mutually exclusive events are extremely dependent.
+
+
+```{r}
+# Events are mutually exclusive if the occurrence of one event excludes the occurrence of the other(s). Mutually exclusive   events cannot happen at the same time. For example: when tossing a coin, the result can either be heads or tails but cannot be both.
+
+#Events are independent if the occurrence of one event does not influence (and is not influenced by) the occurrence of the other(s). For example: when tossing two coins, the result of one flip does not affect the result of the other.
+```
+
+
+#2
+An object with initial temperature T0 is placed in an environment with ambient temperature Ta.
+According to Newton’s law of cooling the temperature T of the object is given by T = cT0 + (1 − c)Ta,
+where c is a constant that depends on the physical properties of the object and on the elapsed time.
+Assume that T0 has mean 25◦ C and standard deviation 2◦ C, and Ta has mean 5◦ C and standard
+deviation 1◦ C. Find the mean and standard deviation of T at the time when c = 0.25 assuming T0 and
+Ta are independent.
+
+Mean <br/>
+E(T) = E(cT0 + (1 − c)Ta) <br/>
+= cE(T0) + (1 − c)E(Ta) <br/>
+= 0.25(25) + (1 - 0.25)(5) <br/>
+= 6.25 + 3.75 = 10 <br/>
+
+Variance <br/>
+Var(T) = Var(cT0 + (1 - c)Ta) <br/>
+= c<sup>2</sup>Var(T0) + (1 - c)<sup>2</sup>Var(Ta) <br/>
+= 0.25<sup>2</sup>Var(2<sup>2</sup>) + (1 - 0.25)<sup>2</sup>Var(1<sup>2</sup>) <br/>
+= 0.25 + (0.5625)(1) = 0.8125 <br/>
+= sqrt(0.8125) = 0.9013878 <br/>
+
+
+#3
+Suppose in Ms Green’s large introductory statistics class, the distribution of X=raw scores on midterm
+1 is approximately Normally distributed with a mean of 17.2 points and a standard deviation of 3.8
+points. The professor decides to scale the scores by multiplying the raw score by 4 and adding 10.
+
+(a) Define the random variable Y = 4X + 10 to be the scaled score of a randomly selected student
+from this class. Determine the shape, mean, and standard deviation of Y
+
+Normal since linear transf of Normal, E(Y) = 4(E(X)) + 10 = 4(17.2) + 10 = 78.8,
+SD(Y ) = |4|(SD(X)) = 4(3.8) = 15.2. <br/>
+
+
+(b) What is the probability that a randomly selected student has a scaled test score of at least 90?
+
+P(X >= 90) <br/>
+1 - P(Z <= 90) <br/>
+1 - P(Z <= 90 - 78.8 / 15.2) <br/>
+1 - P(Z <= 0.7368421) <br/>
+1 - 0.7704 = 0.2296 <br/>
+
+
+(c) What is the probability that if we randomly select 2 students in the class, the sum of their scaled
+test scores is at least 180 assuming their scores are independent?
+
+S is Normal because sum of normal E(S) = E(X) + E(X) = 78.8 + 78.8 = 157.6 <br/>
+V ar(S) = V ar(X) + V ar(X) = 2(15.2<sup>2</sup>) = 462.08 <br/>
+Sd(S) = sqrt(462.08) = 21.5 <br/>
+P(S ≥ 180) <br/>
+= 1 − P(S ≤ 180) <br/> 
+= 1 − P(Z ≤ (180 − 157.6 / 21.5) <br/>
+= 1 − P(Z < 1.04186) = 0.1487 <br/>
+
+
+#4
+The diameter of hail hitting the ground during a storm is well approximated by a normal distribution
+with a mean of 0.5 inch and a standard deviation of 0.1 inch.
+For parts a and b, what is the probability that:
+
+(a) A hailstone picked up at random will have a diameter greater than 0.71 inch?
+
+P(X > 0.71) <br/>
+1 - P(Z < 0.71) <br/>
+1 - P(Z < 0.71 - 0.5 / 0.1) <br/>
+1 - P(Z < 2.1) = 1 - 0.9821 = 0.179 <br/>
+
+(b) Two hailstones picked up in a row will have diameters greater than 0.6 inch each? (Assume
+independence of the two diameters)
+
+P(X > 0.6) <br/>
+1 - P(Z < 0.6) <br/>
+1 - P(Z < 0.6 - 0.5 / 0.1) <br/>
+1 - P(Z < 1) <br/>
+1 - 0.8413 = 0.1587 <br/>
+
+P(D1 > .6andD2 > .6) <br/>
+= P(D1 > .6) ∗ P(D2 > .6)  <br/>
+= (1 − (P(D1) < .6))<sup>2</sup> <br/> 
+= (1 − 0.8413447)<sup>2</sup> <br/>
+= 0.1586553<sup>2</sup> = 0.0251715 <br/> 
+pnorm(.6,.5,.1) = 0.8413447 <br/>
+
+
+(c) By the end of the storm, what proportion of the hailstones would have had diameters between 0.4
+inch and 0.6 inch?
+
+68% since within one SD from mean
+
+P(0.4 < X < 0.6)
+P(0.4) - P(0.6)
+P(x - 0.5 / 0.1 < 0.6 - 0.5 / 0.1) - P(x - 0.5 / 0.1 < 0.4 - 0.5 / 0.1)
+P(x - 0.5 / 0.1 < 1) - P(x - 0.5 < -1)
+P( -1 < X < 1)
+ztable - ztable
+0.8413 - 0.8413 = 0 for probability
+
+
+(d) If only 5% of hailstones have diameters above d, what is the value of d?
+
+P(X > d) = 0.05 <br/>
+P(X <= d) = 0.95 <br/>
+P(Z <= d) = 0.95 look for 0.95 in the table <br/>
+P(Z <= d) = 1.65 <br/>
+1.65 = (d - 0.5 / 0.1) <br/> 
+d = .1 ∗ 1.645 + .5 = 0.6645 <br/>
+
+(e) If Estelle picks up 6 hailstones, what is the probability that exactly one of them has a diameter
+above 0.55?
+
+Let Y = number of hailstones with diameter above 0.55. <br/>
+Y ∼Bin(6, p) where p = P(D > 0.55) = 1 − P(D ≤ 0.55) = 0.3085375. <br/> 
+So Using Binomial Formula: <br/>
+(6 choose 1) ∗ 0.309<sup>1</sup> ∗ 0.691<sup>5</sup> = 0.293 <br/>
+
+
+#5
+Suppose there are two three faced dies with number of points 1,2,3. One die is fair and the other one is
+not. Let X denotes the number obtained when the fair die is rolled and Y denotes the number obtained
+when the unfair die is rolled. Assume X and Y to be independent. Suppose, Y has probability mass
+function (pmf) pY (y) = c ∗ y for y = 1, 2, 3.
+
+(a) Write the pmf of X. Find E(X) and Var(X).
+
+p(x) = 1/3 for x = 1, 2, 3 <br/>
+E(X) = 1 ∗ (1/3) + 2 ∗ (1/3) + 3 ∗ (1/3) = 2 <br/>
+Var(X) = (1 − 2)<sup>2</sup> ∗ (1/3) + (2 − 2)<sup>2</sup> ∗ (1/3) + (3 − 2)<sup>2</sup> ∗ (1/3) = .67 <br/>
+
+
+(b) Find the constant c such that pY (y) is a proper pmf.
+
+&#931;<sup>2</sup><sub>i=1</sub> c * y = 1 <br/>
+i.e. c + 2c + 3c = 1 <br/>
+i.e. c = 1/6 so pmf: <br/>
+
+            Y  |  1  |  2  |  3  |
+      P(Y = y) | 1/6 | 2/6 | 3/6 |
+
+
+(c) Find E(Y) and Var(Y)
+
+E(Y) = (1 ∗ 1/6) + (2 ∗ 2/6) + (3 ∗ 3/6) = 2.33
+Var(Y) = (1 − 2.33)<sup>2</sup> ∗ 1/6 + (2 − 2.33)<sup>2</sup> ∗ 2/6 + (3 − 2.33)<sup>2</sup> ∗ 3/6 = 0.5555667
+
+
+(d) Let Z denotes another RV denoting average of the no. of points obtained when each of two dies
+rolled once, i.e. Z = (X + Y)/2. Find E(Z) and Var(Z). [You can use that E(Y) = 2.33 and
+Var(Y) = 0.56]
+
+
+E(Z) = E(X) + E(Y) / 2 <br/>
+= (2 + 2.33) / 2 = 2.165. <br/>
+Var(Z) = Var(X) + Var(Y) / 4 <br/>
+= 0.67 + 0.56 / 4 <br/>
+= 0.3075 <br/>
+Note, Z is not Normally Distributed; neither X nor Y are <br/>
+
+
+(e) Determine E(Y − 2X) and V ar(Y − 2X) What does Y - 2X mean in context?.
+
+E(Y − 2X) <br/>
+= E(Y) − 2 ∗ E(X) <br/> 
+= 2.33 − 2 ∗ 2 <br/>
+= −1.67; <br/>
+Var(Y − 2X) <br/>
+= Var(Y) + 4Var(X) <br/> 
+= 0.56 + 4 ∗ 0.67 <br/>
+= 3.24 <br/>
+Using the fact that X and Y are independent. Y - 2X is the difference between the face rolled by the
+Y dice and twice that rolled by the X.
+
+
+#6
+A patient visits her doctor with concerns about her blood pressure. If the systolic blood pressure
+exceeds 150, the patient is considered to have high blood pressure and medication may be prescribed.
+The problem is that there is considerable variation in a patient’s systolic blood pressure readings during
+a given day.
+
+(a) If a patient’s systolic readings during a given day have a normal distribution with a mean of 160
+mm mercury and a standard deviation of 20 mm, what is the probability that a single measurement
+will fail to detect that the patient has high blood pressure?
+
+X ∼ N(160, 20<sup>2</sup>) <br/>
+P(Fail to detect) = P(X < 150) <br/>
+= P(Z < 150−160 / 20) <br/>
+= P(Z < −0.5) = 0.3085. <br/>
+There’s over a 30% chance of failing to detect patient has high blood pressure if
+only a single measurement is taken. <br/>
+
+
+(b) If five measurements are taken at various times during the day, what is the probability that the
+average blood pressure reading will be less than 150 and hence fail to indicate that the patient has
+a high blood pressure problem?
+
+Let Y be the average blood pressure of the five measurements. Then, Y has a normal distribution with <br/>
+µ = 160 and σ = 20/√5 = 8.944. <br/>
+P(Y ≤ 150) = P(Z ≤ 150 − 160 / 8.944) <br/> 
+= P(Z ≤ −1.12) = 0.1314 <br/>
+Therefore, by using the average of five measurements, the chance of failing to detect the patient has <br/>
+high blood pressure has been reduced from over 30% to about 13% <br/>
+
+
+(c) How many measurements would be required so that the probability is at most 1% of failing to
+detect that the patient has high blood pressure (by considering the average of the measures)?
+
+Failing to detect means Y < 150, so we need to determine the sample size n such that P(Y¯ ≤ 150) ≤ 0.01 <br/>
+Now, P(Y¯ ≤ 150) = P(Z ≤ 150 − 160 / 20/√n) <br/>
+From the normal table, we can have P(Z ≤ −2.33) ≈ 0.01 <br/>
+Therefore, 150−160 / 20/√n = −2.33 <br/>
+Solving for n, yields n = 20<sup>2</sup>(2.33<sup>2</sup>) / 10<sup>2</sup> = 21.72 <br/>
+round up to the closest integer will give 22 measurements. <br/>
+So, it would require at least 22 measurements in order to achieve the goal of at most a 1% chance <br/>
+of failing to detect high blood pressure (assuming patient has true mean blood pressure of 160 with sd = 20). <br/>
+
+
+#7
+What sample size is required in order that the standard deviation of X is at most
+
+(a) 1/4 of the population standard deviation?
+
+1/4 = σ /√n <br/>
+σ = 1 | √n = 4 <br/>
+SD(X) = σ /√n <br/>
+when n = 16 <br/>
+
+
+(b) 1/7 of the population standard deviation?
+
+1/7 = σ /√n <br/>
+σ = 1 | √n = 7 <br/>
+SD(X) = σ /√n <br/>
+when n = 49 <br/>
+
+
+(c) 12% of the population standard deviation?
+
+SD(X) = σ / √n = .12σ <br/>
+when n = (1 / 0.12)<sup>2</sup> = 69.444 <br/>
+so sample size of 70 to be sure it is less than 12% <br/>
+
+
+#8
+Daily carbon monoxide (CO) emission from a large production plant will be measured on 25 randomly
+seleted weekdays. The production process is always being modified and the current mean value of
+daily CO emissions µ is unknown. Data collected over several years confirm that, for each year, the
+distribution of CO emissions is normal with a standard deviation of 0.8 tons.
+
+(a) Suppose the sample mean is found to be x = 2.7 tons. Construct a 95% confidence interval for µ
+assuming a known population sd and interpret it in context.
+
+2.7 ± (0.025 in z-table = |-1.96|) <br/>
+2.7 ± 1.96 ∗ 0.8 / √25 = (2.3864, 3.0136) <br/>
+We are 95% confident the true mean amount of daily carbon monoxide emissions from a large production plant is between 2.39 and 3.01 (since 95% of the confidence intervaals we could have constructed would have captured it.)
+
+
+(b) Suppose the scientist does not believe 0.8 is an accurate measure of the population sd and chooses
+to instead use the sample standard deviation of sx = 1.3 tons. How would the scientist’s confidence
+interval change?
+
+It gets wider because S is larger and T is more spread out: <br/>
+2.7 ± t(0.025,24) ∗ 1.3 / √25 <br/>
+= 2.7 ± 2.064 ∗ 1.3 / √25 <br/>
+= 2.7 ± 0.53664 <br/>
+= (2.16336, 3.23664) <br/>
+
+
+
+
+Bernoulli pi(1 - pi)
+
+Binomial n * pi(1 - pi)
+
+CLT
+
+
+
+
+#2 on homework estimatior
+
+
+
+
+
+

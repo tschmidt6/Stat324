@@ -1,0 +1,213 @@
+---
+title: "Discussion3"
+author: "Teryl Schmidt"
+date: "9/26/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Problem 1
+
+Airlines sometimes overbook flights. Suppose that for a plane with 100 seats, an airline takes 110
+reservations. Define the variable X as the number of people who actually show up for a sold-out flight.
+From past experience, the probability distribution of X is given in the following table:
+
+```{r}
+X = c(95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110)
+Px =  c(.05, .10, .12, .14, .24, .17, .06, .04, .03, .02, .01, .005, .005, .005, .0037, .0013)
+
+```
+
+
+(a) What is the probability that the airline can accommodate everyone who shows up for the flight?
+P(x <= 100)
+P(x = 95) + P(x = 96) + P(x = 97) + P(x = 98) + P(x = 99) + P(x = 100)
+.05 + .10 + .12 + .14 + .24 + .17
+= 0.82
+
+(b) What is the probability that not all passengers can be accommodated?
+P(x > 100)
+P(x = 101) + P(x = 102) + P(x = 103) + P(x = 104) + P(x = 105) + P(x = 106) + P(x = 107) + P(x = 108) + P(x = 109) + P(x = 110)
+.06 + .04 + .03 + .02 + .01 + .005 + .005 + .005 + .0037 + .0013
+= 0.18
+
+OR
+
+1 - P(x <= 100)
+1 - 0.82
+= 0.18
+
+
+(c) If you are trying to get a seat on such a flight and you are number 1 on the standby list, what is
+the probability that you will be able to take the flight? What if you are number 3?
+P(x <= 99)
+P(x = 95) + P(x = 96) + P(x = 97) + P(x = 98) + P(x = 99)
+= 0.65
+
+P(x <= 97)
+P(x = 95) + P(x = 96) + P(x = 97)
+= 0.27
+
+
+##Problem 2
+Of all the weld failures in a certain assembly, 85% of them occur in the weld metal itself, and the
+remaining 10% occur in the base metal and the cause is unknown in 5% of failures. A sample of 10
+weld failures is examined.
+
+
+(a) What is the probability that exactly five of them are weld metal failures?
+b = Total # success
+n = # of trials
+π = probability of success
+
+E(b) = n * π
+var(b) = n * π * (1 - π)
+
+b = 5
+n = 10
+π = 0.85
+
+```{r}
+(factorial(10) / (factorial(5) * factorial(10 - 5))) * (0.85^5) * (1 - 0.85)^(10 - 5)
+
+dbinom(5, 10, 0.85)
+```
+
+= 0.00849
+
+
+
+(b) What is the probability that fewer than 3 of them are base metal failures?
+b <= 2
+n = 10
+π = 0.10
+
+P(b = 0) + P(b = 1) + P(b = 2)
+
+```{r}
+dbinom(0, 10, 0.10) + dbinom(1, 10, 0.10) + dbinom(2, 10, 0.10)
+
+# <=
+pbinom(2, 10, 0.10)
+```
+
+0.9298092
+
+(c) What is probability that none of them are unknown failures?
+b = 0
+n = 10
+π = 0.05
+
+```{r}
+dbinom(0, 10, 0.05)
+```
+
+0.5987369
+
+
+(d) Find the expected value for number of base metal failures in this sample.
+E(b) = n * π
+b = 
+n = 10
+π = 0.10
+
+E(b) = 10 * 0.10
+     = 1
+
+(e) Find the standard deviation of the number of base metal failures assuming the population
+distribution given.
+var(b) = n * π * (1 - π)
+var(b) = 10 * 0.10 * (1 - 0.10)
+       = 0.90
+sqrt(0.90) = 0.9486833
+
+
+##Problem 3
+
+You are adding Badger-themed bedazzle to your stripped overalls and are using both red and white
+beads. You are interested in how the size of the bag of beads you purchase to select your beads from
+changes the probablility of different samples of beads.
+Consider taking a sample of size 3, where each bead is selected without replacement of previous
+beads, from each of two populations:
+
+
+(a) Small population were the bag of beads contains 7 White (W) beads and 3 Red (R) beads.
+RRR RWR RRW WRR RWW WRW WWR WWW
+
+RRR
+3/10 * 2/9 * 1/8
+
+WRR
+7/10 * 3/9 * 2/8
+
+RWR
+3/10 * 7/9 * 2/8
+
+RRW
+3/10 * 2/9 * 7/8
+
+(b) Large population were the bag contains 7000 W and 3000 R.
+
+WRR
+7000/10000 * 3000/9999 * 2999/9998
+
+RWR
+3000/10000 * 7000/9999 * 2999/9998
+
+RRW
+3000/10000 * 2999/9999 * 7000/9998
+
+
+Compare with a sample of size 3 generated from a spinner having probability of 0.7 W and 0.3 R.
+Small = 0.05833333
+Large = 0.0629979
+
+
+(a) Let A=[Exactly one White]. Calculate the probability of A for each case.
+
+WRR
+RWR
+RRW
+
+P(A) = P(WRR) + P(RWR) + P(RRW)
+     = 0.175 + 0.189 + 0.189
+     
+(7/10 * 3/9 * 2/8) + (3/10 * 7/9 * 2/8) + (3/10 * 2/9 * 7/8) = 0.175
+
+(7000/10000 * 3000/9999 * 2999/9998) + (3000/10000 * 7000/9999 * 2999/9998) + (3000/10000 * 2999/9999 * 7000/9998)  = 0.18899
+ 
+(0.70 * 0.30 * 0.30) + (0.30 * 0.70 * 0.30) + (0.30 * 0.30 * 0.70)  = 0.189
+
+0.553
+
+(c) Let B=[At least one White]. Calculate the probability of B for each case.
+
+P(b) + P(b`) = 1
+1 - P(b`) = p(b)
+
+P(b`) = no white
+RRR
+
+P(b) = 1 - P(RRR)
+P(b) = 1 - 0.0083333
+     = 0.991666
+
+
+(d) Notice, that the spinner model is equivalent to sampling with replacement from either of the two
+finite populations. The spinner model is a classical representation of a device with no memory, so
+that the outcome of the current trial is independent of all previous trials. When drawing from
+a population that is large relative to the sample size, the calculated conditional probability for
+the second and third beads is very similar to the probability of each outcome calculated from the
+spinner (an independent model). So, as long as our population is large relative to our sample,
+the events are independent "enough" that sampling without replacement does not change the
+probability of an event.
+
+
+
+
+

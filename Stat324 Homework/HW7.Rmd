@@ -1,0 +1,252 @@
+---
+title: "HW7"
+author: "Teryl Schmidt | tschmidt6@wisc.edu | 9072604920 | Discussion 312 | Grader: Chi-Shain Dai"
+date: "11/9/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+<font color="green">
+<font color="red">
+
+</font>
+</font>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 1
+A researcher is interested in comparing the weight gain of young rabbits fed two different diets, diet I and diet II. The researcher selects 7 pairs of male litter mates (that is, 7 pairs of brothers) and randomly selects one rabbit from each pair for diet I and the other for diet II. The weight gains are recorded for each rabbit over an 8 week period. The weight gains for all rabbits (in grams) are given below: <br/>
+<pre>
+Litter# |  1  |  2  |  3  |  4  |  5  |  6  |  7  | 
+DietI   | 368 | 293 | 401 | 314 | 384 | 404 | 267 | 
+DietII  | 422 | 298 | 423 | 346 | 375 | 431 | 290 |
+</pre>
+(a) It is claimed that the mean weight gain from diet II is 5 grams greater than the mean weight gain from diet I. Evidence against the claim will be provided when the weight gain from II exceeds the weight gain from I by more than 5 grams. Carry out a test for the claim at a 10% level by hand and then check your work in R. Interpret the results.
+
+<font color="green">
+&mu;1 = Mean weight from Diet I <br/>
+&mu;2 = Mean weight from Diet II <br/>
+Test if mean weight gain from Diet II is 5 grams greater than the mean weight  gain from Diet I. <br/>
+Ho: &mu;1 = &mu;2 <br/>
+Ha: &mu;1 < &mu;2 <br/>
+
+```{r}
+DietI = c(368, 293, 401, 314,  384,  404,  267)
+DietII = c(422,  298,  423,  346,  375,  431,  290)
+mean(DietI)
+mean(DietII)
+```
+
+S<sup>2</sup><sub>1</sub> = &Sigma;(xi - x&#772;)<sup>2</sup> / n <br/>
+= &Sigma;(xi)<sup>2</sup> / n  -  (x&#772;)<sup>2</sup> <br/>
+368<sup>2</sup> + 293<sup>2</sup> + 401<sup>2</sup> + 314<sup>2</sup> + 384<sup>2</sup> + 404<sup>2</sup> + 267<sup>2</sup> = 862631 <br/>
+= (862631 / 7) - (347.2857)<sup>2</sup> = 2625.633 <br/>
+<br/>
+S<sup>2</sup><sub>2</sub> = &Sigma;(yi - y&#772;)<sup>2</sup> / n <br/>
+= &Sigma;(yi)<sup>2</sup> / n  -  (y&#772;)<sup>2</sup> <br/>
+422<sup>2</sup> + 298<sup>2</sup> + 423<sup>2</sup> + 346<sup>2</sup> + 375<sup>2</sup> + 431<sup>2</sup> + 290<sup>2</sup> = 976019 <br/>
+= (976019 / 7) - (369.2857)<sup>2</sup> = 3059.347 <br/>
+<br/>
+S<sup>2</sup><sub>p</sub> = n1 * S<sup>2</sup><sub>1</sub> + n2 * S<sup>2</sup><sub>2</sub> / n1 + n2 - 2 <br/>
+7 * 2625.633 + 7 * 3059.347 / 7 + 7 - 2 = 3316.238 <br/>
+S<sub>p</sub> = sqrt(S<sup>2</sup><sub>p</sub>) = sqrt(3316.238) = 57.59 <br/>
+
+```{r}
+t.test(DietI, DietII, var.equal = T, conf.level = 0.90, alternative = "less")
+```
+<font color="red">
+pvalue  = 0.2442 > 0.05 so we reject the null.
+</font>
+</font>
+
+(b) State the assumptions necessary for performing the test in (a).
+
+<font color="red">
+Assumptions: The two samples are independent, Both samples are normal or the two sample sizes are small, Both variances are unknown bu equal.<br/>
+</font>
+
+(c) Construct a 90% confidence interval for the difference in mean weight gains for the two diets. Compare this confidence interval to the conclusions from the test you performed above.
+
+<font color="green">
+(x&#772; - y&#772;) +- t * s<sub>p</sub> * sqrt(1 / n1  + 1 / n2) <br/>
+t = (x&#772; - y&#772;) / s<sub>p</sub> * sqrt(1 / n1  + 1 / n2) <br/>
+= 347.2857 - 369.2857 / 57.59 * sqrt(1 / 7  + 1 / 7) <br/>
+= -22 / 57.59 * 0.5346 = -0.71472 <br/>
+When &alpha; = 0.10 <br/>
+-t<sub>(n1 + n2 - 2, 0.10)</sub>  = -t<sub>(12, 0.10)</sub> = -1.356 <br/>
+<font color="red">
+-0.71472 > -1.356 so we accept the null at 10% level. We conclude that the mean weight gain from DietII is equal to the weight gain from DietI.
+</font>
+</font>
+
+
+#Problem 2
+Data set 2 is collected to compare two treatments “a” and “b”. The observations are collected independently for each treatment. Also the samples corresponding to treatments “a” and “b” are independent. Comparison of the treatments were previously done based on data set 1 under same independence assumptions. With data set 1 (top panel) the Wilcoxon Rank Sum/Mann-Whitney test test gives a p-value p = 0.028 and the t-test gives p = 0.006.
+![image](/Users/gubba/Desktop/screen1.png)
+
+<font color="red">
+0.028 is correct.<br/>
+In data set, the second sample is too far than first sample but mann whitney test only uses the rank of the data not its absolute value so Here for Wilcoxon rank sum or Mann Whitney Test the p-value is same as data set 1. <br/>
+<br/>
+Smaller than 0.006 is correct. <br/>
+but for t-test the p-value depends on the difference in sample means so here p-value is smaller than 0.006. 
+</font>
+
+# Problem 3
+In a study of water quality in the Chicago area, concentration of E. Coli bacteria was measured in two specific locations along the lake (“Beach 1” and “Beach 2”). These measurements were taken after rainfalls, when a higher volume of water flows from the city into the lake. Rainfall dates were chosen to be at least a week apart, so that measurements taken from different dates can be considered as independent. The concentrations were measured in number of E. Coli bacteria per ml of water. They are shown below. Data taken on the same rainfall date are shown with the same symbol (with 9 rainfall dates total).
+![image](/Users/gubba/Desktop/screen2.png)
+
+(a) Determine which test might be appropriate to answer the investigators questions: check all that apply in the list below. Justify your choices.
+
+Two independent sample t-test <br/>
+Welch's t-test<br/>
+<font color="red">
+Wilcoxon Rank Sum/Mann-Whitney test<br/>
+</font>
+Paired-sample t-test<br/>
+Sign test<br/>
+Wilcoxon signed rank test<br/>
+Bootstrap test for one sample<br/>
+Bootstrap test for two samples<br/>
+<font color="red">
+There are two independent samples. But concentration of E. Coli is number of E. Coli bacteria per ml of water may not follow normal distribution and sample size 9 is small. There fore nonparametric method is preferable.
+</font>
+
+
+# Problem 4
+In an effort to link cold environment to an increase in mean blood pressure, two random samples of 5 rats each were exposed to different environments. One sample of rats was held in a normal environment of 26◦C and the other was held aat 15◦C. Blood pressures were measured for rats of both groups after 1 day and are given below: <br/>
+
+
+(a) If the scientists want to assume that the necessary populations are normal, what test[s] would be reasonable to run? Explain why. Identify the hypotheses of interest and then run this/these tests in R and report the test statistic, degrees of freedom, and resulting p value (it may also be useful to compute these by hand for practice, but we will not be grading you on it).
+
+<pre>
+26◦C BP: | 214 | 194 | 221 | 198 | 212 |
+15◦C BP: | 225 | 215 | 253 | 272 | 254 |
+</pre>
+
+```{r}
+Rats26 = c(214, 194, 221, 198, 212)
+Rats15 = c(225, 215, 253, 272, 254)
+mean(Rats26)
+mean(Rats15)
+sd(Rats26)
+sd(Rats15)
+```
+
+<font color="red">
+Confidence interval, Z test,  T test. <br/>
+Ho: &mu; >= 0 <br/>
+Ha: &mu; < 0 <br/>
+The pvalue < 0.05 so we reject the null hypothesis.
+</font>
+
+```{r}
+t.test(Rats26, Rats15, paired = F, alternative = "less")
+```
+
+(b) If the researcher does not want to assume that the relevant populations are normally distributed, what 3 tests could they perform?
+
+<font color="red">
+Bootstrap Confidence interval, Wilcoxn ranked sum test, T test. <br/>
+</font>
+
+(c) Perform each of the three tests listed above (using set.seed(1) and B=10000 for any that require computer simulation) 
+
+
+(1) identify the assumptions  <br/>
+
+<font color="red">
+Bootstrap: Independence <br/>
+Wilcoxn: Independence <br/>
+T test: Independence <br/>
+</font>
+
+(2) report the observed test statistic and <br/>
+
+```{r}
+B = 10000
+#Bootstrap for Two Sample Test
+boottwo <- function(dat1, dat2, B) { 
+  bootstat <- numeric(B)
+  truediff <- mean(dat1) - mean(dat2)
+  n1 <- length(dat1)
+  n2 <- length(dat2) 
+  for (i in 1:B) {
+    samp1 <- sample(dat1, size = n1, replace = T) 
+    samp2 <- sample(dat2, size = n2, replace = T) 
+    bootmean1 <- mean(samp1)
+    bootmean2 <- mean(samp2)
+    bootvar1 <- var(samp1)
+    bootvar2 <- var(samp2)
+    bootstat[i] <- (bootmean1 - bootmean2 - truediff)/sqrt((bootvar1/n1) + (bootvar2/n2))
+  }
+  return(bootstat) 
+}
+
+
+set.seed(1)
+tobs = -3.1078
+RatBoot = boottwo(Rats26, Rats15, B)
+(m.low<-sum(RatBoot<= tobs))  #205
+(m.up<-sum(RatBoot >= tobs))   #9795
+(pval<-m.low/B)  #0.0205
+
+wilcox.test(Rats26, Rats15, paired = F, alternative = "less")
+t.test(Rats26, Rats15, paired = F, alternative = "less")
+```
+
+(3) the resulting p value. <br/>
+
+<font color="red">
+Bootstrap pvalue = 0.0205 which is less than 0.05 so we reject the null hypothesis. <br/>
+Wilcoxn pvalue = 0.007937 which is less than 0.05 so we reject the null hypothesis. <br/>
+T test pvalue = 0.01092 which is less than 0.05 so we reject the null hypothesis. <br/>
+</font>
+
+(d) Based on your findings from the tests in parts a and b, what conclusion would you draw and what recommendations would you give to the scientist?
+
+<font color="red">
+We have enough evidence to conclude that rats exposed to 15C have a higher blood pressure than rats exposed to 26C. <br/>
+</font>
+
+# Problem 5
+A reporter for Time Magazine was interested in residents’ levels of worry about being the victim of crime in their neighborhood. They performed a telephone poll of 500 adult Americans, 140 from urban areas, 160 from suburban, and 200 from rural areas. The number of adults who reported worring about being a victim of crime was urban:83, suburban: 92, and rural: 86.
+
+
+(a) Perform a hypothesis test at the 5% level of significance to determine if there is evidence of a difference in the proportion of urban and suburban residents who worry about being the vicim of crime? (Be sure to state your hypotheses, assumptions, and show your computations.)
+
+<font color="green">
+Ho: P<sub>1</sub> = P<sub>2</sub> <br/>
+Ha: P<sub>1</sub> =/= P<sub>2</sub> <br/>
+P = (p1 + p2) / (n1 + n2) <br/>
+P = (83 + 92) / (140 + 160) = 0.5833<br/>
+SE = sqrt(p * (1 - p) * [(1 / n1) + (1 / n2)]) <br/>
+SE = sqrt(0.5833 * (1 - 0.5833) * [(1 / 140) + (1 / 160)]) = 0.057 <br/>
+Z = ((p1 / n1) - (p2 / n2)) / SE <br/>
+Z = ((83 / 140) - (92 / 160)) / 0.057 = 0.31328 <br/>
+(1 - 0.31328) = 0.68672 because two tailed
+Check the Z table for 0.68 - 0.69 which is 0.754 
+<font color="red">
+Since the pvalue is 0.754, which is greater than 0.05. We don't have enough evidence to reject the null.
+</font>
+</font>
+
+
+(b) Create a 95% confidence interval for the difference in proportion of rural and urban residents who worry about being a victim of crime.(Be sure to state your assumptions and show your computations.)
+
+<font color="green">
+Assumptions: ?????
+CI = (p1 - p2) +- Z<sub>0.05 / 2</sub> * sqrt(p1 * (1 - p1) / n1  +  p2 * (1 - p2) / n2) <br/>
+p1 = 83 / 140 = 0.5928571<br/>
+p2 = 92 / 160 = 0.575<br/>
+CI = (0.5928571 - 0.575) +- 1.96 * sqrt(0.5928571 * (1 - 0.5928571) / 140  +  0.575 * (1 - 0.575) / 160) <br/>
+CI = (0.5928571 - 0.575) +- 1.96 * 0.05702166 <br/>
+CI = 0.0178571 +- 0.1117625 <br/>
+<font color="red">
+CI = (-0.0939054, 0.1296196) <br/>
+</font>
+</font>
+
+

@@ -1,0 +1,418 @@
+---
+title: "HW1"
+author: "Teryl Schmidt"
+date: "9/15/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem 1
+If you wanted to estimate the mean height of all the students at UW Madison, which one of the following
+sampling strategies would be best? Why? Note that none of the methods are true simple random samples.
+
+(a) Measure the heights of 100 students found in the gym during basketball intramurals.
+(b) Measure the heights of the engineering majors.
+<font color="red"> 
+(c) Measure the heights of the students selected by choosing the first name on each page of a list of students
+enrolled that semester.
+</font>
+
+
+## Problem 2
+A zoologist collected wild lizards in the Southwestern United States. Thirty lizards from the genus Phrynosoma
+were placed on a treatmill and their speed measured. The recorded speeds (meters/second) (the
+fastest time to run a half meter) for the thirty lizards are summarized in the relative histogram below. (Data
+Courtesy of K. Bonine *)
+
+(a) Is the percent of lizards with recorded speed below 1.25 closest to: <font color="red"> 25% </font>, 50%, or 75%?
+(b) In which interval are there more speeds recorded: <font color="red"> 1.5-1.75 </font> or 2-2.5?
+(c) About how many lizards had recorded speeds above 1 meters/second?
+<font color="green"> 
+
+~0.04 + ~0.04 = 0.08 below 1 m/s
+
+~0.92 above 1 m/s
+
+92% of 30 lizards is 27.6 lizards
+
+<font color="red"> ~28 lizards have recorded speeds above 1 m/s </font>
+
+</font>
+
+##Problem 3
+In a sample of 30 men, the mean height was 179 cm with standard deviation of 6 cm. In a sample of 25
+women, the mean height was 163 cm with standard deviation of 6 cm. If both samples were combined into
+one larger group...
+
+(a) What is the mean height for the combined group?
+
+<font color="red"> ~157.4167 </font> 
+```{r}
+# (female count * female mean) + (male count * male mean)
+# -------------------------------------------------------
+#              (feamle count + male count)
+
+((25 * 163) + (30 * 179)) / (25 + 35)
+```
+
+(b) The standard deviation for the combined group would be
+
+    i. Less than 6 cm
+    <font color="red"> 
+    ii. Greater than 6 cm
+    </font>
+    iii. Equal to 6 cm 
+    iv. Can not tell from the information given
+
+
+```{r}
+# (male count * ((male SD)^2 + (male mean - combined mean)) + (female count * ((female SD)^2 + (feamle mean - combined mean))
+# ---------------------------------------------------------------------------------------------------------------
+#                                             (feamle count + male count)
+
+# sqare root answer
+
+((30 * (6^2 + (179 - 157.4167))) + (25 * (6^2 + (163 - 157.4167)))) / (25 + 30)
+
+sqrt(50.31057)
+```
+
+##Problem 4
+After manufacture, computer disks are tested for errors. The table below gives the number of errors detected
+on a random sample of 100 disks.
+
+(a) Construct a frequency histogram of the information by creating bins at [-.5, .5), [.5, 1.5), etc.
+
+```{r}
+Defects = c(0,1,2,3,4)
+Frequency = c(rep(0, 41), rep(1, 31), rep(2, 15), rep(3, 8), rep(4, 5))
+hist(Frequency, main="Frequency of Defects of Disk's", xlab="Defects", breaks = seq(-.5, 4.5, 1))
+
+```
+
+(b) What is the shape of the histogram for the number of defects observed in this sample?
+
+    <font color="red"> Right Skewed </font>
+
+(c) Calculate the mean and median number of errors detected on the 100 disks. How do these values
+    compare and is that consistent with what we would guess based on the shape?
+
+```{r}
+mean(Frequency)
+```
+```{r}
+median(Frequency)
+```
+
+  <font color="red"> The mean is more than the median so the histograph is skewed to the right. </font>
+
+(d) Calculate the sample standard deviation with your calculator and R. Are the values consistent between
+    the two methods? Explain what this value means in the context of the problem.
+    
+```{r}
+sd(Frequency)
+
+mean = mean(Frequency)
+
+for (value in Frequency) {
+  value = (value - mean)^2
+}
+
+sqrt(mean(Frequency))
+```
+    
+  <font color="red"> Not the exact same number due to rounding. This value means how far or an average value is from the mean.     </font>    
+
+(e) Calculate the first and third quartiles and IQR by hand and with R. Are the values consistent betweeen
+    the two methods? Explain what the three values mean in the context of the problem.
+
+```{r}
+#R IQR
+IQR(Frequency)
+quantile(Frequency, c(0.25, 0.75))
+
+#Hand IQR
+IQR = quantile(Frequency, prob=0.75)-quantile(Frequency, prob=0.25)
+IQR
+```
+
+  <font color="red"> The IQR is how spread out the middle values are. The spread goes from 0 to 2, which means a lot of the        data is around 0 to 2, and there are not many data points from 2 to 4. </font>
+
+(f) What proportion of the computer disks had a number of errors greater than the mean number of errors?
+
+```{r}
+# Mean = ~1
+# Add up defects from 2 to 4, then divide by total
+
+(15 + 8 + 5) / 100
+```
+
+  <font color="red"> ~28% </font>
+
+(g) What range of values for this sample data are not considered outliers using the [Q1-1.5IQR, Q3+1.5IQR]
+    designation (using the IQR you calculated by hand)?.
+
+```{r}
+# Q1 - 1.5IQR
+0 - (1.5 * IQR)
+
+# Q3 +1.5IQR
+2 + (1.5 * IQR)
+```
+  <font color="red"> Outliar range = x < -3 , 5 < x </font>
+
+(h) Sketch a boxplot of the data by hand (using the relevant values you calculated by hand).
+
+```{r}
+boxplot(Frequency, horizontal = T)
+```
+
+(i) Compare and contrast (briefly) the information about the data given by the histogram in part a and
+the boxplot in part h.
+
+  <font color="red"> A Boxplot shows the minimum value, the first and third quartile, and the mean value. The histogram displays the frequencies of values.  </font>
+  
+
+##Problem 5
+Physical education researchers interested in the development of the overarm throw measured the horizontal
+velocity of a thrown ball at the time of release. The results for first-grade children (in feet/sec) (courtesy of
+L. Halverson and M. Roberton*) are:
+Males: 54.2, 39.6, 52.3, 48.4, 35.9, 30.4, 25.2, 45.4, 48.9, 48.9, 45.8, 44.0, 52.5, 48.3, 59.9, 51.7, 38.6, 39.1,
+49.9, 38.3
+Females: 30.3, 43.0, 25.7, 26.7, 27.3, 31.9, 53.7, 32.9, 19.4, 23.7, 23.3, 23.3, 37.8, 39.5, 33.5, 30.4, 28.5
+3
+
+(a) Use R to create a histogram for the males and a histogram for the females (any kind of histogram that
+you want). Adjust the x axis scale so the two groups are more easily compared.
+
+```{r}
+Males = c(54.2, 39.6, 52.3, 48.4, 35.9, 30.4, 25.2, 45.4, 48.9, 48.9, 45.8, 44.0, 52.5, 48.3, 59.9, 51.7, 38.6, 39.1, 49.9, 38.3)
+Females = c(30.3, 43.0, 25.7, 26.7, 27.3, 31.9, 53.7, 32.9, 19.4, 23.7, 23.3, 23.3, 37.8, 39.5, 33.5, 30.4, 28.53)
+
+hist(Males, main = "Male Velocity", xlab = "velocity",col = "blue", xlim = c(15,60), ylim = c(0,7))
+hist(Females, main = "Female Velocity", xlab = "velocity",col = "pink", xlim = c(15,60), ylim = c(0,7))
+```
+
+(b) Compare the shape of the throws from the male and female students observed in this sample.
+
+<font color="red"> Females is right skewed. Males is left skewed. </font>
+
+(c) Compute and compare the mean and median throw velocities observed in the male and famale students
+    across gender.
+
+```{r}
+mean(Males)
+median(Males)
+
+mean(Females)
+median((Females))
+```
+
+<font color="red"> The mean and median of the males data is higher. </font>
+
+(d) Compute and compare the standard deviation in throw velocities observed in the male and famale
+    students.
+
+```{r}
+sd(Males)
+
+sd(Females)
+```
+
+<font color="red"> The standard deviation of both the data sets are about the same. </font>
+
+(e) Use R (or by hand if you prefer) to help you create a boxplots of the two sets so they are easily
+    comparable.
+
+```{r}
+data = range(Males,Females)
+boxplot(Males, Females, horizontal = T)
+```
+
+(f) Which, if any values were identified as outliers? Would this value have been identified as an outlier if
+it were thrown by the opposite gender?
+
+<font color="red"> 
+Female = 53.7 Male = 25.2 
+
+These values are the biggest outliars in the data. If the female and male outliars were to swap, then they would not be outliars.
+</font>
+
+##Problem 6
+There are 12 numbers on a list, and the mean is 24. The smallest number on the list is changed from 11.9
+to 1.19.
+
+(a) Is it possible to determine the direction in which (increase/decrease) the mean changes? Or how much
+    the mean changes? If so, by how much does it change? If not, why not?
+
+```{r}
+# Mean + ((after - before) / count)
+24 + (((1.19 - 11.9) / 12))
+```
+
+  <font color="red"> The mean will decrease by 0.8925, making the new mean 23.1075 </font>
+
+(b) Is it possible to determine the direction in which the median changes? Or how much the median
+    changes? If so, by how much does it change? If not, why not?
+
+  <font color = "red"> Yes, since the smallest number had been decreased it remained the smallest number. The smallest number in   the dataset does not effect the median so the median didn't change. </font>
+
+(c) Is it possible to determine the direction in which the standard deviation changes? Or how much the
+standard deviation changes? If so, by how much does it change? If not, why not?
+
+```{r}
+# ((orig val)^2 + (new val)^2 + count) * ((orig mean)^2 - (new mean)^2)) * ((1 / count - 1))
+
+((-11.9^2 + 1.19^2) + (12 * (24^2 - 23.1075^2))) * (1 / (12 - 1))
+```
+
+  <font color = "red"> No, we cannot determine how much the standard deviation will change. But we can determine the square   of   the standard deviation will increase by 33.12067. </font>
+
+
+##Problem 7
+The UW Statisics Department is trying to determine what day of the week to hold their annual fall festival.
+Assume that the weekdays, Monday through Friday, are equally likely and that each weekend day, Saturday
+and Sunday, is three times as likely as a weekday to be selected.
+
+(a) Assign probabilities to the seven outcomes.
+
+<font color="red"> 
+Monday = 1
+
+Teusday = 1
+
+Wednesday = 1
+
+Thursday = 1
+
+Friday = 1
+
+Saturday = 3
+
+Sunday = 3
+</font>
+
+(b) Find the probability a weekday will be selected.
+
+  <font color="red"> Weekday = 5 / 11 </font>
+
+
+##Problem 8
+(*)Suppose you are eating at a pizza parlor with two friends. You have agreed to the following rule to decide
+who will pay the bill. Each person will toss a coin. The person who gets a result that is different from the
+other two will pay the bill. If all three tosses yield the same result, the bill will be shared by all. (It may be
+helpful to list the outcomes in the sample space)
+
+(a) Find the probability that only you have to pay.
+
+<font color="red"> 
+HHH, HHT, HTH, THH, HTT, THT, TTH, TTT 
+
+THH, HTT = I pay is 1/4
+</font>
+
+(b) Find the probability that all three will share.
+
+<font color="red"> HHH, TTT = share bill is 1/4 </font>
+
+##Problem 9
+(*) The following frequency table shows the classification of 58 landfills in a state according to their concentration
+of the three hazardous chemicals arsenic, barium, and mercury.
+If a landfill is selected at random, find the probability that it has:
+
+(a) A high concentration of barium.
+
+<font color="red"> 
+The probability that its concentration is high in Barium is 16 / 58
+</font>
+
+```{r}
+# s = 5 + 11
+# m = 58
+16 / 58
+```
+
+(b) A high concentration of mercury and low concentrations of both arsenic and barium.
+
+<font color="red"> 
+The probability that its concentration is high in Mercury and low in Arsenis and barium is 10 / 58
+</font>
+
+```{r}
+# s = 10
+# m = 58
+
+10 / 58
+```
+
+(c) A high concentration of any one of the chemicals and low concentrations of the other two.
+
+<font color="red"> 
+The probability that its concentration is high in one chemical and low in the other two is 27 / 58
+</font>
+
+```{r}
+# s = 9 + 8 + 10
+# m = 58
+
+27 / 58
+```
+
+(d) A high concentration of Mercury given it has a high concentration of Arsenic. Is having high concentrations
+of Mercury and high concentrations of Arsenic independent in this set of landfills?
+
+<font color="red"> 
+The probability that its concentration is high in Mercury given that it is a high concentration of Arsenic is 0.3333
+In this sample, having high concentrations of Mercury and Arsenic is dependent.
+</font>
+
+```{r}
+# P(High Mercury | High Arsenic) = P(High Mercury and Arsenic) / P(High Arsenic) = 0.3333
+#                                =        (1 + 5)              /  (1 + 3 + 5 + 9)
+
+# Check for dependence
+# is P(High Mercury) == P(High Mercury | High Arsenic)
+#       (20 / 58)    ==  (6 / 18)
+#       0.3448276    =/=  0.33333
+
+# P(High Mercury | High Arsenic)
+(1 + 5) / (1 + 3 + 5 +9)
+
+# P (High Mercury)
+((5 + 5 + 10) / 58)
+```
+
+(e) A high concentration of Barium given it has a low concentration of Mercury. Is having high concentrations
+of Barium and low concentrations of Mercury independent in this set of landfills?
+
+<font color="red"> 
+The probability that its concentration is high in Barium given that it is a low concentration of Mercury is 0.2894737
+In this sample having high Barium and low Arsenic is dependent.
+</font>
+
+```{r}
+# P(High Barium | Low Mercury) = P(High Barium and Low Mercury) / P(Low Mercury) = 0.2894737
+#                              =          (3 + 8)               /   (11 + 27)
+
+# Check for dependence
+# is P(High Barium) == P(High Barium | Low Mercury)
+#       (16 / 58)   ==  (38 / 58)
+#       0.2758621   =/=  0.2894737
+
+# P(High Barium | Low Mercury)
+(3 + 8) / (11 + 27)
+
+# P(High Barium)
+((1 + 3 + 4 + 8) / 58)
+```
+
+
+
+
+

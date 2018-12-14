@@ -1,0 +1,215 @@
+---
+title: "Homework 5"
+author: "Teryl Schmidt | tschmidt6@wisc.edu | 9072604920 | Discussion 312 | Grader: Chi-Shain Dai"
+date: "11/2/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Problem 1
+An automobile club pays for emergency road services (ERS) requested by its members. The current policy rate the automobile club pays is based on the thought that 20% of services requested will be serious mechanical problems requiring towing. However, the insurance company claims that the auto club has a higher rate of serious mechanical problems requiring towing services. Perform a hypothesis test at the 5% level (after checking assumptions) to test the insurers claim.
+
+<font color="red"> 
+H<sub>0</sub>: p = 0.20 <br/>
+H<sub>A</sub>: p > 0.20 <br/>
+</font>
+
+Upon examining a sample of 2927 ERS calls from the club members, the club finds that 1499 calls related to starting problems, 849 calls involved serious mechanical failures requiring towing, 498 calls involved flat tires or lockouts, and 81 calls were for other reasons.
+
+<font color="green">
+p̂ = 849 / 2927 = 0.29 <br/>
+SE = &#8730;(0.20 * 0.80) / 2927 = 0.0074 <br/>
+Z = p̂ - p / SE * p <br/>
+= 0.29 - 0.20 / 0.0074 = 12.16 <br/>
+P(Z > 12.16) > 0.9997 <br/>
+= 1 - 0.9997 <br/>
+p < 0.0003 <br/>
+0.0003 < 0.05 so reject null <br/>
+<font color="red">
+The P value is less than alpha = 0.05 so we reject the null hypothesis. <br/>
+Hence we have sufficient evidence to support the claim that the auto club has a higher rate of serious mechanical problems requiring towing services. ie p > 0.20
+</font>
+</font>
+
+
+# Problem 2
+A pumpkin farmer weighed a simple random sample of size n = 20 pumpkins from his main patch, with these results:
+9.6, 8.8, 5.1, 9.7, 9.1, 8.9, 8, 9.2, 2.7, 9.1, 8.5, 7.3, 9.3, 9.6, 4.1, 9.9, 7.6, 9, 7.2, 8.5
+
+
+(a) Create a QQ plot and histogram of the weights. Do you think it is reasonable to assume that the population distribution is normal? Explain your answer
+```{r}
+w = c(9.6, 8.8, 5.1, 9.7, 9.1, 8.9, 8, 9.2, 2.7, 9.1, 8.5, 7.3, 9.3, 9.6, 4.1, 9.9, 7.6, 9, 7.2, 8.5);
+qqnorm(w)
+qqline(w)
+hist(w)
+```
+<font color="red"> The data is left skewed and n is not big enough to assume normality. We must use and bootstrap or sign test on this data.</font>
+
+(b) Regardless of your answer to (a), use R to perform the bootstrap with 3000 resamplings to create a 90% CI for μ (set.seed(1) before performing the bootstrap). (Show your R code and its output - you can copy and paste the code from Tuesday’s (10/23) Notes.)
+
+Bootstrapping Function:
+```{r}
+# Create a new function, bootstrap(x, n.boot), having two inputs:
+#   - x is a data vector
+#   - n.boot is the desired number of resamples from x
+# It returns a vector of n.boot t-hat values.
+bootstrap = function(x, n.boot, mean) {
+  n = length(x)
+  x.bar <- mean
+  t.hat <- numeric(n.boot) # create vector of length n.boot zeros
+  for(i in 1:n.boot) {
+    x.star <- sample(x, size=n, replace=TRUE)
+    x.bar.star <- mean(x.star)
+    s.star <- sd(x.star)
+    t.hat[i] <- (x.bar.star - x.bar) / (s.star / sqrt(n))
+}
+  return(t.hat)
+}
+```
+
+Use the bootstrap() function to get an approximate sampling
+distribution of T for the Pumpkin data.
+```{r}
+set.seed(1)
+w.boot <- bootstrap(w, 3000, mean(w))
+# Plot the approximate sampling distribution.
+hist(w.boot, freq=FALSE, xlab = "Bootstrap t-hat values",
+     main = "Approximate Sampling Distribution of T")
+```
+
+```{r}
+t.lower <- quantile(w.boot, probs=.10)
+t.upper <- quantile(w.boot, probs=.90)
+t.lower
+t.upper
+
+
+# Make the bootstrap interval.
+n = length(w)
+x.bar = mean(w)
+s = sd(w)
+ci.low  = x.bar - t.upper * s / sqrt(n) # This is our lower interval endpoint.
+ci.high = x.bar - t.lower * s / sqrt(n) # This is our upper interval endpoint.
+interval = c(ci.low, ci.high)
+names(interval)=NULL
+print(interval)
+```
+
+<font color="red"> The population mean of weights lies between following limit with 90% confidence via 3000 resampling bootstrap 7.283050 < &mu; < 8.561857. </font>
+
+(c) Now construct a 90% t CI for μ by hand and compare it to that which you found via bootstrap. Which would you tell a scientist to use?
+
+```{r}
+#Make a T interval (quick way way)
+t.test(w, conf.level = 0.90, mu = mean(w))
+```
+
+<font color="red"> Both the bootstrap and T contain the sample mean and utilize the standard deviation. T assumes normality (CLT), and has a symmetric interval around sample mean. Bootstrap requires computer resampling and has a larger ME for values above and below the sample mean. </font>
+
+(d) Suppose last years pumpkins had a mean weight of 8.2 lbs. Perform a bootstrap test at α = 0.1 to see if there is evidence that the mean weight has changed (again with set.seed(1) called before your bootstrap). Make sure to specify your null and alternative hypothesis, report p values, and draw your conclusions in context. How does this conclusion compare to what was found in (b)?
+
+H<sub>0</sub>: &mu; = 8.20
+H<sub>A</sub>: &mu; =/= 8.20
+
+Bootstrap Hypothesis Testing
+```{r}
+#Find T_obs
+n=length(w)
+mu.0 = 8.20
+(t.obs = (x.bar-mu.0)/(s/sqrt(n)))
+
+summary(w.boot==abs(t.obs))
+summary(w.boot > abs(t.obs))
+summary(w.boot<(-abs(t.obs)))
+
+p.value = (2 * min(1031, 1246)) / 3000
+# P-Value
+print(p.value)
+
+quantile(w.boot,probs=c(0.025,0.05,0.10,0.90,0.95,0.975))
+
+1 - pt(p.value, df = length(w))
+```
+<font color="red"> 0.2498832 > 0.05 so insufficient evidence to reject null hypothesis. </font>
+
+(e) Would a two-sided t test with α = 0.1 reject the null specified in (d)? Compare your answer to what you found in (c). Find an approximate p value for the t test by hand (check value you get in R).
+
+```{r}
+t.test(w, conf.level = 0.90, mu = 8.2, alternative = "two.sided")
+1 - 0.753
+```
+
+<font color="red"> 0.247 > 0.05 so insufficient evidence to reject null hypothesis. </font>
+
+(f) If there is strong evidence that the median weight of his pumpkins from the jumbo patch is different from 15, then he feels like he will need to give specific directions to his staff on how to sort them. Let M be the population median. Use the sign test to test: H<sub>0</sub>: M = 15 vs H<sub>A</sub>: M =/= 15 at α = 0.05. Compute the p value and make a conclusion in the context of the problem. He sampled 8 pumpkins from his jumbo patch and found weights of: 12.6, 12.9, 14.8, 14.3, 19.1, 10.2, 11.4, 9.3
+What advice would you give the farmer in light of the statistics - what is a limitation to our test?
+
+```{r}
+jumbo = c(12.6, 12.9, 14.8, 14.3, 19.1, 10.2, 11.4, 9.3)
+mean(jumbo); median(jumbo)
+sd(jumbo); IQR(jumbo)
+
+hist(jumbo, main="Histogram Jumbo Pumpkins", xlab="Weight (lbs)")
+
+qqnorm(jumbo)
+
+# p.value = 2 * min(P(B <= b), P(B >= b))
+binom.test(x=7, n=8, p=.5, alternative = "less")
+binom.test(x=8, n=8, p=.5, alternative="greater")
+p.value = 2 * min(0.9961, 0.003906)
+print(p.value)
+```
+
+<font color="red"> 0.007812 < 0.05 so there is sufficient evidence to reject null hypothesis at α = 0.05. Evidence suggests that the median weight of jumbo pumpkins does not equal 15. The sign test only told us that the median weight of the population does not equal 15, it does not give us any information on what the true median actually is. </font>
+
+# Problem 3
+An electric car company’s sales manager is interested in the salaries of people who are on the wait list for their most affordable model and wonder if it is different from the median salary at their company of $135,000. They send a survey to a random sample of 2000 of the people on the waitlist and 85 of the respondents report having salaries above $135,000 and 103 have salaries below. The rest of the surveys were not returned.
+
+
+(a) Carry out and interpret a sign test of the hypothesis: H<sub>0</sub> : M = $135,000 vs H<sub>A</sub> : M ̸= $135,000 where M is the median salary of the people on the waitlist.
+
+<font color="green"> 
+r = number of respondents whose salaries are above 135,000 = 85 <br/>
+Since n = 103 + 85 = 188 is large enough to assume r ~ Normal distribution <br/>
+Test statistic: <br/>
+Z = (r - s) / (&#8730;(r + s)) <br/>
+Where s = number of respondents whose salaries are below 135,000 = 103 <br/>
+(85 - 103) / (sqrt(85 + 103)) <br/>
+Observed Z = -1.3128 <br/>
+Level of significance = 0.05 <br/>
+pvalue = 2 * P(Z > Observed Z | Z ~ N(0,1)) <br/>
+= 2 * P(Z > 1.3128 | Z ~ N(0,1)) <br/>
+<font color="red"> 
+= 0.1893 > 0.05 <br/>
+Hence we fail to reject H<sub>0</sub> at level of 0.05 and conclude that there is  insignificant difference from the median salary at their company of 135,000.
+</font>
+</font>
+
+(b) Carry out and interpret a proportion test of the hypothesis: H<sub>0</sub> : p = 0.5 vs H<sub>0</sub> : p = ̸= 0.5, where p is the proportion of people on the waitlist with salaries above the median salary at the company.
+
+<font color="green"> 
+p̂ = estimate of p = 85 / 188 = 0.4521 <br/>
+Test statistic: <br/>
+Z = (p̂ - 0.5) / (&#8730;(0.5 * (1 - 0.5) / 188)) <br/>
+(0.4521 - 0.5) / (sqrt(0.5 * (1 - 0.5) / 188)) <br/>
+Observed Z = -1.3135 <br/>
+Level of significance = 0.05 <br/>
+pvalue = 2 * P(Z > 1.3135 | Z ~ N(0,1)) <br/>
+<font color="red"> 
+= 0.1890 > 0.05 <br/>
+Hence we fail to reject H<sub>0</sub> at level of 0.05 and conclude that there is  insignificant difference from the median salary at their company of 135,000.
+</font>
+</font>
+
+(c) Why should the car company’s sales manager be cautious about putting too much weight on the results of this survey (hint: think about the data collection)?
+
+<font color="red"> 
+In the two tests, we have only considered the sign i.e whether the salary > 135,000 or salary < 135,000, we did not consider the magnitude i.e rank (which is obtained from the salary of the individual). Hence we give equal weight to all individuals who's salary is greater than 135,000 and give equal weight to all the individuals whos salary is less than 135,000. As a result it may give a misleading result. Hence to get better judgement, we should consider both magnitude and sign. For reason, Wilcoxon signed rank test is more appropriate than sign proportion tests. Because, it considers a high magnitude.
+</font>

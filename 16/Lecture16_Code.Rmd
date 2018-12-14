@@ -1,0 +1,95 @@
+---
+title: "Lecture 15 Regression"
+author: "Chelsey Green"
+date: "7/29/2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Entering the dAta
+```{r}
+father <- c(71.3, 65.5, 65.9, 68.6, 71.4, 68.4, 65.0, 66.3, 68.0,67.3,67.0, 69.3, 70.1, 66.9)
+son <- c(68.9, 67.5, 65.4, 68.2, 71.5, 67.6, 65.0, 67.0, 65.3,65.5, 69.8, 70.9, 68.9, 70.2)
+
+mean.x=mean(father);
+sd.x=sd(father)
+n.x=length(father)
+
+mean.y=mean(son)
+sd.y=sd(son)
+n.y=length(son)
+
+cor(father, son)
+```
+
+Plotting the data
+```{r}
+plot(son~father, ylab="Son Height (in)", xlab="Father Height (in)", ylim=c(64, 73), xlim=c(64, 73))
+```
+
+```{r}
+sum((father-mean(father))*(son-mean(son)))/(sqrt(sum((father-mean(father))^2)*sum((son-mean(son))^2)))
+
+corr(data.frame(father, son))
+
+```
+
+Fit Model
+
+```{r}
+mod<-lm(son~father)
+summary(mod)
+anova(mod)
+
+require(ggplot2)
+ggplot(data=data.frame(father, son), aes(x=father, y=son))+
+  geom_point()+
+  geom_smooth(method="lm", se=TRUE )
+
+plot(mod)
+
+SSE=sum((mod$residuals)^2)
+MSE=SSE/(length(son)-2)
+sigma.hat=sqrt(MSE)
+SSReg=sum(((mean(son)-mod$fitted.values))^2)
+
+SSE; MSE; sigma.hat
+
+sqrt(var(father)*(14-1))
+sqrt(sum((father-mean(father))^2))
+
+```
+
+
+Example 2:
+```{r}
+dosage<-c(3,3,4,5,6,6,7,8,8,9)
+relief<-c(9,5,12,9,14,16,22,18,24,22)
+
+sum((dosage-mean(dosage))*(relief-mean(relief)))
+sqrt(9*2.132^2*9*6.42^2)
+
+ex2data<-data.frame(dosage, relief)
+require(ggplot2)
+ggplot(data=ex2data, aes(x=dosage, y=relief))+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE)
+plot(dosage, relief)
+
+cor(dosage, relief)
+mod<-lm(relief~dosage)
+anova(mod)
+summary(mod)
+plot(mod)
+mean(dosage)
+mean(relief)
+
+SSE=sum(mod$residuals^2)
+MSE=SSE/(length(dosage)-2)
+qt(.975, df=8)
+```

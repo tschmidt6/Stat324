@@ -1,0 +1,96 @@
+Random variable X is approximately normally distributed with mean 30 and standard deviation 6, and random variable Y is approximately normally distributed with mean 41 and standard deviation 8. If X and Y are independent, which of the following best described the distribution X-Y?
+
+	* Approximately normal with mean -11 and standard deviation 10 *
+	Approximately normal with mean -11 and standard deviation 14
+	Approximately normal with mean 11 and standard deviation 2
+	Approximately normal with mean 11 and standard deviation 10
+	Approximately normal with mean 11 and standard deviation 14
+
+
+
+Which of the following is a true statement about the sampling distribution of p^ = X / n  where  X ∼ B i n ( n , π ) ?
+
+	The sampling distribution of p^ has a standard deviation equal to sqrt(n * π * (1 - π))
+	* The sampling distribution of p^ has a mean equal to the population proportion π *
+	The sampling distribution of p^ has a standard deviation which becomes larger as the sample size becomes larger.
+	The sampling distribution of p^ is considered close to normal (by the CLT) provided that LaTeX: n >= 10 
+	The sampling distribution of p^ is close to normal regardless of sample size or true π.
+
+
+
+Which of the following is a true statement?
+
+	The p-value of a test is the probability of obtaining a result as or more extreme as the one obtained in the sample, assuming the null hypothesis is false.
+	If the p value for a test is 0.13, the probability that the null is true is 0.13
+	The larger the p value, the more evidence there is against the null hypothesis 
+	* The alternative hypothesis is one-sided if there is interest in deviations from the null hypothesis in only one direction *
+	It is best practice to examine your data before deciding whether to use a one or two-sided hypothesis test. 
+
+
+
+A manufacturer makes plastic wrap used in food packaging and aims to have a minimum breaking strength of 0.5 kg. If the mean breaking strength of a sample drops below a critical value, the production process is halted and the machinery is inspected. Which of the following is a Type 1 error in context?
+
+	Halting the production process when too many rubber bands break.
+	Halting the production process when the true breaking strength is below the desired level.
+	* Halting the production process when the true breaking strength is within specifications. *
+	Allowing the production process to continue when the true breaking strength is below specifications.
+	Allowing the production process to continue when the true breaking strength is within specifications.
+
+
+
+Suppose you do five independent tests of the form Ho: mu = 17  vs  Ha: μ =/= 17  all at the 5% α level. What is the probability of committing a Type 1 error and incorrectly rejecting a true null hypothesis with at least one of the five tests? 
+	0.01
+	0.049
+	0.05
+	* 0.226 *
+	0.7737
+
+
+
+The process of producing pain-reliever tablets yields tables with varying amounts of the active ingredient. It is claimed that the average amount of active ingredients per tablet is 200 milligrams. The Consumer Watchdog Bureau tests a random sample of 30 tablets with the suspicion that the mean levels may be below 200. The mean content of the active ingredient for this sample is 193.5 with standard deviation of 14.2. What is the approximate p-value for the appropriate test?
+	0.016
+	* 0.0061 *
+	0.163
+	0.361
+	0.324
+
+
+
+Which of the following 90% confidence intervals would lead us to reject Ho: μ = 5.5  in favor of Ha: μ ≠ 5.5 at the 10% level?
+	(5.2, 5.9)
+	* (3.7, 5.3) *
+	(5.3, 7.1)
+	(4.9, 6.2)
+	Not enough information to determine.
+
+
+
+
+UW Madison will add dairy vending machines (milk, cheese curds, ice-cream,etc) to a few classroom buildings if the student body president is convinced that more than 20 percent of the students will use them. A random sample of n students will be selected and asked whether or not they would use the vending machines. A large-sample test for proportions at the significance level of 0.05 will be performed. The null hypothesis that the proportion of all students who would use the vending machines is 20 percent will be tested against the alternative that more than 20 percent of all students would use them. For which of the following situations would the power of the test be highest?
+	The sample size is n = 900 , and 20 percent of all students would truly use the vending machines.
+	The sample size is n = 700, and 25 percent of all students would truly use the vending machines.
+	The sample size is n = 950, and 15 percent of all students would truly use the vending machines.
+	The sample size is n = 700, and 30 percent of all students would truly use the vending machines.
+	* The sample size is n = 900, and 30 percent of all students would truly use the vending machines. *
+
+
+
+
+A survey asks a random sample of 120 adults in Eagle River, WI if they support an increase in sales tax from 5% to 6%, with the additional revenue going to land conservation. Let LaTeX: \hat{p} p ^  denote the proportion in the sample who say they support the increase. Suppose LaTeX: \hat{p} p ^ =76/120. What is the most appropriate test statistic for the test of LaTeX: H_o: \pi=0.6, H_a: \pi >0.6 H o : π = 0.6 , H a : π > 0.6  ?
+
+	* 0.63 - 0.60 / sqrt(0.60 * 0.40 / 120) *
+	0.60 - 0.63 / sqrt(0.60 * 0.40 / 120)
+	0.60 - 0.63 / sqrt(0.63 * 0.37 / 120)
+	0.63 - 0.60 / sqrt(0.60 * 0.40)
+	0.63 - 0.60 / sqrt(0.63 * 0.37)
+
+
+
+Monthly rent was determined for each apartment in a random sample of 100 apartments around Madison. An approximate 95% percent confidence interval for the true mean monthly rent for apartments in Madison based on this sample is ($843, $924). Which of the following statements is a correct interpretation of the 95 percent confidence level?
+	About 95 percent of all rental prices in Madison are between $843 and $924.
+	About 95 percent of the 100 rental prices in this sample are between $843 and $924.
+	* In repeated sampling, the method produces intervals that include the population mean approximately 95 percent of the time. *
+	In repeated sampling, the method produces intervals that include the sample mean approximately 95 percent of the time.
+	There is a probability of 0.95 that the true mean is between $843 and $924.
+
+

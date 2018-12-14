@@ -1,0 +1,13 @@
+Species,WeightKg,Gender,Treatment,RecoverTime
+ThreeToed,4.0,M,High,10.00
+ThreeToed,5.0,F,High,12.50
+ThreeToed,4.6,F,High,12.30
+TwoToed,3.5,M,High, 8.75
+TwoToed,3.8,M,High,10.00
+TwoToed,4.0,F,High,10.00
+ThreeToed,4.7,M,Low,11.80
+ThreeToed,4.6,M,Low,11.50
+ThreeToed,5.0,F,Low,12.50
+TwoToed,6.3,M,Low,16.00
+TwoToed,5.0,F,Low,12.50
+TwoToed,5.3,M,Low,13.25

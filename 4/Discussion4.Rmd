@@ -1,0 +1,114 @@
+---
+title: "Discussion4"
+author: "Teryl Schmidt"
+date: "10/2/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Discussion 4: Normal RVs and Combining RVs
+
+1. Weights of female cats of a certain breed are well approximated by a normal distribution with mean 4.1 kg and standard deviation of 0.6kg X ∼(4.1,0.6^2).
+
+
+(a) What proportion of female cats have weights between 3.7 and 4.4 kg?
+pnorm
+P(3.7 < X < 4.4)
+P(3.7) - P(4.4)
+P(x - 4.1 / 0.6 < 4.4 - 4.1 / 0.6) - P(x - 4.1 / 0.6 < 3.7 - 4.1 / 0.6)
+P(x - 4.1 / 0.6 < 0.5) - P(x - 4.1 < -0.67)
+pnorm(0.5)
+pnorm(4.4, 4.1, 0.6) - pnorm(3.7, 4.1, 0.6)
+z-table - z-table
+0.6915 - 0.2152 = 0.4763
+
+(b) A certain female cat has a weight that is 0.5 standard deviations above the mean. What proportion of female cats are heavier than this one?
+P(x > 0.5 * 0.6 + 4.1)
+P(Z > 0.5)
+1 - P(Z > 0.5)
+1 - 0.6915 
+= 0.3085
+
+(c) How heavy is a female cat whose weight is on the 80th percentile?
+P(X < a) = 0.8
+P(x - 4.1 / 0.6 < a - 4.1 / 0.6) = 0.8
+
+P(Z < 0.84) = 0.8
+(a - 4.1 / 0.6) = 0.84
+a = 4.608
+
+(d) A female cat is chosen at random. What is the probability that she weighs more than 4.5 kg?
+P(x > 4.5)
+P(x - 4.1 / 0.6 > 4.5 - 4.1 / 0.6)
+1 - P(Z <= 0.667)
+1 - 0.7475
+0.2525
+
+(e) Ten female cats are chosen at random from a large population. What is the probablity that exactly 2 of them weigh more than 4.5 kg? Assume that the weights of the 10 cats are independent (large population size).
+P(x > 4.5) = 0.2525
+B = # of female cas > 4.5
+B~Bin(10, 0.2525)
+P(B = 2)
+= 10! / 2! 8! * 0.2525^2 * (1 - 0.2525)
+
+(f) Ten female cats are chosen at random from a large population. What is the probablity that their average weight is more than 4.2 kg? Assume that the weights of the 10 cats are independent (large population size).
+X1,X2...Xn ~N(μ,σ^2)
+Xbar = (X1 + X2. . .Xn) / n
+
+~N(μ, σ^2 / n)
+Xbar ~N(4.1, 0.6^2 / 10)
+P(Xbar > 4.2)
+P(Xbar - 4.1 / sqrt(0.36 / 10) > 4.2 - 4.1 / sqrt(0.36 / 10))
+1 - P(Z <= 0.5271)
+= 0.2991
+
+
+(g) Suppose 1 female cat is selected at random from the given distribution and 1 male cat of that same breed is also selected at random. Male weights are well approximated by a normal distribution with mean of 4.3 and standard deviation of 0.2; Y ∼ (4.3, 0.22). Define a new random variable: D = Y − X. Describe the distribution of D and calculate the probability that D > 0 assuming X and Y are independent. What does this value mean in the context of the problem?
+Y~N(4.3, 0.2^2)
+D = Y - X ~N(4.3 - 4.1)      E(X - Y) = E(X) - E(Y)
+4.3 - 4.1 = 0.2
+
+Var(D) = Var(Y) + Var(X)
+= 0.6^2 + 0.2^2
+= 0.4
+1 - 0.376
+= 0.624
+
+
+
+
+2. A large auto dealership keeps track of sales and lease agreements made during each hour of the day. Let X=the number of cars sold at the East Side Madison location and Y=the number of cars leased at the Milwaukee location during the first hour of business on randomly selected Fridays. Based on previous records, the probability distribution of X and Y are as follows. Note: μX = 1.1, σX = 0.943 and μY = 0.7 and σY = 0.64.
+Cars Sold Xi 2 P(X = xi)  0   |   1   |   2   |   3   |  Cars Leased Yi   0   |   1   |   2   |
+               P(X = xi)  0.3 |  0.4  |  0.2  |  0.1  |       P(Y = yi)  0.4  |  0.5  |  0.1  |
+
+
+(a) Define T = X + Y . Find and interpret μT in context.
+μT = E(T) = E(X) + E(Y)
+= 1.1 + 0.7
+= 1.8
+
+
+
+(b) Compute σT assuming that X and Y are independent. Is this is a good assumption?
+sigT
+sqrt(var(T))
+sqrt(Var(x) + Var(Y))
+sqrt(0.943^2 + 0.64^2)
+= 1.14
+
+(c) The dealer’s manager receives a $500 bonus for each car sold and a $300 bonus for each car leased. Find the mean and standard deviation for the manager’s total bonus for the first hour of business on Fridays assuming X and Y are independent.
+B = 500 * X + 300 * Y
+
+E(B) = 500 * E(X) + 300 * E(Y)
+500 * 1.1 + 300 * 0.7 = 760
+
+Var(B) = 500^2 * Var(X) + 300^2 * Var(Y)
+sd(B) = sqrt(Var(B)) = 509.09
+
+(d) Define D = X − Y . Find and interpret μD. Can we easily compute P(D > 0)?
+

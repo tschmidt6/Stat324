@@ -1,0 +1,103 @@
+---
+title: "Discussion2"
+author: "Teryl Schmidt"
+date: "9/18/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+Method1 = c(0.32, 0.35, 0.37, 0.39, 0.42, 0.47, 0.51, 0.58, 0.60, 0.62, 0.65, 0.68, 0.75)
+boxplot(Method1, ylim = c(0,1), horizontal = T)
+
+Method2 = c(0.25, 0.40, 0.48, 0.55, 0.56, 0.58, 0.60, 0.65, 0.70, 0.76, 0.80, 0.91, 0.99)
+boxplot(Method2, ylim = c(0,1), horizontal = T)
+
+par(mfrow = c(1,1))
+
+all_data = c(Method1, Method2)
+label = rep(c("Method1", "Method2"), each = 13)
+
+boxplot(all_data~label)
+?boxplot
+
+IQR(Method1)
+IQR(Method2)
+summary(Method1)
+summary(Method2)
+
+boxplot(Method1, Method2, horizontal = T)
+
+```
+
+Two dogs will be selected by lottery to receive the training. Assuming that each pair of dogs are equally
+likely to receive the training calculate the following probabilities:
+--
+M 10
+M 15
+F 10
+F 10
+--
+
+1,2
+1,3
+1,4
+2,3
+2,4
+3,4
+
+
+
+(a) P(A) where A is the event that the dogs are the same gender.
+1,2 , 3,4
+
+2 / 6 = 1 / 3
+
+
+(b) P(B) where B is the event that the dogs are the same age.
+1,3 1,4 3,4
+
+3 / 6 = 1 / 2
+
+
+(c) P(A or B)
+
+P(A) = 1,2 3,4
+P(B) = 1,3 1,4 3,4
+
+P(A or B) = 1,2 1,3 1,4 3,4
+
+4 / 6 = 2 / 3
+
+
+(d) P(A and B)
+
+P(A) = 1,2 3,4
+P(B) = 1,3 1,4 3,4
+
+P(A and B) = 3,4
+
+1 / 6
+
+
+(e) Are A and B mutually exclusive?
+
+No, since P(A and B) = 3,4 which is not the empty set
+
+
+(f) Are A and B independent?
+
+iff P(A and B) = P(A) * P(B)
+P(A) P(B) = 1/3 * 1/2 = 1/6
+Yes because P(A and B) = P(A) * P(B)
+
+
+
+
+
+

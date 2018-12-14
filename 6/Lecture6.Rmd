@@ -1,0 +1,66 @@
+---
+title: "Lecture6_Code"
+author: "Chelsey Green"
+date: "6/26/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Confidence Intervals with Paint Sample data, assuming population sd=0.3
+
+```{r}
+paint=c(1.29, 1.12, 0.88, 1.65, 1.48, 1.59, 1.04, 0.83, 1.76, 1.31, 0.88, 1.71, 1.83, 1.09, 1.62, 1.49)
+
+qqnorm(paint)
+mean(paint)
+sd(paint)
+.3/sqrt(16)
+
+```
+
+T Distribution
+```{r}
+random_norm<-rnorm(10000, 0, 1)
+hist(random_norm, main="Z distribution", freq=FALSE)
+
+random_t_4<-rt(10000, df=4)
+hist(random_t_4, main="T_4 distribution", freq=FALSE)
+
+random_t_11<-rt(10000, df=11)
+hist(random_t_11, main="T_11 distribution", freq=FALSE)
+
+random_t_29<-rt(10000, df=29)
+hist(random_t_29, main="T_29 distribution", freq=FALSE)
+```
+
+Critical Values of the t distributions
+
+```{r}
+qt(.95, df=7)
+```
+
+Anemones
+
+```{r}
+samp1<-c(4.3, 5.7, 3.9, 4.8, 3.5, 3.5, 1.3, 4.6, 4.4, 3.7, 4.9, 5.6, 5.1, 2.3, 2.3, 6.9, 5.4, 3.6, 4.3, 4.1, 3.2, 4.6, 2.8, 4.9, 4.5, 4.4, 5.8, 3.6, 5.6, 2.6, 1.5, 4.1, 4.7, 6.5, 5.4, 3.8, 3.4, 4.9, 5.5, 7.2)
+qqnorm(samp1) #qqnorm plot looks good but matters less since large sample size
+hist(samp1)
+qt(.025, 39, lower.tail=FALSE)
+1.329/sqrt(40)
+t.test(samp1)
+```
+```{r}
+samp2<-c(5.3, 2.8, 5.2, 2.9, 2.5, 2.9, 3.0, 2.9, 5.2, 4.3, 3.7, 2.7)
+qqnorm(samp2)
+hist(samp2)
+
+samp3<-c(3.5, 6.5, 3.6, 2.8, 4.2, 4.2, 1.8, 5.7, 2.6, 4.7, 4.9, 4.4)
+qqnorm(samp3)
+hist(samp3)
+mean(samp3)
+sd(samp3)
+t.test(samp3)
+```
